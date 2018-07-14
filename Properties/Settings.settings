@@ -1,0 +1,15 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="CodeStack.Community.Sw.MyToolbar.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="DataFile" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">data.json</Value>
+    </Setting>
+    <Setting Name="AppRootDir" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">CodeStack\MyToolbar</Value>
+    </Setting>
+    <Setting Name="IconsCacheFolder" Type="System.String" Scope="User">
+      <Value Profile="(Default)">IconsCache</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>
