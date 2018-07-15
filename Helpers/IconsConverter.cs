@@ -19,7 +19,7 @@ namespace CodeStack.Community.Sw.MyToolbar.Helpers
 
             internal IconData(string sourceIconPath, Size targetSize)
             {
-                var destDir = Path.Combine(Path.GetDirectoryName(sourceIconPath), 
+                var destDir = Path.Combine(Locations.AppDirectoryPath, 
                     Settings.Default.IconsCacheFolder);
 
                 SourceIconPath = sourceIconPath;

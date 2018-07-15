@@ -10,6 +10,8 @@ using Newtonsoft.Json;
 using CodeStack.Community.Sw.MyToolbar.Properties;
 using System.Linq;
 using SolidWorks.Interop.swconst;
+using Xarial.Community.AppLaunchKit.Attributes;
+using Xarial.Community.AppLaunchKit;
 
 namespace CodeStack.Community.Sw.MyToolbar
 {
@@ -17,11 +19,32 @@ namespace CodeStack.Community.Sw.MyToolbar
     /// Summary description for my_toolbar.
     /// </summary>
     [Guid("63496b16-e9ad-4d3a-8473-99d124a1672b"), ComVisible(true)]
-    [SwAddin(
-        Description = "Add-in for managing custom toolbars",
-        Title = "MyToolbar",
-        LoadAtStartup = true
-        )]
+    [SwAddin(Description = "Add-in for managing custom toolbars", 
+        Title = "MyToolbar", LoadAtStartup = true)]
+    [ApplicationDirectory(System.Environment.SpecialFolder.ApplicationData, "CodeStack\\MyToolbar\\System")]
+    [Eula(@"MIT License
+
+Copyright (c) 2018 www.codestack.net
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the 'Software'), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and / or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED 'AS IS', WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+")]
+    [UpdatesUrl("https://www.codestack.net/labs/solidworks/my-toolbar/version-info.json")]
     public class MyToolbarSwAddin : ISwAddin
     {
         private ISldWorks m_App;
@@ -29,6 +52,8 @@ namespace CodeStack.Community.Sw.MyToolbar
         private int m_AddinCookie;
 
         private CustomToolbarInfo m_ToolbarInfo;
+
+        private LaunchKitController m_LaunchKit;
 
         #region SolidWorks Registration
         
@@ -97,6 +122,12 @@ namespace CodeStack.Community.Sw.MyToolbar
             try
             {
                 m_App = (ISldWorks)ThisSW;
+
+                m_LaunchKit = new LaunchKitController(this.GetType(),
+                    new IntPtr(m_App.IFrameObject().GetHWnd()));
+
+                m_LaunchKit.StartServices();
+
                 m_AddinCookie = cookie;
 
                 m_App.SetAddinCallbackInfo(0, this, m_AddinCookie);
