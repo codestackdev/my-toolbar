@@ -19,7 +19,7 @@ namespace CodeStack.Community.Sw.MyToolbar.Properties {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class Resources {
@@ -70,18 +70,28 @@ namespace CodeStack.Community.Sw.MyToolbar.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
+        /// </summary>
+        internal static System.Drawing.Icon custom_toolbars_icon {
+            get {
+                object obj = ResourceManager.GetObject("custom_toolbars_icon", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap codestack_toolbar {
+        internal static System.Drawing.Bitmap custom_toolbars_toolbar {
             get {
-                object obj = ResourceManager.GetObject("codestack_toolbar", resourceCulture);
+                object obj = ResourceManager.GetObject("custom_toolbars_toolbar", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {\rtf1\ansi\deff3\adeflang1025
-        ///{\fonttbl{\f0\froman\fprq2\fcharset0 Times New Roman;}{\f1\froman\fprq2\fcharset2 Symbol;}{\f2\fswiss\fprq2\fcharset0 Arial;}{\f3\froman\fprq2\fcharset0 Liberation Serif{\*\falt Times New Roman};}{\f4\fswiss\fprq2\fcharset0 Liberation Sans{\*\falt Arial};}{\f5\fmodern\fprq1\fcharset0 Liberation Mono{\*\falt Courier New};}{\f6\fnil\fprq0\fcharset0 apple-system{\*\falt BlinkMacSystemFont};}{\f7\froman\fprq2\fcharset128 Liberation Serif{\*\falt Times New Roman};}{\f8\fnil\fprq2\ [rest of string was truncated]&quot;;.
+        ///   Looks up a localized string similar to {\rtf1\adeflang1025\ansi\ansicpg1252\uc1\adeff39\deff0\stshfdbch31505\stshfloch31506\stshfhich31506\stshfbi31507\deflang3081\deflangfe3081\themelang3081\themelangfe0\themelangcs0{\fonttbl{\f0\fbidi \froman\fcharset204\fprq2{\*\panose 02020603050405020304}Times New Roman;}{\f34\fbidi \froman\fcharset1\fprq2{\*\panose 02040503050406030204}Cambria Math;}
+        ///{\f39\fbidi \froman\fcharset204\fprq2{\*\panose 02020603050405020304}Liberation Serif{\*\falt Times New Roman};}{\f40\fbidi \fswiss\fcharset204\fprq2{\*\pano [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string eula {
             get {

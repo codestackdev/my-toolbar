@@ -13,6 +13,7 @@ using SolidWorks.Interop.swconst;
 using Xarial.Community.AppLaunchKit.Attributes;
 using Xarial.Community.AppLaunchKit;
 using System.Drawing;
+using Xarial.Community.AppLaunchKit.Exceptions;
 
 namespace CodeStack.Community.Sw.MyToolbar
 {
@@ -47,7 +48,7 @@ namespace CodeStack.Community.Sw.MyToolbar
             {
                 get
                 {
-                    return null;
+                    return Resources.custom_toolbars_icon;
                 }
             }
         }
@@ -131,6 +132,8 @@ namespace CodeStack.Community.Sw.MyToolbar
                 m_LaunchKit = new LaunchKitController(this.GetType(),
                     new IntPtr(m_App.IFrameObject().GetHWnd()));
 
+                m_LaunchKit.CheckForUpdatesService.CheckUpdateFailed += OnCheckUpdateFailed;
+
                 m_LaunchKit.StartServices();
 
                 m_AddinCookie = cookie;
@@ -145,16 +148,37 @@ namespace CodeStack.Community.Sw.MyToolbar
 
                 return true;
             }
-            catch(Exception ex)
+            catch (UpdatesCheckException)
             {
-                m_App.SendMsgToUser2("Critical Error:"
+                ShowCheckUpdatesFailedWarning();
+                return true;
+            }
+            catch (EulaNotAgreedException)
+            {
+                return false;
+            }
+            catch (Exception ex)
+            {
+                m_App.SendMsgToUser2($"{Resources.AppTitle}. Critical Error:"
                     + System.Environment.NewLine
-                    + ex.Message, 
+                    + ex.Message,
                     (int)swMessageBoxIcon_e.swMbStop,
                     (int)swMessageBoxBtn_e.swMbOk);
 
                 return false;
             }
+        }
+
+        private void ShowCheckUpdatesFailedWarning()
+        {
+            m_App.SendMsgToUser2($"{Resources.AppTitle}. Failed to check for updates",
+                                (int)swMessageBoxIcon_e.swMbWarning,
+                                (int)swMessageBoxBtn_e.swMbOk);
+        }
+
+        private void OnCheckUpdateFailed(Exception err)
+        {
+            ShowCheckUpdatesFailedWarning();
         }
 
         public bool DisconnectFromSW()
@@ -315,7 +339,7 @@ namespace CodeStack.Community.Sw.MyToolbar
         private static string TryCreateDefaultIcon()
         {
             var imgPath = Path.Combine(Locations.AppDirectoryPath,
-                    nameof(Resources.codestack_toolbar) + ".png");
+                    nameof(Resources.custom_toolbars_toolbar) + ".png");
 
             try
             {
@@ -326,7 +350,7 @@ namespace CodeStack.Community.Sw.MyToolbar
                     Directory.CreateDirectory(dir);
                 }
 
-                Resources.codestack_toolbar.Save(imgPath);
+                Resources.custom_toolbars_toolbar.Save(imgPath);
             }
             catch
             {

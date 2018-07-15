@@ -100,19 +100,19 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="SolidWorks.Interop.sldworks">
-      <HintPath>..\..\..\..\Program Files\SOLIDWORKS Corp\SOLIDWORKS (2)\\SolidWorks.Interop.sldworks.dll</HintPath>
+      <HintPath>thirdpty\SolidWorks.Interop.sldworks.dll</HintPath>
       <EmbedInteropTypes>False</EmbedInteropTypes>
     </Reference>
     <Reference Include="SolidWorks.Interop.swconst">
-      <HintPath>..\..\..\..\Program Files\SOLIDWORKS Corp\SOLIDWORKS (2)\\SolidWorks.Interop.swconst.dll</HintPath>
+      <HintPath>thirdpty\SolidWorks.Interop.swconst.dll</HintPath>
       <EmbedInteropTypes>False</EmbedInteropTypes>
     </Reference>
     <Reference Include="SolidWorks.Interop.swpublished">
-      <HintPath>..\..\..\..\Program Files\SOLIDWORKS Corp\SOLIDWORKS (2)\\SolidWorks.Interop.swpublished.dll</HintPath>
+      <HintPath>thirdpty\SolidWorks.Interop.swpublished.dll</HintPath>
       <EmbedInteropTypes>False</EmbedInteropTypes>
     </Reference>
     <Reference Include="SolidWorksTools">
-      <HintPath>..\..\..\..\Program Files\SOLIDWORKS Corp\SOLIDWORKS (2)\\SolidWorksTools.dll</HintPath>
+      <HintPath>thirdpty\SolidWorksTools.dll</HintPath>
     </Reference>
     <Reference Include="System">
       <Name>System</Name>
@@ -128,7 +128,8 @@
     <Reference Include="System.XML">
       <Name>System.XML</Name>
     </Reference>
-    <Reference Include="Xarial.Community.AppLaunchKit">
+    <Reference Include="Xarial.Community.AppLaunchKit, Version=0.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>thirdpty\Xarial.Community.AppLaunchKit.dll</HintPath>
     </Reference>
   </ItemGroup>
@@ -184,10 +185,20 @@
   <ItemGroup>
     <None Include="Resources\codestack-toolbar.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\custom-toolbars-toolbar.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\custom_toolbars_icon.ico" />
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PreBuildEvent>
     </PreBuildEvent>
-    <PostBuildEvent>"%25Windir%25\Microsoft.NET\Framework64\v4.0.30319\regasm" /codebase "$(TargetPath)"</PostBuildEvent>
+    <PostBuildEvent>IF '$(ConfigurationName)' == 'Release' GOTO :END
+(
+"%25Windir%25\Microsoft.NET\Framework64\v4.0.30319\regasm" /codebase "$(TargetPath)"
+)
+:END</PostBuildEvent>
   </PropertyGroup>
 </Project>
