@@ -1,4 +1,11 @@
-﻿using CodeStack.Community.Sw.MyToolbar.Properties;
+﻿//**********************
+//MyToolbar
+//Copyright(C) 2018 www.codestack.net
+//License: https://github.com/codestack-net-dev/my-toolbar/blob/master/LICENSE
+//Product URL: https://www.codestack.net/labs/solidworks/my-toolbar/
+//**********************
+
+using CodeStack.Community.Sw.MyToolbar.Properties;
 using System;
 using System.IO;
 
