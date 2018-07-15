@@ -12,41 +12,46 @@ using System.Linq;
 using SolidWorks.Interop.swconst;
 using Xarial.Community.AppLaunchKit.Attributes;
 using Xarial.Community.AppLaunchKit;
+using System.Drawing;
 
 namespace CodeStack.Community.Sw.MyToolbar
 {
-    /// <summary>
-    /// Summary description for my_toolbar.
-    /// </summary>
     [Guid("63496b16-e9ad-4d3a-8473-99d124a1672b"), ComVisible(true)]
     [SwAddin(Description = "Add-in for managing custom toolbars", 
         Title = "MyToolbar", LoadAtStartup = true)]
-    [ApplicationDirectory(System.Environment.SpecialFolder.ApplicationData, "CodeStack\\MyToolbar\\System")]
-    [Eula(@"MIT License
-
-Copyright (c) 2018 www.codestack.net
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the 'Software'), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and / or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED 'AS IS', WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
-")]
-    [UpdatesUrl("https://www.codestack.net/labs/solidworks/my-toolbar/version-info.json")]
+    [ApplicationInfo(typeof(AppInfo), 
+        nameof(AppInfo.WorkingDir), nameof(AppInfo.Title), nameof(AppInfo.Icon))]
+    [Eula(typeof(Resources), nameof(Resources.eula))]
+    [UpdatesUrl(typeof(Settings), nameof(Settings.Default) + "." + nameof(Settings.Default.UpgradeUrl))]
     public class MyToolbarSwAddin : ISwAddin
     {
+        internal static class AppInfo
+        {
+            internal static string WorkingDir
+            {
+                get
+                {
+                    return Path.Combine(Locations.AppDirectoryPath, Settings.Default.SystemDir);
+                }
+            }
+
+            internal static string Title
+            {
+                get
+                {
+                    return Resources.AppTitle;
+                }
+            }
+
+            internal static Icon Icon
+            {
+                get
+                {
+                    return null;
+                }
+            }
+        }
+
         private ISldWorks m_App;
         private ICommandManager m_CmdMgr;
         private int m_AddinCookie;
