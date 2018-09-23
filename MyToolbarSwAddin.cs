@@ -68,8 +68,9 @@ namespace CodeStack.Community.Sw.MyToolbar
 
         private LaunchKitController m_LaunchKit;
 
+#if DEBUG
         #region SolidWorks Registration
-        
+
         [ComRegisterFunction]
         public static void RegisterFunction(Type t)
         {
@@ -123,6 +124,7 @@ namespace CodeStack.Community.Sw.MyToolbar
         }
 
         #endregion
+#endif
 
         #region ISwAddin Implementation
 
