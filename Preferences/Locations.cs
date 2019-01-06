@@ -1,11 +1,4 @@
-﻿//**********************
-//MyToolbar
-//Copyright(C) 2018 www.codestack.net
-//License: https://github.com/codestack-net-dev/my-toolbar/blob/master/LICENSE
-//Product URL: https://www.codestack.net/labs/solidworks/my-toolbar/
-//**********************
-
-using CodeStack.Community.Sw.MyToolbar.Properties;
+﻿using CodeStack.Community.Sw.MyToolbar.Properties;
 using System;
 using System.IO;
 
@@ -25,12 +18,12 @@ namespace CodeStack.Community.Sw.MyToolbar.Preferences
             }
         }
 
-        internal static string DataFilePath
+        internal static string ToolbarsSpecFilePath
         {
             get
             {
                 var dataFile = Path.Combine(AppDirectoryPath,
-                    Settings.Default.DataFile);
+                    Settings.Default.ToolbarsSpecFile);
 
                 return dataFile;
             }

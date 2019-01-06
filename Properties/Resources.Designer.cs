@@ -91,11 +91,20 @@ namespace CodeStack.Community.Sw.MyToolbar.Properties {
         
         /// <summary>
         ///   Looks up a localized string similar to {\rtf1\adeflang1025\ansi\ansicpg1252\uc1\adeff39\deff0\stshfdbch31505\stshfloch31506\stshfhich31506\stshfbi31507\deflang3081\deflangfe3081\themelang3081\themelangfe0\themelangcs0{\fonttbl{\f0\fbidi \froman\fcharset204\fprq2{\*\panose 02020603050405020304}Times New Roman;}{\f34\fbidi \froman\fcharset1\fprq2{\*\panose 02040503050406030204}Cambria Math;}
-        ///{\f39\fbidi \froman\fcharset204\fprq2{\*\panose 02020603050405020304}Liberation Serif{\*\falt Times New Roman};}{\f40\fbidi \fswiss\fcharset204\fprq2{\*\pano [rest of string was truncated]&quot;;.
+        ///{\f39\fbidi \froman\fcharset204\fprq2{\*\panose 02020603050405020304}Liberation Serif{\*\falt Times New Roman};}{\f40\fbidi \fswiss\fcharset204\fprq2{\*\panos [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string eula {
             get {
                 return ResourceManager.GetString("eula", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string Licenses {
+            get {
+                return ResourceManager.GetString("Licenses", resourceCulture);
             }
         }
     }

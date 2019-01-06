@@ -29,7 +29,7 @@
     </UpgradeBackupLocation>
     <StartProgram>C:\Program Files\SOLIDWORKS Corp\SOLIDWORKS (2)\\SldWorks.exe</StartProgram>
     <StartAction>Program</StartAction>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <OldToolsVersion>2.0</OldToolsVersion>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
@@ -70,6 +70,7 @@
     <WarningLevel>4</WarningLevel>
     <DebugType>full</DebugType>
     <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <OutputPath>bin\Release\</OutputPath>
@@ -93,26 +94,35 @@
     <WarningLevel>4</WarningLevel>
     <DebugType>none</DebugType>
     <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="CodeStack.SwEx.AddIn, Version=0.4.1.0, Culture=neutral, PublicKeyToken=a46023996d4724e7, processorArchitecture=MSIL">
+      <HintPath>packages\CodeStack.SwEx.AddIn.0.4.1\lib\net40\CodeStack.SwEx.AddIn.dll</HintPath>
+    </Reference>
+    <Reference Include="CodeStack.SwEx.Common, Version=0.9.5.0, Culture=neutral, PublicKeyToken=a46023996d4724e7, processorArchitecture=MSIL">
+      <HintPath>packages\CodeStack.SwEx.Common.0.9.5\lib\net40\CodeStack.SwEx.Common.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>packages\Newtonsoft.Json.11.0.2\lib\net40\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="SolidWorks.Interop.sldworks">
-      <HintPath>thirdpty\SolidWorks.Interop.sldworks.dll</HintPath>
+    <Reference Include="SolidWorks.Interop.sldworks, Version=26.2.0.63, Culture=neutral, PublicKeyToken=7c4797c3e4eeac03, processorArchitecture=MSIL">
+      <HintPath>packages\CodeStack.SwEx.Common.0.9.5\lib\net40\SolidWorks.Interop.sldworks.dll</HintPath>
       <EmbedInteropTypes>False</EmbedInteropTypes>
     </Reference>
-    <Reference Include="SolidWorks.Interop.swconst">
-      <HintPath>thirdpty\SolidWorks.Interop.swconst.dll</HintPath>
+    <Reference Include="SolidWorks.Interop.swconst, Version=26.2.0.63, Culture=neutral, PublicKeyToken=19f43e188e4269d8, processorArchitecture=MSIL">
+      <HintPath>packages\CodeStack.SwEx.Common.0.9.5\lib\net40\SolidWorks.Interop.swconst.dll</HintPath>
       <EmbedInteropTypes>False</EmbedInteropTypes>
     </Reference>
-    <Reference Include="SolidWorks.Interop.swpublished">
-      <HintPath>thirdpty\SolidWorks.Interop.swpublished.dll</HintPath>
+    <Reference Include="SolidWorks.Interop.swpublished, Version=26.2.0.63, Culture=neutral, PublicKeyToken=89a97bdc5284e6d8, processorArchitecture=MSIL">
+      <HintPath>packages\CodeStack.SwEx.Common.0.9.5\lib\net40\SolidWorks.Interop.swpublished.dll</HintPath>
       <EmbedInteropTypes>False</EmbedInteropTypes>
     </Reference>
-    <Reference Include="SolidWorksTools">
-      <HintPath>thirdpty\SolidWorksTools.dll</HintPath>
+    <Reference Include="SolidWorksTools, Version=2.0.0.0, Culture=neutral, PublicKeyToken=bd18593873b4686d, processorArchitecture=MSIL">
+      <HintPath>packages\CodeStack.SwEx.Common.0.9.5\lib\net40\SolidWorksTools.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System">
       <Name>System</Name>
@@ -128,21 +138,23 @@
     <Reference Include="System.XML">
       <Name>System.XML</Name>
     </Reference>
-    <Reference Include="Xarial.Community.AppLaunchKit, Version=0.1.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>thirdpty\Xarial.Community.AppLaunchKit.dll</HintPath>
+    <Reference Include="Xarial.Signal2Go, Version=0.2.1.0, Culture=neutral, PublicKeyToken=6dcec729ca6a1943, processorArchitecture=MSIL">
+      <HintPath>packages\Xarial.Signal2Go.0.2.1\lib\net461\Xarial.Signal2Go.dll</HintPath>
+    </Reference>
+    <Reference Include="Xarial.Signal2Go.Services.UserSettings, Version=0.2.1.0, Culture=neutral, PublicKeyToken=6dcec729ca6a1943, processorArchitecture=MSIL">
+      <HintPath>packages\Xarial.Signal2Go.Services.UserSettings.0.2.1\lib\net461\Xarial.Signal2Go.Services.UserSettings.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Helpers\IconsConverter.cs" />
-    <Compile Include="Helpers\IconListJsonConverter.cs" />
-    <Compile Include="Preferences\BasicIcons.cs" />
+    <Compile Include="AppInfo.cs" />
+    <Compile Include="Base\CommandGroupInfoSpec.cs" />
+    <Compile Include="Base\CommandItemInfoExtension.cs" />
+    <Compile Include="Base\CommandItemInfoSpec.cs" />
+    <Compile Include="Commands.cs" />
     <Compile Include="Preferences\CommandGroupInfo.cs" />
+    <Compile Include="Preferences\CommandItemInfo.cs" />
     <Compile Include="Preferences\CustomToolbarInfo.cs" />
-    <Compile Include="Preferences\HighResIcons.cs" />
-    <Compile Include="Preferences\IIconList.cs" />
     <Compile Include="Preferences\Locations.cs" />
-    <Compile Include="Preferences\MasterIcons.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -159,6 +171,7 @@
     <Compile Include="MyToolbarSwAddin.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="ToolbarInfoVersionConverter.cs" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
@@ -190,6 +203,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\custom_toolbars_icon.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Licenses.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
