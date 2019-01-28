@@ -1,5 +1,5 @@
-﻿using CodeStack.Community.Sw.MyToolbar.Preferences;
-using CodeStack.Community.Sw.MyToolbar.Properties;
+﻿using CodeStack.Sw.MyToolbar.Preferences;
+using CodeStack.Sw.MyToolbar.Properties;
 using CodeStack.SwEx.AddIn.Icons;
 using System;
 using System.Collections.Generic;
@@ -9,7 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CodeStack.Community.Sw.MyToolbar.Base
+namespace CodeStack.Sw.MyToolbar.Base
 {
     internal static class CommandItemInfoExtension
     {

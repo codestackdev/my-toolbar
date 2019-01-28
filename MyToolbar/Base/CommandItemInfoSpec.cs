@@ -1,4 +1,4 @@
-﻿using CodeStack.Community.Sw.MyToolbar.Preferences;
+﻿using CodeStack.Sw.MyToolbar.Preferences;
 using CodeStack.SwEx.AddIn.Core;
 using System;
 using System.Collections.Generic;
@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CodeStack.Community.Sw.MyToolbar.Base
+namespace CodeStack.Sw.MyToolbar.Base
 {
     internal class CommandItemInfoSpec : CommandSpec
     {

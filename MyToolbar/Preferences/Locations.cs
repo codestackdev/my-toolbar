@@ -1,8 +1,8 @@
-﻿using CodeStack.Community.Sw.MyToolbar.Properties;
+﻿using CodeStack.Sw.MyToolbar.Properties;
 using System;
 using System.IO;
 
-namespace CodeStack.Community.Sw.MyToolbar.Preferences
+namespace CodeStack.Sw.MyToolbar.Preferences
 {
     internal static class Locations
     {

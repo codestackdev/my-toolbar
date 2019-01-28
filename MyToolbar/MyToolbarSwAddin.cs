@@ -3,10 +3,10 @@ using System.Runtime.InteropServices;
 using SolidWorks.Interop.sldworks;
 using SolidWorks.Interop.swpublished;
 using SolidWorksTools;
-using CodeStack.Community.Sw.MyToolbar.Preferences;
+using CodeStack.Sw.MyToolbar.Preferences;
 using System.IO;
 using Newtonsoft.Json;
-using CodeStack.Community.Sw.MyToolbar.Properties;
+using CodeStack.Sw.MyToolbar.Properties;
 using System.Linq;
 using SolidWorks.Interop.swconst;
 using System.Drawing;
@@ -18,9 +18,11 @@ using Xarial.AppLaunchKit.Services.About;
 using Xarial.AppLaunchKit.Services.UserSettings;
 using Xarial.AppLaunchKit.Base.Services;
 using CodeStack.SwEx.AddIn.Core;
-using CodeStack.Community.Sw.MyToolbar.Base;
+using CodeStack.Sw.MyToolbar.Base;
+using CodeStack.Sw.MyToolbar.UI.Forms;
+using CodeStack.Sw.MyToolbar.UI.ViewModels;
 
-namespace CodeStack.Community.Sw.MyToolbar
+namespace CodeStack.Sw.MyToolbar
 {
     [Guid("63496b16-e9ad-4d3a-8473-99d124a1672b"), ComVisible(true)]
 #if DEBUG
@@ -30,13 +32,13 @@ namespace CodeStack.Community.Sw.MyToolbar
     {
         private CustomToolbarInfo m_ToolbarInfo;
 
-        private ServicesManager m_Kit;
+        private ServicesManager m_Services;
 
         public override bool OnConnect()
         {
-            m_Kit = RegisterServicesManager(App);
+            m_Services = RegisterServicesManager(App);
 
-            m_ToolbarInfo = m_Kit.GetService<IUserSettingsService>()
+            m_ToolbarInfo = m_Services.GetService<IUserSettingsService>()
                     .ReadSettings<CustomToolbarInfo>(Locations.ToolbarsSpecFilePath);
 
             if (m_ToolbarInfo.Groups != null)
@@ -54,20 +56,34 @@ namespace CodeStack.Community.Sw.MyToolbar
 
         private void OnButtonClick(Commands_e cmd)
         {
+            switch (cmd)
+            {
+                case Commands_e.Configuration:
+                    var vm = new CommandManagerVM(m_ToolbarInfo);
+                    if (new CommandManagerForm(vm, IntPtr.Zero).ShowDialog() == true)
+                    {
+                        //TODO: update settings
+                    }
+                    break;
+
+                case Commands_e.About:
+                    m_Services.GetService<IAboutApplicationService>().ShowAboutForm();
+                    break;
+            }
         }
 
         private ServicesManager RegisterServicesManager(ISldWorks app)
         {
-            var kit = new ServicesManager(this.GetType().Assembly, new IntPtr(app.IFrameObject().GetHWnd()),
+            var srv = new ServicesManager(this.GetType().Assembly, new IntPtr(app.IFrameObject().GetHWnd()),
                 typeof(UpdatesService),
                 typeof(UserSettingsService),
                 typeof(AboutApplicationService));
 
-            kit.HandleError += OnHandleError;
+            srv.HandleError += OnHandleError;
 
-            kit.StartServicesInBackground();
+            srv.StartServicesInBackground();
 
-            return kit;
+            return srv;
         }
 
         private bool OnHandleError(Exception ex)

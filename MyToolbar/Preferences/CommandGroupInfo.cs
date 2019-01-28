@@ -5,7 +5,7 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
 
-namespace CodeStack.Community.Sw.MyToolbar.Preferences
+namespace CodeStack.Sw.MyToolbar.Preferences
 {
     public class CommandGroupInfo : CommandItemInfo
     {

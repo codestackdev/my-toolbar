@@ -3,16 +3,16 @@ using System.Reflection;
 using System.Runtime.CompilerServices;
 using Xarial.AppLaunchKit.Services.Attributes;
 using Xarial.AppLaunchKit.Attributes;
-using static CodeStack.Community.Sw.MyToolbar.MyToolbarSwAddin;
-using CodeStack.Community.Sw.MyToolbar.Properties;
-using CodeStack.Community.Sw.MyToolbar;
+using static CodeStack.Sw.MyToolbar.MyToolbarSwAddin;
+using CodeStack.Sw.MyToolbar.Properties;
+using CodeStack.Sw.MyToolbar;
 
 [assembly: AssemblyTitle("MyToolbar")]
 [assembly: AssemblyDescription("Add-in to manage custom toolbars in SOLIDWORKS")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("CodeStack")]
 [assembly: AssemblyProduct("MyToolbar")]
-[assembly: AssemblyCopyright("Copyright(C) 2018 www.codestack.net")]
+[assembly: AssemblyCopyright("Copyright(C) 2019 www.codestack.net")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

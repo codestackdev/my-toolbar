@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace CodeStack.Community.Sw.MyToolbar.Properties {
+namespace CodeStack.Sw.MyToolbar.Properties {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace CodeStack.Community.Sw.MyToolbar.Properties {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("CodeStack.Community.Sw.MyToolbar.Properties.Resources", typeof(Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("CodeStack.Sw.MyToolbar.Properties.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;

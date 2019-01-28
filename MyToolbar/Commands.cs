@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CodeStack.Community.Sw.MyToolbar
+namespace CodeStack.Sw.MyToolbar
 {
     [SwEx.AddIn.Attributes.CommandGroupInfo(999)]
     [Title("MyToolbar")]

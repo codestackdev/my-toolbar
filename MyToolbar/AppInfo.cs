@@ -1,5 +1,5 @@
-﻿using CodeStack.Community.Sw.MyToolbar.Preferences;
-using CodeStack.Community.Sw.MyToolbar.Properties;
+﻿using CodeStack.Sw.MyToolbar.Preferences;
+using CodeStack.Sw.MyToolbar.Properties;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CodeStack.Community.Sw.MyToolbar
+namespace CodeStack.Sw.MyToolbar
 {
     internal static class AppInfo
     {

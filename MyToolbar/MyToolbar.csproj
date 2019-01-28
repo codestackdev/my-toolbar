@@ -19,7 +19,7 @@
     <DefaultTargetSchema>IE50</DefaultTargetSchema>
     <DelaySign>false</DelaySign>
     <OutputType>Library</OutputType>
-    <RootNamespace>CodeStack.Community.Sw.MyToolbar</RootNamespace>
+    <RootNamespace>CodeStack.Sw.MyToolbar</RootNamespace>
     <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
     <StartupObject>
     </StartupObject>
@@ -98,30 +98,33 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="CodeStack.SwEx.AddIn, Version=0.4.1.0, Culture=neutral, PublicKeyToken=a46023996d4724e7, processorArchitecture=MSIL">
-      <HintPath>packages\CodeStack.SwEx.AddIn.0.4.1\lib\net40\CodeStack.SwEx.AddIn.dll</HintPath>
+      <HintPath>..\packages\CodeStack.SwEx.AddIn.0.4.1\lib\net40\CodeStack.SwEx.AddIn.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="CodeStack.SwEx.Common, Version=0.9.5.0, Culture=neutral, PublicKeyToken=a46023996d4724e7, processorArchitecture=MSIL">
-      <HintPath>packages\CodeStack.SwEx.Common.0.9.5\lib\net40\CodeStack.SwEx.Common.dll</HintPath>
+      <HintPath>..\packages\CodeStack.SwEx.Common.0.9.5\lib\net40\CodeStack.SwEx.Common.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>packages\Newtonsoft.Json.11.0.2\lib\net40\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
     <Reference Include="SolidWorks.Interop.sldworks, Version=26.2.0.63, Culture=neutral, PublicKeyToken=7c4797c3e4eeac03, processorArchitecture=MSIL">
-      <HintPath>packages\CodeStack.SwEx.Common.0.9.5\lib\net40\SolidWorks.Interop.sldworks.dll</HintPath>
+      <HintPath>..\packages\CodeStack.SwEx.Common.0.9.5\lib\net40\SolidWorks.Interop.sldworks.dll</HintPath>
       <EmbedInteropTypes>False</EmbedInteropTypes>
     </Reference>
     <Reference Include="SolidWorks.Interop.swconst, Version=26.2.0.63, Culture=neutral, PublicKeyToken=19f43e188e4269d8, processorArchitecture=MSIL">
-      <HintPath>packages\CodeStack.SwEx.Common.0.9.5\lib\net40\SolidWorks.Interop.swconst.dll</HintPath>
+      <HintPath>..\packages\CodeStack.SwEx.Common.0.9.5\lib\net40\SolidWorks.Interop.swconst.dll</HintPath>
       <EmbedInteropTypes>False</EmbedInteropTypes>
     </Reference>
     <Reference Include="SolidWorks.Interop.swpublished, Version=26.2.0.63, Culture=neutral, PublicKeyToken=89a97bdc5284e6d8, processorArchitecture=MSIL">
-      <HintPath>packages\CodeStack.SwEx.Common.0.9.5\lib\net40\SolidWorks.Interop.swpublished.dll</HintPath>
+      <HintPath>..\packages\CodeStack.SwEx.Common.0.9.5\lib\net40\SolidWorks.Interop.swpublished.dll</HintPath>
       <EmbedInteropTypes>False</EmbedInteropTypes>
     </Reference>
     <Reference Include="SolidWorksTools, Version=2.0.0.0, Culture=neutral, PublicKeyToken=bd18593873b4686d, processorArchitecture=MSIL">
-      <HintPath>packages\CodeStack.SwEx.Common.0.9.5\lib\net40\SolidWorksTools.dll</HintPath>
+      <HintPath>..\packages\CodeStack.SwEx.Common.0.9.5\lib\net40\SolidWorksTools.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System">
@@ -135,14 +138,18 @@
     </Reference>
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xaml" />
     <Reference Include="System.XML">
       <Name>System.XML</Name>
     </Reference>
+    <Reference Include="WindowsBase" />
     <Reference Include="Xarial.Signal2Go, Version=0.2.1.0, Culture=neutral, PublicKeyToken=6dcec729ca6a1943, processorArchitecture=MSIL">
-      <HintPath>packages\Xarial.Signal2Go.0.2.1\lib\net461\Xarial.Signal2Go.dll</HintPath>
+      <HintPath>..\packages\Xarial.Signal2Go.0.2.1\lib\net461\Xarial.Signal2Go.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Xarial.Signal2Go.Services.UserSettings, Version=0.2.1.0, Culture=neutral, PublicKeyToken=6dcec729ca6a1943, processorArchitecture=MSIL">
-      <HintPath>packages\Xarial.Signal2Go.Services.UserSettings.0.2.1\lib\net461\Xarial.Signal2Go.Services.UserSettings.dll</HintPath>
+      <HintPath>..\packages\Xarial.Signal2Go.Services.UserSettings.0.2.1\lib\net461\Xarial.Signal2Go.Services.UserSettings.dll</HintPath>
+      <Private>True</Private>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -172,6 +179,22 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="ToolbarInfoVersionConverter.cs" />
+    <Compile Include="UI\Base\CommandsCollection.cs" />
+    <Compile Include="UI\Base\CommandDataTemplateSelector.cs" />
+    <Compile Include="UI\Base\NotifyPropertyChanged.cs" />
+    <Compile Include="UI\Base\RelayCommand.cs" />
+    <Compile Include="UI\Converters\SelectedCommandConverter.cs" />
+    <Compile Include="UI\Converters\SelectedCommandGroupConverter.cs" />
+    <Compile Include="UI\Forms\CommandManagerForm.xaml.cs">
+      <DependentUpon>CommandManagerForm.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\ViewModels\CommandGroupVM.cs" />
+    <Compile Include="UI\ViewModels\CommandManagerVM.cs" />
+    <Compile Include="UI\ViewModels\CommandVM.cs" />
+    <Compile Include="UI\ViewModels\NewCommandPlaceholderVM.cs" />
+    <Compile Include="UI\Views\CommandManagerView.xaml.cs">
+      <DependentUpon>CommandManagerView.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
@@ -207,14 +230,22 @@
   <ItemGroup>
     <None Include="Resources\Licenses.txt" />
   </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Page Include="UI\Forms\CommandManagerForm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Views\CommandManagerView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PreBuildEvent>
     </PreBuildEvent>
-    <PostBuildEvent>IF '$(ConfigurationName)' == 'Release' GOTO :END
-(
-"%25Windir%25\Microsoft.NET\Framework64\v4.0.30319\regasm" /codebase "$(TargetPath)"
-)
-:END</PostBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
   </PropertyGroup>
 </Project>
