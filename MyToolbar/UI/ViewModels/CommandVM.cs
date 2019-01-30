@@ -5,12 +5,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
+using System.Windows.Forms;
 
 namespace CodeStack.Sw.MyToolbar.UI.ViewModels
 {
     public class CommandVM : NotifyPropertyChanged
     {
         private readonly CommandItemInfo m_Command;
+
+        private ICommand m_BrowseIconCommand;
 
         internal CommandItemInfo Command
         {
@@ -53,6 +57,29 @@ namespace CodeStack.Sw.MyToolbar.UI.ViewModels
             set
             {
                 m_Command.IconPath = value;
+            }
+        }
+
+        public ICommand BrowseIconCommand
+        {
+            get
+            {
+                if (m_BrowseIconCommand == null)
+                {
+                    m_BrowseIconCommand = new RelayCommand(() => 
+                    {
+                        var dlg = new OpenFileDialog();
+                        
+                        dlg.Filter = "Image File (*.jpg;*.png;*.gif;*.bmp)|*.jpg;*.png;*.gif;*.bmp";
+
+                        if (dlg.ShowDialog() == DialogResult.OK)
+                        {
+                            IconPath = dlg.FileName;
+                        }
+                    });
+                }
+
+                return m_BrowseIconCommand;
             }
         }
 

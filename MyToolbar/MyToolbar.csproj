@@ -183,6 +183,7 @@
     <Compile Include="UI\Base\CommandDataTemplateSelector.cs" />
     <Compile Include="UI\Base\NotifyPropertyChanged.cs" />
     <Compile Include="UI\Base\RelayCommand.cs" />
+    <Compile Include="UI\Converters\PathToIconConverter.cs" />
     <Compile Include="UI\Converters\SelectedCommandConverter.cs" />
     <Compile Include="UI\Converters\SelectedCommandGroupConverter.cs" />
     <Compile Include="UI\Forms\CommandManagerForm.xaml.cs">
@@ -192,6 +193,9 @@
     <Compile Include="UI\ViewModels\CommandManagerVM.cs" />
     <Compile Include="UI\ViewModels\CommandVM.cs" />
     <Compile Include="UI\ViewModels\NewCommandPlaceholderVM.cs" />
+    <Compile Include="UI\Views\CommandBaseView.xaml.cs">
+      <DependentUpon>CommandBaseView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UI\Views\CommandManagerView.xaml.cs">
       <DependentUpon>CommandManagerView.xaml</DependentUpon>
     </Compile>
@@ -230,9 +234,15 @@
   <ItemGroup>
     <None Include="Resources\Licenses.txt" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="Resources\macro_icon_default.png" />
+  </ItemGroup>
   <ItemGroup>
     <Page Include="UI\Forms\CommandManagerForm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Views\CommandBaseView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

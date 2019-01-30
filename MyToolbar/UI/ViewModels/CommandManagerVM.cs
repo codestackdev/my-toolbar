@@ -1,6 +1,5 @@
 ﻿using CodeStack.Sw.MyToolbar.UI.Base;
 using CodeStack.Sw.MyToolbar.Preferences;
-using CodeStack.Sw.MyToolbar.UI.Base;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;

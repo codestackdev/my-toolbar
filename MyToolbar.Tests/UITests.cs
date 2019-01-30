@@ -23,7 +23,7 @@ namespace MyToolbar.Tests
                     Title = "Toolbar1",
                     Commands = new CommandItemInfo[]
                     {
-                        new CommandItemInfo() { Title = "Command1" },
+                        new CommandItemInfo() { Title = "Command1", Description="Sample command in toolbar which will invoke some macro" },
                         new CommandItemInfo() { Title = "Command2" },
                         new CommandItemInfo() { Title = "Command3" }
                     }
