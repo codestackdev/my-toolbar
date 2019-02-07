@@ -9,6 +9,6 @@ namespace CodeStack.Sw.MyToolbar.Preferences
 {
     public class CommandGroupInfo : CommandItemInfo
     {
-        public CommandItemInfo[] Commands { get; set; }
+        public CommandMacroInfo[] Commands { get; set; }
     }
 }

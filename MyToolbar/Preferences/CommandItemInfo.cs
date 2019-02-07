@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CodeStack.Sw.MyToolbar.Preferences
 {
-    public class CommandItemInfo
+    public abstract class CommandItemInfo
     {
         public int Id { get; set; }
 

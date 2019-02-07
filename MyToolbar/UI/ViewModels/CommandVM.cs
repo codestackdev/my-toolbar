@@ -10,13 +10,22 @@ using System.Windows.Forms;
 
 namespace CodeStack.Sw.MyToolbar.UI.ViewModels
 {
-    public class CommandVM : NotifyPropertyChanged
+    public interface ICommandVM
     {
-        private readonly CommandItemInfo m_Command;
+        string Title { get; set; }
+        string Description { get; set; }
+        string IconPath { get; set; }
+        ICommand BrowseIconCommand { get; }
+    }
+
+    public abstract class CommandVM<TCmdInfo> : NotifyPropertyChanged, ICommandVM
+        where TCmdInfo : CommandItemInfo
+    {
+        private readonly TCmdInfo m_Command;
 
         private ICommand m_BrowseIconCommand;
 
-        internal CommandItemInfo Command
+        internal TCmdInfo Command
         {
             get
             {
@@ -33,6 +42,7 @@ namespace CodeStack.Sw.MyToolbar.UI.ViewModels
             set
             {
                 m_Command.Title = value;
+                NotifyChanged();
             }
         }
 
@@ -45,6 +55,7 @@ namespace CodeStack.Sw.MyToolbar.UI.ViewModels
             set
             {
                 m_Command.Description = value;
+                NotifyChanged();
             }
         }
 
@@ -57,6 +68,7 @@ namespace CodeStack.Sw.MyToolbar.UI.ViewModels
             set
             {
                 m_Command.IconPath = value;
+                NotifyChanged();
             }
         }
 
@@ -82,13 +94,8 @@ namespace CodeStack.Sw.MyToolbar.UI.ViewModels
                 return m_BrowseIconCommand;
             }
         }
-
-        public CommandVM() 
-            : this(new CommandItemInfo())
-        {
-        }
-
-        public CommandVM(CommandItemInfo cmd)
+        
+        protected CommandVM(TCmdInfo cmd)
         {
             m_Command = cmd;
         }

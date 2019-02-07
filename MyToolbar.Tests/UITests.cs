@@ -21,28 +21,28 @@ namespace MyToolbar.Tests
                 new CommandGroupInfo()
                 {
                     Title = "Toolbar1",
-                    Commands = new CommandItemInfo[]
+                    Commands = new CommandMacroInfo[]
                     {
-                        new CommandItemInfo() { Title = "Command1", Description="Sample command in toolbar which will invoke some macro" },
-                        new CommandItemInfo() { Title = "Command2" },
-                        new CommandItemInfo() { Title = "Command3" }
+                        new CommandMacroInfo() { Title = "Command1", Description="Sample command in toolbar which will invoke some macro" },
+                        new CommandMacroInfo() { Title = "Command2" },
+                        new CommandMacroInfo() { Title = "Command3" }
                     }
                 },
                 new CommandGroupInfo()
                 {
                     Title = "Toolbar2",
-                    Commands = new CommandItemInfo[]
+                    Commands = new CommandMacroInfo[]
                     {
-                        new CommandItemInfo() { Title = "Command4" },
-                        new CommandItemInfo() { Title = "Command5" },
-                        new CommandItemInfo() { Title = "Command6" },
-                        new CommandItemInfo() { Title = "Command7" },
-                        new CommandItemInfo() { Title = "Command8" },
-                        new CommandItemInfo() { Title = "Command9" },
-                        new CommandItemInfo() { Title = "Command10" },
-                        new CommandItemInfo() { Title = "Command11" },
-                        new CommandItemInfo() { Title = "Command12" },
-                        new CommandItemInfo() { Title = "Command13" }
+                        new CommandMacroInfo() { Title = "Command4" },
+                        new CommandMacroInfo() { Title = "Command5" },
+                        new CommandMacroInfo() { Title = "Command6" },
+                        new CommandMacroInfo() { Title = "Command7" },
+                        new CommandMacroInfo() { Title = "Command8" },
+                        new CommandMacroInfo() { Title = "Command9" },
+                        new CommandMacroInfo() { Title = "Command10" },
+                        new CommandMacroInfo() { Title = "Command11" },
+                        new CommandMacroInfo() { Title = "Command12" },
+                        new CommandMacroInfo() { Title = "Command13" }
                     }
                 }
             };

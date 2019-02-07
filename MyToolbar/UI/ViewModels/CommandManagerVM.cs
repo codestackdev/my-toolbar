@@ -16,7 +16,7 @@ namespace CodeStack.Sw.MyToolbar.UI.ViewModels
 {
     public class CommandManagerVM : NotifyPropertyChanged
     {
-        private CommandVM m_SelectedElement;
+        private ICommandVM m_SelectedElement;
         private ICommand m_SelectCommandCommand;
 
         private readonly CustomToolbarInfo m_ToolbarInfo;
@@ -41,7 +41,7 @@ namespace CodeStack.Sw.MyToolbar.UI.ViewModels
             }
         }
         
-        public CommandVM SelectedElement
+        public ICommandVM SelectedElement
         {
             get
             {
@@ -60,7 +60,7 @@ namespace CodeStack.Sw.MyToolbar.UI.ViewModels
             {
                 if (m_SelectCommandCommand == null)
                 {
-                    m_SelectCommandCommand = new RelayCommand<CommandVM>(cmd =>
+                    m_SelectCommandCommand = new RelayCommand<ICommandVM>(cmd =>
                     {
                         SelectedElement = cmd;
                     });
@@ -73,7 +73,7 @@ namespace CodeStack.Sw.MyToolbar.UI.ViewModels
         private void OnGroupsCollectionChanged(IEnumerable<CommandGroupVM> cmds)
         {
             m_ToolbarInfo.Groups = cmds
-                .Select(g => g.CommandGroup).ToArray();
+                .Select(g => g.Command).ToArray();
         }
     }
 }

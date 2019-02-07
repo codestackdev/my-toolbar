@@ -10,7 +10,7 @@ using System.Windows.Data;
 namespace CodeStack.Sw.MyToolbar.UI.Base
 {
     public class CommandsCollection<TCommandVM> : CompositeCollection
-            where TCommandVM : CommandVM, new()
+            where TCommandVM : ICommandVM, new()
     {
         private readonly ObservableCollection<TCommandVM> m_Commands;
 

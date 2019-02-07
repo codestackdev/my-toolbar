@@ -160,8 +160,10 @@
     <Compile Include="Commands.cs" />
     <Compile Include="Preferences\CommandGroupInfo.cs" />
     <Compile Include="Preferences\CommandItemInfo.cs" />
+    <Compile Include="Preferences\CommandMacroInfo.cs" />
     <Compile Include="Preferences\CustomToolbarInfo.cs" />
     <Compile Include="Preferences\Locations.cs" />
+    <Compile Include="Preferences\MacroEntryPoint.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -178,6 +180,8 @@
     <Compile Include="MyToolbarSwAddin.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Services\MacroEntryPointsExtractor.cs" />
+    <Compile Include="Services\MacroRunner.cs" />
     <Compile Include="ToolbarInfoVersionConverter.cs" />
     <Compile Include="UI\Base\CommandsCollection.cs" />
     <Compile Include="UI\Base\CommandDataTemplateSelector.cs" />
@@ -190,11 +194,15 @@
       <DependentUpon>CommandManagerForm.xaml</DependentUpon>
     </Compile>
     <Compile Include="UI\ViewModels\CommandGroupVM.cs" />
+    <Compile Include="UI\ViewModels\CommandMacroVM.cs" />
     <Compile Include="UI\ViewModels\CommandManagerVM.cs" />
     <Compile Include="UI\ViewModels\CommandVM.cs" />
     <Compile Include="UI\ViewModels\NewCommandPlaceholderVM.cs" />
     <Compile Include="UI\Views\CommandBaseView.xaml.cs">
       <DependentUpon>CommandBaseView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Views\CommandMacroView.xaml.cs">
+      <DependentUpon>CommandMacroView.xaml</DependentUpon>
     </Compile>
     <Compile Include="UI\Views\CommandManagerView.xaml.cs">
       <DependentUpon>CommandManagerView.xaml</DependentUpon>
@@ -243,6 +251,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UI\Views\CommandBaseView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Views\CommandMacroView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -6,14 +6,16 @@
              xmlns:vm="clr-namespace:CodeStack.Sw.MyToolbar.UI.ViewModels"
              xmlns:conv="clr-namespace:CodeStack.Sw.MyToolbar.UI.Converters"
              mc:Ignorable="d" 
-             d:DataContext="{d:DesignInstance vm:CommandVM, IsDesignTimeCreatable=False}"
              d:DesignHeight="300" d:DesignWidth="300">
+    <UserControl.DataContext>
+        <x:Type Type="vm:ICommandVM"/>
+    </UserControl.DataContext>
     <UserControl.Resources>
         <conv:PathToIconConverter x:Key="pathToIconConv"/>
     </UserControl.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto" SharedSizeGroup="Header"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
