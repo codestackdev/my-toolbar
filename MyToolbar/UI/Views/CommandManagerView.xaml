@@ -7,16 +7,59 @@
              xmlns:base="clr-namespace:CodeStack.Sw.MyToolbar.UI.Base"
              xmlns:vm="clr-namespace:CodeStack.Sw.MyToolbar.UI.ViewModels"
              mc:Ignorable="d" 
-             d:DataContext="{d:DesignInstance vm:CommandManagerVM, IsDesignTimeCreatable=False}"
+             d:DataContext="{x:Type vm:CommandManagerVM}"
              d:DesignHeight="300" d:DesignWidth="300">
 	<UserControl.Resources>
 		<conv:SelectedCommandConverter x:Key="selCmdConv"/>
 		<conv:SelectedCommandGroupConverter x:Key="selCmdGrpConv"/>
         <conv:PathToIconConverter x:Key="pathToIconConv"/>
         <DataTemplate x:Key="NewCommandTemplate">
-			<Button Command="{Binding Path=AddNewItemCommand}">
-				<TextBlock Text="+"/>
-			</Button>
+            <Button Command="{Binding Path=AddNewItemCommand}" Width="12" Height="12" Background="#FF388A34" Margin="2">
+                <Button.Style>
+                    <Style TargetType="{x:Type Button}">
+                        <Style.Setters>
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate>
+                                        <Path Stretch="UniformToFill" Fill="{TemplateBinding Background}"
+                                                      VerticalAlignment="Center" HorizontalAlignment="Center"
+                                                  Data="F1M11,9L9,9 9,11 7.019,11 7.019,9 5,9 5,7.018 7.019,7.018 7.019,5 9,5 9,7.018 11,7.018z">
+                                        </Path>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                            <Setter Property="Effect">
+                                <Setter.Value>
+                                    <DropShadowEffect ShadowDepth="0" Color="Gray" BlurRadius="0"/>
+                                </Setter.Value>
+                            </Setter>
+                        </Style.Setters>
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="true">
+                                <Trigger.EnterActions>
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation To="5"
+                                                            Storyboard.TargetProperty="(Effect).BlurRadius" 
+                                                            FillBehavior="HoldEnd" Duration="0:0:0.1"
+                                                             AutoReverse="False" RepeatBehavior="1x"/>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </Trigger.EnterActions>
+                                <Trigger.ExitActions>
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation
+                                                Storyboard.TargetProperty="(Effect).BlurRadius" 
+                                                FillBehavior="HoldEnd" Duration="0:0:0.1" AutoReverse="False" RepeatBehavior="1x"/>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </Trigger.ExitActions>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+            </Button>
 		</DataTemplate>
 	</UserControl.Resources>
 	<Grid>

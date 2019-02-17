@@ -6,11 +6,10 @@
              xmlns:local="clr-namespace:CodeStack.Sw.MyToolbar.UI.Views"
              xmlns:vm="clr-namespace:CodeStack.Sw.MyToolbar.UI.ViewModels"
              mc:Ignorable="d" 
+             d:DataContext="{x:Type vm:CommandMacroVM}"
              d:DesignHeight="300" d:DesignWidth="300">
-    <UserControl.DataContext>
-        <x:Type Type="vm:CommandMacroVM"/>
-    </UserControl.DataContext>
     <StackPanel Orientation="Vertical" Grid.IsSharedSizeScope="True">
+        <local:CommandBaseView/>
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition SharedSizeGroup="Header"/>
@@ -39,6 +38,5 @@
             <ComboBox SelectedItem="{Binding Path=EntryPoint, UpdateSourceTrigger=PropertyChanged}" 
                  Grid.Column="1" Grid.Row="1" Margin="2" ItemsSource="{Binding Path=?}"/>
         </Grid>
-        <local:CommandBaseView/>
     </StackPanel>
 </UserControl>

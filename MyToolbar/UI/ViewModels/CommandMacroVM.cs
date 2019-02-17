@@ -48,9 +48,10 @@ namespace CodeStack.Sw.MyToolbar.UI.ViewModels
                 {
                     m_BrowseMacroPathCommand = new RelayCommand(() =>
                     {
-                        var dlg = new OpenFileDialog();
-
-                        dlg.Filter = "SOLIDWORKS Macros (*.swp;*.swb;*.dll)|*.swp;*.swb;*.dll";
+                        var dlg = new OpenFileDialog()
+                        {
+                            Filter = "SOLIDWORKS Macros (*.swp;*.swb;*.dll)|*.swp;*.swb;*.dll"
+                        };
 
                         if (dlg.ShowDialog() == DialogResult.OK)
                         {

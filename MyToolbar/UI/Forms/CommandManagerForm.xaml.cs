@@ -16,9 +16,6 @@ using System.Windows.Shapes;
 
 namespace CodeStack.Sw.MyToolbar.UI.Forms
 {
-    /// <summary>
-    /// Interaction logic for CommandManagerForm.xaml
-    /// </summary>
     public partial class CommandManagerForm : Window
     {
         public CommandManagerForm(CommandManagerVM vm, IntPtr parent)

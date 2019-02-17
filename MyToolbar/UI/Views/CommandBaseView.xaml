@@ -6,10 +6,8 @@
              xmlns:vm="clr-namespace:CodeStack.Sw.MyToolbar.UI.ViewModels"
              xmlns:conv="clr-namespace:CodeStack.Sw.MyToolbar.UI.Converters"
              mc:Ignorable="d" 
+             d:DataContext="{x:Type vm:ICommandVM}"
              d:DesignHeight="300" d:DesignWidth="300">
-    <UserControl.DataContext>
-        <x:Type Type="vm:ICommandVM"/>
-    </UserControl.DataContext>
     <UserControl.Resources>
         <conv:PathToIconConverter x:Key="pathToIconConv"/>
     </UserControl.Resources>

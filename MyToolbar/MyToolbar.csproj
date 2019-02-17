@@ -183,6 +183,7 @@
     <Compile Include="Services\MacroEntryPointsExtractor.cs" />
     <Compile Include="Services\MacroRunner.cs" />
     <Compile Include="ToolbarInfoVersionConverter.cs" />
+    <Compile Include="UI\Base\CommandPropertiesDataTemplateSelector.cs" />
     <Compile Include="UI\Base\CommandsCollection.cs" />
     <Compile Include="UI\Base\CommandDataTemplateSelector.cs" />
     <Compile Include="UI\Base\NotifyPropertyChanged.cs" />

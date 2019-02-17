@@ -78,11 +78,12 @@ namespace CodeStack.Sw.MyToolbar.UI.ViewModels
             {
                 if (m_BrowseIconCommand == null)
                 {
-                    m_BrowseIconCommand = new RelayCommand(() => 
+                    m_BrowseIconCommand = new RelayCommand(() =>
                     {
-                        var dlg = new OpenFileDialog();
-                        
-                        dlg.Filter = "Image File (*.jpg;*.png;*.gif;*.bmp)|*.jpg;*.png;*.gif;*.bmp";
+                        var dlg = new OpenFileDialog()
+                        {
+                            Filter = "Image File (*.jpg;*.jpeg;*.png;*.gif;*.bmp)|*.jpg;*.jpeg;*.png;*.gif;*.bmp|All files (*.*)|*.*"
+                        };
 
                         if (dlg.ShowDialog() == DialogResult.OK)
                         {

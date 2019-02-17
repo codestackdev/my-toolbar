@@ -16,6 +16,7 @@ namespace MyToolbar.Tests
         public void DisplayCommandManagerView()
         {
             var toolbar = new CustomToolbarInfo();
+
             toolbar.Groups = new CommandGroupInfo[]
             {
                 new CommandGroupInfo()

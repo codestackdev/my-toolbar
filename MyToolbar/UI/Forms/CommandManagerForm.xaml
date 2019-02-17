@@ -4,7 +4,43 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:views="clr-namespace:CodeStack.Sw.MyToolbar.UI.Views"
+             xmlns:vm="clr-namespace:CodeStack.Sw.MyToolbar.UI.ViewModels"
+             xmlns:base="clr-namespace:CodeStack.Sw.MyToolbar.UI.Base"
              mc:Ignorable="d" 
+             d:DataContext="{x:Type vm:CommandManagerVM}"
              d:DesignHeight="300" d:DesignWidth="300" WindowStartupLocation="CenterOwner">
-	<views:CommandManagerView/>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <views:CommandManagerView DataContext="{Binding}" Grid.Column="0"/>
+        <GridSplitter Grid.Column="1" Width="3"
+                      HorizontalAlignment="Center" VerticalAlignment="Stretch" Background="Gray"/>
+        <ContentPresenter Content="{Binding Path=SelectedElement}" Grid.Column="2">
+            <ContentPresenter.ContentTemplateSelector>
+                <base:CommandPropertiesDataTemplateSelector>
+                    <base:CommandPropertiesDataTemplateSelector.CommandMacroTemplate>
+                        <DataTemplate>
+                            <views:CommandMacroView/>
+                        </DataTemplate>
+                    </base:CommandPropertiesDataTemplateSelector.CommandMacroTemplate>
+                    <base:CommandPropertiesDataTemplateSelector.CommandGroupTemplate>
+                        <DataTemplate>
+                            <views:CommandBaseView/>
+                        </DataTemplate>
+                    </base:CommandPropertiesDataTemplateSelector.CommandGroupTemplate>
+                    <base:CommandPropertiesDataTemplateSelector.DefaultTemplate>
+                        <DataTemplate>
+                            <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center"
+                                       TextAlignment="Center"
+                                       Text="Select command or toolbar to change properties"
+                                       TextWrapping="Wrap" FontSize="15"/>
+                        </DataTemplate>
+                    </base:CommandPropertiesDataTemplateSelector.DefaultTemplate>
+                </base:CommandPropertiesDataTemplateSelector>
+            </ContentPresenter.ContentTemplateSelector>
+        </ContentPresenter>
+    </Grid>
 </Window>
