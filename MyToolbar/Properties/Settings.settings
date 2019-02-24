@@ -17,5 +17,8 @@
     <Setting Name="SystemDir" Type="System.String" Scope="User">
       <Value Profile="(Default)">System</Value>
     </Setting>
+    <Setting Name="SettingsFile" Type="System.String" Scope="User">
+      <Value Profile="(Default)">settings.json</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

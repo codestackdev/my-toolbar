@@ -6,6 +6,8 @@ using System.Collections.ObjectModel;
 using CodeStack.Sw.MyToolbar.UI.ViewModels;
 using CodeStack.Sw.MyToolbar.Preferences;
 using CodeStack.Sw.MyToolbar.UI.Forms;
+using CodeStack.Sw.MyToolbar.Services;
+using Moq;
 
 namespace MyToolbar.Tests
 {
@@ -48,7 +50,16 @@ namespace MyToolbar.Tests
                 }
             };
 
-            var vm = new CommandManagerVM(toolbar);
+            var confProviderMock = new Mock<IToolbarConfigurationProvider>();
+            var settsProviderMock = new Mock<ISettingsProvider>();
+
+            confProviderMock.Setup(m => m.GetToolbar(out It.Ref<bool>.IsAny, It.IsAny<string>())).
+                Returns(toolbar);
+
+            settsProviderMock.Setup(p => p.GetSettings())
+                .Returns(new ToolbarSettings());
+
+            var vm = new CommandManagerVM(confProviderMock.Object, settsProviderMock.Object);
 
             new CommandManagerForm(vm, IntPtr.Zero).ShowDialog();
         }

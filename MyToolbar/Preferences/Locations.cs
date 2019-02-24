@@ -17,16 +17,5 @@ namespace CodeStack.Sw.MyToolbar.Preferences
                 return appDir;
             }
         }
-
-        internal static string ToolbarsSpecFilePath
-        {
-            get
-            {
-                var dataFile = Path.Combine(AppDirectoryPath,
-                    Settings.Default.ToolbarsSpecFile);
-
-                return dataFile;
-            }
-        }
     }
 }

@@ -21,6 +21,7 @@ using CodeStack.SwEx.AddIn.Core;
 using CodeStack.Sw.MyToolbar.Base;
 using CodeStack.Sw.MyToolbar.UI.Forms;
 using CodeStack.Sw.MyToolbar.UI.ViewModels;
+using CodeStack.Sw.MyToolbar.Services;
 
 namespace CodeStack.Sw.MyToolbar
 {
@@ -30,20 +31,18 @@ namespace CodeStack.Sw.MyToolbar
 #endif
     public class MyToolbarSwAddin : SwAddInEx
     {
-        private CustomToolbarInfo m_ToolbarInfo;
-
-        private ServicesManager m_Services;
+        private ServicesContainer m_Services;
 
         public override bool OnConnect()
         {
-            m_Services = RegisterServicesManager(App);
+            m_Services = new ServicesContainer(App, Logger);
 
-            m_ToolbarInfo = m_Services.GetService<IUserSettingsService>()
-                    .ReadSettings<CustomToolbarInfo>(Locations.ToolbarsSpecFilePath);
+            var toolbarInfo = ToolbarProvider.GetToolbar(out bool isReadOnly,
+                ToolbarSpecificationFile);
 
-            if (m_ToolbarInfo.Groups != null)
+            if (toolbarInfo?.Groups != null)
             {
-                foreach (var grp in m_ToolbarInfo.Groups)
+                foreach (var grp in toolbarInfo.Groups)
                 {
                     AddCommandGroup(new CommandGroupInfoSpec(grp));
                 }
@@ -59,10 +58,29 @@ namespace CodeStack.Sw.MyToolbar
             switch (cmd)
             {
                 case Commands_e.Configuration:
-                    var vm = new CommandManagerVM(m_ToolbarInfo);
-                    if (new CommandManagerForm(vm, IntPtr.Zero).ShowDialog() == true)
+
+                    var settsProvider = m_Services.GetService<ISettingsProvider>();
+
+                    var vm = new CommandManagerVM(ToolbarProvider, settsProvider);
+                    
+                    if (new CommandManagerForm(vm, 
+                        new IntPtr(App.IFrameObject().GetHWnd())).ShowDialog() == true)
                     {
-                        //TODO: update settings
+                        var isSettsChanged = true;
+
+                        if (isSettsChanged)
+                        {
+                            settsProvider.SaveSettings(vm.Settings);
+                        }
+
+                        //TODO: compare if changed
+                        var isToolbarChanged = true;
+
+                        if (isToolbarChanged)
+                        {
+                            ToolbarProvider.SaveToolbar(vm.ToolbarInfo, vm.Settings.SpecificationFile);
+                            //TODO: show message to reload toolbar
+                        }
                     }
                     break;
 
@@ -72,25 +90,20 @@ namespace CodeStack.Sw.MyToolbar
             }
         }
 
-        private ServicesManager RegisterServicesManager(ISldWorks app)
+        private IToolbarConfigurationProvider ToolbarProvider
         {
-            var srv = new ServicesManager(this.GetType().Assembly, new IntPtr(app.IFrameObject().GetHWnd()),
-                typeof(UpdatesService),
-                typeof(UserSettingsService),
-                typeof(AboutApplicationService));
-
-            srv.HandleError += OnHandleError;
-
-            srv.StartServicesInBackground();
-
-            return srv;
+            get
+            {
+                return m_Services.GetService<IToolbarConfigurationProvider>();
+            }
         }
 
-        private bool OnHandleError(Exception ex)
+        private string ToolbarSpecificationFile
         {
-            Logger.Log(ex);
-
-            return true;
+            get
+            {
+                return m_Services.GetService<ISettingsProvider>().GetSettings().SpecificationFile;
+            }
         }
     }
 }

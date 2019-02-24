@@ -10,37 +10,66 @@
              d:DataContext="{x:Type vm:CommandManagerVM}"
              d:DesignHeight="300" d:DesignWidth="300" WindowStartupLocation="CenterOwner">
     <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="*"/>
-        </Grid.ColumnDefinitions>
-        <views:CommandManagerView DataContext="{Binding}" Grid.Column="0"/>
-        <GridSplitter Grid.Column="1" Width="3"
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0" Margin="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Column="0" Text="Toolbar Path:" Margin="2"/>
+            <TextBox Grid.Column="1" Text="{Binding Path=?, UpdateSourceTrigger=PropertyChanged}" Margin="2"/>
+            <Button Grid.Column="2" Margin="2" Command="{Binding Path=?}">
+                <TextBlock Text="Browse..."/>
+            </Button>
+        </Grid>
+        <GroupBox Header="Toolbar" Grid.Row="1" IsEnabled="{Binding Path=IsEditable}">
+            <GroupBox.Style>
+                <Style TargetType="GroupBox">
+                    <Style.Triggers>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Opacity" Value="0.5"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </GroupBox.Style>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <views:CommandManagerView DataContext="{Binding}" Grid.Column="0"/>
+                <GridSplitter Grid.Column="1" Width="3"
                       HorizontalAlignment="Center" VerticalAlignment="Stretch" Background="Gray"/>
-        <ContentPresenter Content="{Binding Path=SelectedElement}" Grid.Column="2">
-            <ContentPresenter.ContentTemplateSelector>
-                <base:CommandPropertiesDataTemplateSelector>
-                    <base:CommandPropertiesDataTemplateSelector.CommandMacroTemplate>
-                        <DataTemplate>
-                            <views:CommandMacroView/>
-                        </DataTemplate>
-                    </base:CommandPropertiesDataTemplateSelector.CommandMacroTemplate>
-                    <base:CommandPropertiesDataTemplateSelector.CommandGroupTemplate>
-                        <DataTemplate>
-                            <views:CommandBaseView/>
-                        </DataTemplate>
-                    </base:CommandPropertiesDataTemplateSelector.CommandGroupTemplate>
-                    <base:CommandPropertiesDataTemplateSelector.DefaultTemplate>
-                        <DataTemplate>
-                            <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center"
+                <ContentPresenter Content="{Binding Path=SelectedElement}" Grid.Column="2">
+                    <ContentPresenter.ContentTemplateSelector>
+                        <base:CommandPropertiesDataTemplateSelector>
+                            <base:CommandPropertiesDataTemplateSelector.CommandMacroTemplate>
+                                <DataTemplate>
+                                    <views:CommandMacroView/>
+                                </DataTemplate>
+                            </base:CommandPropertiesDataTemplateSelector.CommandMacroTemplate>
+                            <base:CommandPropertiesDataTemplateSelector.CommandGroupTemplate>
+                                <DataTemplate>
+                                    <views:CommandBaseView/>
+                                </DataTemplate>
+                            </base:CommandPropertiesDataTemplateSelector.CommandGroupTemplate>
+                            <base:CommandPropertiesDataTemplateSelector.DefaultTemplate>
+                                <DataTemplate>
+                                    <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center"
                                        TextAlignment="Center"
-                                       Text="Select command or toolbar to change properties"
+                                       Text="Select command or toolbar to change properties. Click + button to add new element"
                                        TextWrapping="Wrap" FontSize="15"/>
-                        </DataTemplate>
-                    </base:CommandPropertiesDataTemplateSelector.DefaultTemplate>
-                </base:CommandPropertiesDataTemplateSelector>
-            </ContentPresenter.ContentTemplateSelector>
-        </ContentPresenter>
+                                </DataTemplate>
+                            </base:CommandPropertiesDataTemplateSelector.DefaultTemplate>
+                        </base:CommandPropertiesDataTemplateSelector>
+                    </ContentPresenter.ContentTemplateSelector>
+                </ContentPresenter>
+            </Grid>
+        </GroupBox>
     </Grid>
 </Window>
