@@ -27,14 +27,19 @@ namespace CodeStack.Sw.MyToolbar.Services
 
         public ToolbarSettings GetSettings()
         {
-            var setts = m_UserSettsSrv.ReadSettings<ToolbarSettings>(Settings.Default.SettingsFile);
-            if (setts == null)
+            ToolbarSettings setts;
+            try
+            {
+                setts = m_UserSettsSrv.ReadSettings<ToolbarSettings>(Settings.Default.SettingsFile);
+            }
+            catch
             {
                 setts = new ToolbarSettings()
                 {
                     SpecificationFile = ToolbarsDefaultSpecFilePath
                 };
             }
+            
             return setts;
         }
 

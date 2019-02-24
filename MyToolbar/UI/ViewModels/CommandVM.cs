@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using System.Windows.Forms;
+using CodeStack.Sw.MyToolbar.Helpers;
 
 namespace CodeStack.Sw.MyToolbar.UI.ViewModels
 {
@@ -80,14 +81,15 @@ namespace CodeStack.Sw.MyToolbar.UI.ViewModels
                 {
                     m_BrowseIconCommand = new RelayCommand(() =>
                     {
-                        var dlg = new OpenFileDialog()
-                        {
-                            Filter = "Image File (*.jpg;*.jpeg;*.png;*.gif;*.bmp)|*.jpg;*.jpeg;*.png;*.gif;*.bmp|All files (*.*)|*.*"
-                        };
+                        var imgFile = FileBrowseHelper.BrowseFile("Select image file for icon",
+                            new FileFilter()
+                            {
+                                { "Image File", new FileFilterExtensions("jpg", "jpeg", "png", "gif", "bmp") }
+                            }, IconPath);
 
-                        if (dlg.ShowDialog() == DialogResult.OK)
+                        if (!string.IsNullOrEmpty(imgFile))
                         {
-                            IconPath = dlg.FileName;
+                            IconPath = imgFile;
                         }
                     });
                 }

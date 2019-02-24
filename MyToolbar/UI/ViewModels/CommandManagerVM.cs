@@ -12,6 +12,8 @@ using System.Windows.Input;
 using System.Collections;
 using CodeStack.Sw.MyToolbar.UI.Views;
 using CodeStack.Sw.MyToolbar.Services;
+using System.Windows.Forms;
+using CodeStack.Sw.MyToolbar.Helpers;
 
 namespace CodeStack.Sw.MyToolbar.UI.ViewModels
 {
@@ -19,24 +21,38 @@ namespace CodeStack.Sw.MyToolbar.UI.ViewModels
     {
         private ICommandVM m_SelectedElement;
         private ICommand m_SelectCommandCommand;
+        private ICommand m_BrowseToolbarSpecificationCommand;
 
         private readonly CustomToolbarInfo m_ToolbarInfo;
         private readonly CommandsCollection<CommandGroupVM> m_Groups;
 
         private readonly IToolbarConfigurationProvider m_ConfsProvider;
         private readonly ISettingsProvider m_SettsProvider;
+        private readonly IMessageService m_MsgService;
+
         private readonly ToolbarSettings m_Settings;
 
-        private readonly bool m_IsReadOnly;
+        private bool m_IsReadOnly;
 
-        public CommandManagerVM(IToolbarConfigurationProvider confsProvider, ISettingsProvider settsProvider)
+        public CommandManagerVM(IToolbarConfigurationProvider confsProvider,
+            ISettingsProvider settsProvider, IMessageService msgService)
         {
             m_ConfsProvider = confsProvider;
             m_SettsProvider = settsProvider;
+            m_MsgService = msgService;
 
             m_Settings = m_SettsProvider.GetSettings();
 
-            m_ToolbarInfo = m_ConfsProvider.GetToolbar(out m_IsReadOnly, m_Settings.SpecificationFile);
+            try
+            {
+                m_ToolbarInfo = m_ConfsProvider.GetToolbar(out m_IsReadOnly, ToolbarSpecificationPath);
+            }
+            catch
+            {
+                m_IsReadOnly = true;
+                msgService.ShowMessage("Failed to load the toolbar from the specification file. Make sure that you have access to the specification file",
+                    MessageType_e.Error);
+            }
 
             m_Groups = new CommandsCollection<CommandGroupVM>(
                 (m_ToolbarInfo.Groups ?? new CommandGroupInfo[0])
@@ -50,6 +66,11 @@ namespace CodeStack.Sw.MyToolbar.UI.ViewModels
             get
             {
                 return !m_IsReadOnly;
+            }
+            set
+            {
+                m_IsReadOnly = !value;
+                NotifyChanged();
             }
         }
 
@@ -87,6 +108,48 @@ namespace CodeStack.Sw.MyToolbar.UI.ViewModels
             {
                 m_SelectedElement = value;
                 NotifyChanged();
+            }
+        }
+
+        public string ToolbarSpecificationPath
+        {
+            get
+            {
+                return Settings.SpecificationFile;
+            }
+            set
+            {
+                if (!string.Equals(value, Settings.SpecificationFile, StringComparison.CurrentCultureIgnoreCase))
+                {
+                    Settings.SpecificationFile = value;
+                    NotifyChanged();
+                    //TODO: reload toolbar
+                }
+            }
+        }
+
+        public ICommand BrowseToolbarSpecificationCommand
+        {
+            get
+            {
+                if (m_BrowseToolbarSpecificationCommand == null)
+                {
+                    m_BrowseToolbarSpecificationCommand = new RelayCommand(() =>
+                    {
+                        var specFile = FileBrowseHelper.BrowseFile("Select toolbar specification file",
+                            new FileFilter()
+                            {
+                                { "Toolbar Specification File", new FileFilterExtensions("json") }
+                            }, ToolbarSpecificationPath);
+                        
+                        if (!string.IsNullOrEmpty(specFile))
+                        {
+                            ToolbarSpecificationPath = specFile;
+                        }
+                    });
+                }
+
+                return m_BrowseToolbarSpecificationCommand;
             }
         }
 

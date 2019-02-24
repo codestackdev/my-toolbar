@@ -37,8 +37,19 @@ namespace CodeStack.Sw.MyToolbar
         {
             m_Services = new ServicesContainer(App, Logger);
 
-            var toolbarInfo = ToolbarProvider.GetToolbar(out bool isReadOnly,
-                ToolbarSpecificationFile);
+            CustomToolbarInfo toolbarInfo = null;
+
+            try
+            {
+                toolbarInfo = ToolbarProvider.GetToolbar(out bool isReadOnly,
+                    ToolbarSpecificationFile);
+            }
+            catch(Exception ex)
+            {
+                MessageService.ShowMessage("Failed to load toolbar specification", MessageType_e.Error);
+                Logger.Log(ex);
+                return false;
+            }
 
             if (toolbarInfo?.Groups != null)
             {
@@ -59,27 +70,35 @@ namespace CodeStack.Sw.MyToolbar
             {
                 case Commands_e.Configuration:
 
-                    var settsProvider = m_Services.GetService<ISettingsProvider>();
+                    var vm = m_Services.GetService<CommandManagerVM>();
 
-                    var vm = new CommandManagerVM(ToolbarProvider, settsProvider);
-                    
                     if (new CommandManagerForm(vm, 
                         new IntPtr(App.IFrameObject().GetHWnd())).ShowDialog() == true)
                     {
-                        var isSettsChanged = true;
-
-                        if (isSettsChanged)
+                        try
                         {
-                            settsProvider.SaveSettings(vm.Settings);
+                            var isSettsChanged = true;
+
+                            if (isSettsChanged)
+                            {
+                                var settsProvider = m_Services.GetService<ISettingsProvider>();
+                                settsProvider.SaveSettings(vm.Settings);
+                            }
+
+                            //TODO: compare if changed
+                            var isToolbarChanged = true;
+
+                            if (isToolbarChanged)
+                            {
+                                ToolbarProvider.SaveToolbar(vm.ToolbarInfo, vm.Settings.SpecificationFile);
+                                MessageService.ShowMessage("Toolbar specification has changed. Please restart SOLIDWORKS",
+                                    MessageType_e.Info);
+                            }
                         }
-
-                        //TODO: compare if changed
-                        var isToolbarChanged = true;
-
-                        if (isToolbarChanged)
+                        catch(Exception ex)
                         {
-                            ToolbarProvider.SaveToolbar(vm.ToolbarInfo, vm.Settings.SpecificationFile);
-                            //TODO: show message to reload toolbar
+                            Logger.Log(ex);
+                            MessageService.ShowMessage("Failed to save toolbar specification", MessageType_e.Error);
                         }
                     }
                     break;
@@ -103,6 +122,14 @@ namespace CodeStack.Sw.MyToolbar
             get
             {
                 return m_Services.GetService<ISettingsProvider>().GetSettings().SpecificationFile;
+            }
+        }
+
+        private IMessageService MessageService
+        {
+            get
+            {
+                return m_Services.GetService<IMessageService>();
             }
         }
     }

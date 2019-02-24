@@ -170,6 +170,7 @@
     <Compile Include="Base\CommandItemInfoExtension.cs" />
     <Compile Include="Base\CommandItemInfoSpec.cs" />
     <Compile Include="Commands.cs" />
+    <Compile Include="Helpers\FileBrowseHelper.cs" />
     <Compile Include="Preferences\CommandGroupInfo.cs" />
     <Compile Include="Preferences\CommandItemInfo.cs" />
     <Compile Include="Preferences\CommandMacroInfo.cs" />
@@ -196,6 +197,7 @@
     <Compile Include="ServicesContainer.cs" />
     <Compile Include="Services\MacroEntryPointsExtractor.cs" />
     <Compile Include="Services\MacroRunner.cs" />
+    <Compile Include="Services\MessageService.cs" />
     <Compile Include="Services\SettingsProvider.cs" />
     <Compile Include="Services\ToolbarConfigurationProvider.cs" />
     <Compile Include="ToolbarInfoVersionConverter.cs" />

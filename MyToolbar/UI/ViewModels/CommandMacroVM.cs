@@ -1,4 +1,5 @@
-﻿using CodeStack.Sw.MyToolbar.Preferences;
+﻿using CodeStack.Sw.MyToolbar.Helpers;
+using CodeStack.Sw.MyToolbar.Preferences;
 using CodeStack.Sw.MyToolbar.UI.Base;
 using System;
 using System.Collections.Generic;
@@ -48,14 +49,15 @@ namespace CodeStack.Sw.MyToolbar.UI.ViewModels
                 {
                     m_BrowseMacroPathCommand = new RelayCommand(() =>
                     {
-                        var dlg = new OpenFileDialog()
-                        {
-                            Filter = "SOLIDWORKS Macros (*.swp;*.swb;*.dll)|*.swp;*.swb;*.dll"
-                        };
+                        var macroFile = FileBrowseHelper.BrowseFile("Select macro file",
+                            new FileFilter()
+                            {
+                                { "SOLIDWORKS Macros", new FileFilterExtensions("swp", "swb", "dll") }
+                            }, MacroPath);
 
-                        if (dlg.ShowDialog() == DialogResult.OK)
+                        if (!string.IsNullOrEmpty(macroFile))
                         {
-                            MacroPath = dlg.FileName;
+                            MacroPath = macroFile;
                         }
                     });
                 }

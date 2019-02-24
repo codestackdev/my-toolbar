@@ -58,8 +58,9 @@ namespace MyToolbar.Tests
 
             settsProviderMock.Setup(p => p.GetSettings())
                 .Returns(new ToolbarSettings());
-
-            var vm = new CommandManagerVM(confProviderMock.Object, settsProviderMock.Object);
+            
+            var vm = new CommandManagerVM(confProviderMock.Object, settsProviderMock.Object,
+                new Mock<IMessageService>().Object);
 
             new CommandManagerForm(vm, IntPtr.Zero).ShowDialog();
         }

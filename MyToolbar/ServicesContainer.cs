@@ -1,4 +1,6 @@
-﻿using CodeStack.Sw.MyToolbar.Services;
+﻿using CodeStack.Sw.MyToolbar.Properties;
+using CodeStack.Sw.MyToolbar.Services;
+using CodeStack.Sw.MyToolbar.UI.ViewModels;
 using CodeStack.SwEx.Common.Diagnostics;
 using SolidWorks.Interop.sldworks;
 using System;
@@ -7,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Unity;
+using Unity.Injection;
 using Unity.Lifetime;
 using Xarial.AppLaunchKit;
 using Xarial.AppLaunchKit.Base.Services;
@@ -48,7 +51,16 @@ namespace CodeStack.Sw.MyToolbar
 
             m_Container.RegisterType<IToolbarConfigurationProvider, ToolbarConfigurationProvider>(
                 new ContainerControlledLifetimeManager());
-            
+
+            m_Container.RegisterType<ISettingsProvider, SettingsProvider>(
+                new ContainerControlledLifetimeManager());
+
+            m_Container.RegisterType<IMessageService, MessageService>(
+                new ContainerControlledLifetimeManager(),
+                new InjectionConstructor(Resources.AppTitle));
+
+            m_Container.RegisterType<CommandManagerVM>(new TransientLifetimeManager());
+
             m_Container.RegisterInstance(m_Kit.GetService<IUserSettingsService>());
             m_Container.RegisterInstance(m_Kit.GetService<IAboutApplicationService>());
         }

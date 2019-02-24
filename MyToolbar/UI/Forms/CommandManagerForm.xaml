@@ -21,8 +21,8 @@
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
             <TextBlock Grid.Column="0" Text="Toolbar Path:" Margin="2"/>
-            <TextBox Grid.Column="1" Text="{Binding Path=?, UpdateSourceTrigger=PropertyChanged}" Margin="2"/>
-            <Button Grid.Column="2" Margin="2" Command="{Binding Path=?}">
+            <TextBox Grid.Column="1" Text="{Binding Path=ToolbarSpecificationPath, UpdateSourceTrigger=PropertyChanged}" Margin="2"/>
+            <Button Grid.Column="2" Margin="2" Command="{Binding Path=BrowseToolbarSpecificationCommand}">
                 <TextBlock Text="Browse..."/>
             </Button>
         </Grid>

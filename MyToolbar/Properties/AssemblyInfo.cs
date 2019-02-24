@@ -29,4 +29,4 @@ using CodeStack.Sw.MyToolbar;
 
 [assembly: UpdatesUrl(typeof(Settings), nameof(Settings.Default) + "." + nameof(Settings.Default.UpgradeUrl))]
 [assembly: About(typeof(Resources), nameof(Resources.eula), nameof(Resources.Licenses), nameof(Resources.custom_toolbars_toolbar))]
-[assembly: UserSettings("Settings", false, typeof(ToolbarInfoVersionConverter))]
+[assembly: UserSettings("Settings", true, typeof(ToolbarInfoVersionConverter))]
