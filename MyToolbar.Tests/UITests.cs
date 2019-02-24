@@ -4,7 +4,7 @@ using System.Windows;
 using CodeStack.Sw.MyToolbar.UI.Views;
 using System.Collections.ObjectModel;
 using CodeStack.Sw.MyToolbar.UI.ViewModels;
-using CodeStack.Sw.MyToolbar.Preferences;
+using CodeStack.Sw.MyToolbar.Structs;
 using CodeStack.Sw.MyToolbar.UI.Forms;
 using CodeStack.Sw.MyToolbar.Services;
 using Moq;

@@ -171,13 +171,13 @@
     <Compile Include="Base\CommandItemInfoSpec.cs" />
     <Compile Include="Commands.cs" />
     <Compile Include="Helpers\FileBrowseHelper.cs" />
-    <Compile Include="Preferences\CommandGroupInfo.cs" />
-    <Compile Include="Preferences\CommandItemInfo.cs" />
-    <Compile Include="Preferences\CommandMacroInfo.cs" />
-    <Compile Include="Preferences\CustomToolbarInfo.cs" />
-    <Compile Include="Preferences\Locations.cs" />
-    <Compile Include="Preferences\MacroEntryPoint.cs" />
-    <Compile Include="Preferences\ToolbarSettings.cs" />
+    <Compile Include="Structs\CommandGroupInfo.cs" />
+    <Compile Include="Structs\CommandItemInfo.cs" />
+    <Compile Include="Structs\CommandMacroInfo.cs" />
+    <Compile Include="Structs\CustomToolbarInfo.cs" />
+    <Compile Include="Structs\Locations.cs" />
+    <Compile Include="Structs\MacroEntryPoint.cs" />
+    <Compile Include="Structs\ToolbarSettings.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -206,6 +206,7 @@
     <Compile Include="UI\Base\CommandDataTemplateSelector.cs" />
     <Compile Include="UI\Base\NotifyPropertyChanged.cs" />
     <Compile Include="UI\Base\RelayCommand.cs" />
+    <Compile Include="UI\Converters\MacroPathToEntryPointsConverter.cs" />
     <Compile Include="UI\Converters\PathToIconConverter.cs" />
     <Compile Include="UI\Converters\SelectedCommandConverter.cs" />
     <Compile Include="UI\Converters\SelectedCommandGroupConverter.cs" />
@@ -253,7 +254,7 @@
     <None Include="Resources\codestack-toolbar.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\custom-toolbars-toolbar.png" />
+    <Resource Include="Resources\custom-toolbars-toolbar.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\custom_toolbars_icon.ico" />

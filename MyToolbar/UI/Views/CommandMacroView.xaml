@@ -4,11 +4,15 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:CodeStack.Sw.MyToolbar.UI.Views"
+			 xmlns:conv="clr-namespace:CodeStack.Sw.MyToolbar.UI.Converters"
              xmlns:vm="clr-namespace:CodeStack.Sw.MyToolbar.UI.ViewModels"
              mc:Ignorable="d" 
              d:DataContext="{x:Type vm:CommandMacroVM}"
              d:DesignHeight="300" d:DesignWidth="300">
-    <StackPanel Orientation="Vertical" Grid.IsSharedSizeScope="True">
+	<UserControl.Resources>
+		<conv:MacroPathToEntryPointsConverter x:Key="macroPathToEntryPtsConv"/>
+	</UserControl.Resources>
+	<StackPanel Orientation="Vertical" Grid.IsSharedSizeScope="True">
         <local:CommandBaseView/>
         <Grid>
             <Grid.ColumnDefinitions>
@@ -36,7 +40,7 @@
 
             <TextBlock Text="Entry Point:" Grid.Column="0" Grid.Row="1" Margin="2"/>
             <ComboBox SelectedItem="{Binding Path=EntryPoint, UpdateSourceTrigger=PropertyChanged}" 
-                 Grid.Column="1" Grid.Row="1" Margin="2" ItemsSource="{Binding Path=?}"/>
+                 Grid.Column="1" Grid.Row="1" Margin="2" ItemsSource="{Binding Path=MacroPath, Converter={StaticResource macroPathToEntryPtsConv}}"/>
         </Grid>
     </StackPanel>
 </UserControl>

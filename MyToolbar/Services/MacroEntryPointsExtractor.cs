@@ -1,5 +1,6 @@
-﻿using CodeStack.Sw.MyToolbar.Preferences;
+﻿using CodeStack.Sw.MyToolbar.Structs;
 using SolidWorks.Interop.sldworks;
+using SolidWorks.Interop.swconst;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,9 +25,21 @@ namespace CodeStack.Sw.MyToolbar.Services
 
         public MacroEntryPoint[] GetEntryPoints(string macroPath)
         {
-            //TODO: Implement
+            var methods = m_App.GetMacroMethods(macroPath,
+                (int)swMacroMethods_e.swMethodsWithoutArguments) as string[];
 
-            m_App.GetMacroMethods(macroPath, -1);
+            if (methods != null)
+            {
+                return methods.Select(m => 
+                {
+                    var ep = m.Split('.');
+                    return new MacroEntryPoint()
+                    {
+                        ModuleName = ep[0],
+                        SubName = ep[1]
+                    };
+                }).ToArray();
+            }
 
             return null;
         }

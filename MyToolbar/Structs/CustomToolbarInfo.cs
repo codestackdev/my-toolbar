@@ -1,7 +1,7 @@
 ﻿using System.Runtime.Serialization;
 using Xarial.AppLaunchKit.Services.UserSettings.Attributes;
 
-namespace CodeStack.Sw.MyToolbar.Preferences
+namespace CodeStack.Sw.MyToolbar.Structs
 {
     [UserSettingVersion("1.0")]
     public class CustomToolbarInfo

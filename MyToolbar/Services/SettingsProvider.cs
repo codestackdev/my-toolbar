@@ -1,4 +1,4 @@
-﻿using CodeStack.Sw.MyToolbar.Preferences;
+﻿using CodeStack.Sw.MyToolbar.Structs;
 using CodeStack.Sw.MyToolbar.Properties;
 using System;
 using System.Collections.Generic;
@@ -30,7 +30,7 @@ namespace CodeStack.Sw.MyToolbar.Services
             ToolbarSettings setts;
             try
             {
-                setts = m_UserSettsSrv.ReadSettings<ToolbarSettings>(Settings.Default.SettingsFile);
+                setts = m_UserSettsSrv.ReadSettings<ToolbarSettings>(Settings.Default.SettingsStoreName);
             }
             catch
             {
@@ -45,7 +45,7 @@ namespace CodeStack.Sw.MyToolbar.Services
 
         public void SaveSettings(ToolbarSettings setts)
         {
-            m_UserSettsSrv.StoreSettings(setts, Settings.Default.SettingsFile);
+            m_UserSettsSrv.StoreSettings(setts, Settings.Default.SettingsStoreName);
         }
 
         private string ToolbarsDefaultSpecFilePath

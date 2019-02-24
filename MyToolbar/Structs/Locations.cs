@@ -2,7 +2,7 @@
 using System;
 using System.IO;
 
-namespace CodeStack.Sw.MyToolbar.Preferences
+namespace CodeStack.Sw.MyToolbar.Structs
 {
     internal static class Locations
     {

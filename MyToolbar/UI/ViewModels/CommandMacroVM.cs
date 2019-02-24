@@ -1,5 +1,5 @@
 ﻿using CodeStack.Sw.MyToolbar.Helpers;
-using CodeStack.Sw.MyToolbar.Preferences;
+using CodeStack.Sw.MyToolbar.Structs;
 using CodeStack.Sw.MyToolbar.UI.Base;
 using System;
 using System.Collections.Generic;

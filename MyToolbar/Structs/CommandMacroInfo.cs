@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CodeStack.Sw.MyToolbar.Preferences
+namespace CodeStack.Sw.MyToolbar.Structs
 {
     public class CommandMacroInfo : CommandItemInfo
     {

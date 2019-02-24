@@ -1,4 +1,4 @@
-﻿using CodeStack.Sw.MyToolbar.Preferences;
+﻿using CodeStack.Sw.MyToolbar.Structs;
 using CodeStack.Sw.MyToolbar.Properties;
 using System;
 using System.Collections.Generic;
@@ -16,7 +16,7 @@ namespace CodeStack.Sw.MyToolbar
         {
             get
             {
-                return Path.Combine(Locations.AppDirectoryPath, Settings.Default.SystemDir);
+                return Locations.AppDirectoryPath;
             }
         }
 

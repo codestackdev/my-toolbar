@@ -1,4 +1,4 @@
-﻿using CodeStack.Sw.MyToolbar.Preferences;
+﻿using CodeStack.Sw.MyToolbar.Structs;
 using System;
 using System.Collections.Generic;
 using System.Linq;

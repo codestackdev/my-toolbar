@@ -56,8 +56,7 @@ namespace CodeStack.Sw.MyToolbar
                 new ContainerControlledLifetimeManager());
 
             m_Container.RegisterType<IMessageService, MessageService>(
-                new ContainerControlledLifetimeManager(),
-                new InjectionConstructor(Resources.AppTitle));
+                new ContainerControlledLifetimeManager());
 
             m_Container.RegisterType<CommandManagerVM>(new TransientLifetimeManager());
 

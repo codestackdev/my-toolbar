@@ -24,5 +24,17 @@ namespace CodeStack.Sw.MyToolbar.UI.Forms
             this.DataContext = vm;
             new System.Windows.Interop.WindowInteropHelper(this).Owner = parent;
         }
+
+        private void OnOk(object sender, RoutedEventArgs e)
+        {
+            this.DialogResult = true;
+            this.Close();
+        }
+
+        private void OnCancel(object sender, RoutedEventArgs e)
+        {
+            this.DialogResult = false;
+            this.Close();
+        }
     }
 }

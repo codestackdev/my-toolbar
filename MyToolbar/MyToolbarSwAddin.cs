@@ -3,7 +3,7 @@ using System.Runtime.InteropServices;
 using SolidWorks.Interop.sldworks;
 using SolidWorks.Interop.swpublished;
 using SolidWorksTools;
-using CodeStack.Sw.MyToolbar.Preferences;
+using CodeStack.Sw.MyToolbar.Structs;
 using System.IO;
 using Newtonsoft.Json;
 using CodeStack.Sw.MyToolbar.Properties;
@@ -36,32 +36,45 @@ namespace CodeStack.Sw.MyToolbar
         public override bool OnConnect()
         {
             m_Services = new ServicesContainer(App, Logger);
-
-            CustomToolbarInfo toolbarInfo = null;
-
+            
             try
             {
-                toolbarInfo = ToolbarProvider.GetToolbar(out bool isReadOnly,
+                bool isReadOnly;
+                var toolbarInfo = ToolbarProvider.GetToolbar(out isReadOnly,
                     ToolbarSpecificationFile);
+
+                if (toolbarInfo?.Groups != null)
+                {
+                    foreach (var grp in toolbarInfo.Groups)
+                    {
+                        var cmdGrp = new CommandGroupInfoSpec(grp);
+                        cmdGrp.MacroCommandClick += OnMacroCommandClick;
+                        AddCommandGroup(cmdGrp);
+                    }
+                }
             }
             catch(Exception ex)
             {
-                MessageService.ShowMessage("Failed to load toolbar specification", MessageType_e.Error);
+                MessageService.ShowMessage("Failed to load toolbar specification", MessageType_e.Warning);
                 Logger.Log(ex);
-                return false;
             }
-
-            if (toolbarInfo?.Groups != null)
-            {
-                foreach (var grp in toolbarInfo.Groups)
-                {
-                    AddCommandGroup(new CommandGroupInfoSpec(grp));
-                }
-            }
-
+            
             AddCommandGroup<Commands_e>(OnButtonClick);
             
             return true;
+        }
+
+        private void OnMacroCommandClick(CommandMacroInfo cmd)
+        {
+            try
+            {
+                m_Services.GetService<IMacroRunner>().RunMacro(cmd.MacroPath, cmd.EntryPoint);
+            }
+            catch(Exception ex)
+            {
+                Logger.Log(ex);
+                MessageService.ShowMessage("Failed to run macro", MessageType_e.Error);
+            }
         }
 
         private void OnButtonClick(Commands_e cmd)

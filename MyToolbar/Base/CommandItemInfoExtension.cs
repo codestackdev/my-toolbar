@@ -1,4 +1,4 @@
-﻿using CodeStack.Sw.MyToolbar.Preferences;
+﻿using CodeStack.Sw.MyToolbar.Structs;
 using CodeStack.Sw.MyToolbar.Properties;
 using CodeStack.SwEx.AddIn.Icons;
 using System;
@@ -30,7 +30,7 @@ namespace CodeStack.Sw.MyToolbar.Base
 
             if (icon == null)
             {
-                icon = Resources.custom_toolbars_toolbar;
+                icon = Resources.macro_icon_default;
             }
 
             return new MasterIcon(icon);

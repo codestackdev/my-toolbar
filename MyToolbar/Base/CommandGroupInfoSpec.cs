@@ -1,4 +1,4 @@
-﻿using CodeStack.Sw.MyToolbar.Preferences;
+﻿using CodeStack.Sw.MyToolbar.Structs;
 using CodeStack.Sw.MyToolbar.Properties;
 using CodeStack.SwEx.AddIn.Core;
 using CodeStack.SwEx.AddIn.Icons;
@@ -14,6 +14,8 @@ namespace CodeStack.Sw.MyToolbar.Base
 {
     internal class CommandGroupInfoSpec : CommandGroupSpec
     {
+        public event Action<CommandMacroInfo> MacroCommandClick;
+
         internal CommandGroupInfoSpec(CommandGroupInfo info)
         {
             Id = info.Id;
@@ -24,12 +26,22 @@ namespace CodeStack.Sw.MyToolbar.Base
             if (info.Commands != null)
             {
                 Commands = info.Commands.Select(
-                    c => new CommandItemInfoSpec(c)).ToArray();
+                    c => 
+                    {
+                        var spec = new CommandItemInfoSpec(c);
+                        spec.MacroCommandClick += OnMacroCommandClick;
+                        return spec;
+                    }).ToArray();
             }
             else
             {
                 Commands = new CommandItemInfoSpec[0];
             }
+        }
+
+        private void OnMacroCommandClick(CommandMacroInfo cmd)
+        {
+            MacroCommandClick?.Invoke(cmd);
         }
     }
 }

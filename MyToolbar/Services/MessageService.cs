@@ -1,10 +1,12 @@
-﻿using SolidWorks.Interop.sldworks;
+﻿using CodeStack.Sw.MyToolbar.Properties;
+using SolidWorks.Interop.sldworks;
 using SolidWorks.Interop.swconst;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace CodeStack.Sw.MyToolbar.Services
 {
@@ -22,35 +24,26 @@ namespace CodeStack.Sw.MyToolbar.Services
 
     public class MessageService : IMessageService
     {
-        private readonly ISldWorks m_App;
-        private readonly string m_Caption;
-
-        public MessageService(ISldWorks app, string caption)
-        {
-            m_App = app;
-            m_Caption = caption;
-        }
-
         public void ShowMessage(string message, MessageType_e type)
         {
-            var icon = swMessageBoxIcon_e.swMbInformation; ;
+            var icon = MessageBoxImage.Information;
 
             switch (type)
             {
                 case MessageType_e.Info:
-                    icon = swMessageBoxIcon_e.swMbInformation;
+                    icon = MessageBoxImage.Information;
                     break;
 
                 case MessageType_e.Warning:
-                    icon = swMessageBoxIcon_e.swMbWarning;
+                    icon = MessageBoxImage.Warning;
                     break;
 
                 case MessageType_e.Error:
-                    icon = swMessageBoxIcon_e.swMbStop;
+                    icon = MessageBoxImage.Error;
                     break;
             }
 
-            m_App.SendMsgToUser2(message, (int)icon, (int)swMessageBoxBtn_e.swMbOk);
+            MessageBox.Show(message, Resources.AppTitle, MessageBoxButton.OK, icon);
         }
     }
 }

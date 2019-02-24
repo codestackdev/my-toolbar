@@ -3,7 +3,7 @@
   <Profiles />
   <Settings>
     <Setting Name="ToolbarsSpecFile" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">toolbars.json</Value>
+      <Value Profile="(Default)">toolbars.setts</Value>
     </Setting>
     <Setting Name="AppRootDir" Type="System.String" Scope="Application">
       <Value Profile="(Default)">CodeStack\MyToolbar</Value>
@@ -14,11 +14,8 @@
     <Setting Name="UpgradeUrl" Type="System.String" Scope="User">
       <Value Profile="(Default)">https://www.codestack.net/labs/solidworks/my-toolbar/version-info.json</Value>
     </Setting>
-    <Setting Name="SystemDir" Type="System.String" Scope="User">
-      <Value Profile="(Default)">System</Value>
-    </Setting>
-    <Setting Name="SettingsFile" Type="System.String" Scope="User">
-      <Value Profile="(Default)">settings.json</Value>
+    <Setting Name="SettingsStoreName" Type="System.String" Scope="User">
+      <Value Profile="(Default)">settings</Value>
     </Setting>
   </Settings>
 </SettingsFile>
