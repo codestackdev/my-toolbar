@@ -170,6 +170,9 @@
     <Compile Include="Base\CommandItemInfoExtension.cs" />
     <Compile Include="Base\CommandItemInfoSpec.cs" />
     <Compile Include="Commands.cs" />
+    <Compile Include="Exceptions\MacroRunFailedException.cs" />
+    <Compile Include="Exceptions\ToolbarConfigurationReadOnlyException.cs" />
+    <Compile Include="Exceptions\UserException.cs" />
     <Compile Include="Helpers\FileBrowseHelper.cs" />
     <Compile Include="Structs\CommandGroupInfo.cs" />
     <Compile Include="Structs\CommandItemInfo.cs" />
@@ -282,6 +285,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\about-icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\configure-icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\toolbar-icon.png" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

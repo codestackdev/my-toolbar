@@ -86,7 +86,7 @@ namespace CodeStack.Sw.MyToolbar
         private bool OnHandleError(Exception ex)
         {
             m_Logger.Log(ex);
-
+            
             return true;
         }
     }

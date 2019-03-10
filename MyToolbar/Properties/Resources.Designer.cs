@@ -61,11 +61,31 @@ namespace CodeStack.Sw.MyToolbar.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap about_icon {
+            get {
+                object obj = ResourceManager.GetObject("about_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to MyToolbar.
         /// </summary>
         internal static string AppTitle {
             get {
                 return ResourceManager.GetString("AppTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap configure_icon {
+            get {
+                object obj = ResourceManager.GetObject("configure_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
             }
         }
         
@@ -114,6 +134,16 @@ namespace CodeStack.Sw.MyToolbar.Properties {
         internal static System.Drawing.Bitmap macro_icon_default {
             get {
                 object obj = ResourceManager.GetObject("macro_icon_default", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap toolbar_icon {
+            get {
+                object obj = ResourceManager.GetObject("toolbar_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

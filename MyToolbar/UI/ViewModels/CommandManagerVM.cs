@@ -23,8 +23,7 @@ namespace CodeStack.Sw.MyToolbar.UI.ViewModels
         private ICommand m_SelectCommandCommand;
         private ICommand m_BrowseToolbarSpecificationCommand;
 
-        private readonly CustomToolbarInfo m_ToolbarInfo;
-        private readonly CommandsCollection<CommandGroupVM> m_Groups;
+        private CommandsCollection<CommandGroupVM> m_Groups;
 
         private readonly IToolbarConfigurationProvider m_ConfsProvider;
         private readonly ISettingsProvider m_SettsProvider;
@@ -32,7 +31,8 @@ namespace CodeStack.Sw.MyToolbar.UI.ViewModels
 
         private readonly ToolbarSettings m_Settings;
 
-        private bool m_IsReadOnly;
+        private CustomToolbarInfo m_ToolbarInfo;
+        private bool m_IsEditable;
 
         public CommandManagerVM(IToolbarConfigurationProvider confsProvider,
             ISettingsProvider settsProvider, IMessageService msgService)
@@ -43,33 +43,47 @@ namespace CodeStack.Sw.MyToolbar.UI.ViewModels
 
             m_Settings = m_SettsProvider.GetSettings();
 
+            LoadCommands();
+        }
+
+        private void LoadCommands()
+        {
+            bool isReadOnly;
+
             try
             {
-                m_ToolbarInfo = m_ConfsProvider.GetToolbar(out m_IsReadOnly, ToolbarSpecificationPath);
+                m_ToolbarInfo = m_ConfsProvider.GetToolbar(out isReadOnly, ToolbarSpecificationPath);
             }
             catch
             {
-                m_IsReadOnly = true;
-                msgService.ShowMessage("Failed to load the toolbar from the specification file. Make sure that you have access to the specification file",
+                isReadOnly = true;
+                m_MsgService.ShowMessage("Failed to load the toolbar from the specification file. Make sure that you have access to the specification file",
                     MessageType_e.Error);
             }
 
-            m_Groups = new CommandsCollection<CommandGroupVM>(
+            IsEditable = !isReadOnly;
+
+            if (Groups != null)
+            {
+                Groups.CommandsChanged -= OnGroupsCollectionChanged;
+            }
+
+            Groups = new CommandsCollection<CommandGroupVM>(
                 (m_ToolbarInfo.Groups ?? new CommandGroupInfo[0])
                 .Select(g => new CommandGroupVM(g)));
-            
-            m_Groups.CommandsChanged += OnGroupsCollectionChanged;
+
+            Groups.CommandsChanged += OnGroupsCollectionChanged;
         }
 
         public bool IsEditable
         {
             get
             {
-                return !m_IsReadOnly;
+                return m_IsEditable;
             }
-            set
+            private set
             {
-                m_IsReadOnly = !value;
+                m_IsEditable = value;
                 NotifyChanged();
             }
         }
@@ -95,6 +109,11 @@ namespace CodeStack.Sw.MyToolbar.UI.ViewModels
             get
             {
                 return m_Groups;
+            }
+            private set
+            {
+                m_Groups = value;
+                NotifyChanged();
             }
         }
         
@@ -123,7 +142,7 @@ namespace CodeStack.Sw.MyToolbar.UI.ViewModels
                 {
                     Settings.SpecificationFile = value;
                     NotifyChanged();
-                    //TODO: reload toolbar
+                    LoadCommands();
                 }
             }
         }

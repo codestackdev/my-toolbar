@@ -1,5 +1,7 @@
-﻿using CodeStack.Sw.MyToolbar.Structs;
+﻿using CodeStack.Sw.MyToolbar.Exceptions;
+using CodeStack.Sw.MyToolbar.Structs;
 using SolidWorks.Interop.sldworks;
+using SolidWorks.Interop.swconst;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,8 +30,7 @@ namespace CodeStack.Sw.MyToolbar.Services
 
             if (!m_App.RunMacro2(macroPath, entryPoint.ModuleName, entryPoint.SubName, 0, out err))
             {
-                //TODO: parse error
-                throw new Exception("");
+                throw new MacroRunFailedException((swRunMacroError_e)err);
             }
         }
     }
