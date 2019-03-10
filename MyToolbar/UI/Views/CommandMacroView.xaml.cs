@@ -1,23 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿//**********************
+//MyToolbar - Custom toolbar manager
+//Copyright(C) 2019 www.codestack.net
+//License: https://github.com/codestack-net-dev/my-toolbar/blob/master/LICENSE
+//Product URL: https://www.codestack.net/labs/solidworks/my-toolbar/
+//**********************
+
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace CodeStack.Sw.MyToolbar.UI.Views
 {
-    /// <summary>
-    /// Interaction logic for CommandMacroView.xaml
-    /// </summary>
     public partial class CommandMacroView : UserControl
     {
         public CommandMacroView()

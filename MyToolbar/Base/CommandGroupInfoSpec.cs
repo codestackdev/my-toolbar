@@ -1,14 +1,14 @@
-﻿using CodeStack.Sw.MyToolbar.Structs;
-using CodeStack.Sw.MyToolbar.Properties;
+﻿//**********************
+//MyToolbar - Custom toolbar manager
+//Copyright(C) 2019 www.codestack.net
+//License: https://github.com/codestack-net-dev/my-toolbar/blob/master/LICENSE
+//Product URL: https://www.codestack.net/labs/solidworks/my-toolbar/
+//**********************
+
+using CodeStack.Sw.MyToolbar.Structs;
 using CodeStack.SwEx.AddIn.Core;
-using CodeStack.SwEx.AddIn.Icons;
 using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CodeStack.Sw.MyToolbar.Base
 {
@@ -26,7 +26,7 @@ namespace CodeStack.Sw.MyToolbar.Base
             if (info.Commands != null)
             {
                 Commands = info.Commands.Select(
-                    c => 
+                    c =>
                     {
                         var spec = new CommandItemInfoSpec(c);
                         spec.MacroCommandClick += OnMacroCommandClick;

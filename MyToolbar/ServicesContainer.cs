@@ -1,15 +1,16 @@
-﻿using CodeStack.Sw.MyToolbar.Properties;
+﻿//**********************
+//MyToolbar - Custom toolbar manager
+//Copyright(C) 2019 www.codestack.net
+//License: https://github.com/codestack-net-dev/my-toolbar/blob/master/LICENSE
+//Product URL: https://www.codestack.net/labs/solidworks/my-toolbar/
+//**********************
+
 using CodeStack.Sw.MyToolbar.Services;
 using CodeStack.Sw.MyToolbar.UI.ViewModels;
 using CodeStack.SwEx.Common.Diagnostics;
 using SolidWorks.Interop.sldworks;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Unity;
-using Unity.Injection;
 using Unity.Lifetime;
 using Xarial.AppLaunchKit;
 using Xarial.AppLaunchKit.Base.Services;
@@ -42,7 +43,7 @@ namespace CodeStack.Sw.MyToolbar
             m_Kit = RegisterServicesManager(app);
 
             m_Container.RegisterInstance(app);
-            
+
             m_Container.RegisterType<IMacroEntryPointsExtractor, MacroEntryPointsExtractor>(
                 new ContainerControlledLifetimeManager());
 
@@ -86,7 +87,7 @@ namespace CodeStack.Sw.MyToolbar
         private bool OnHandleError(Exception ex)
         {
             m_Logger.Log(ex);
-            
+
             return true;
         }
     }

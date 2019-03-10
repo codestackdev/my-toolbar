@@ -1,19 +1,18 @@
-﻿using CodeStack.Sw.MyToolbar.UI.Base;
+﻿//**********************
+//MyToolbar - Custom toolbar manager
+//Copyright(C) 2019 www.codestack.net
+//License: https://github.com/codestack-net-dev/my-toolbar/blob/master/LICENSE
+//Product URL: https://www.codestack.net/labs/solidworks/my-toolbar/
+//**********************
+
+using CodeStack.Sw.MyToolbar.Helpers;
+using CodeStack.Sw.MyToolbar.Services;
 using CodeStack.Sw.MyToolbar.Structs;
+using CodeStack.Sw.MyToolbar.UI.Base;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
-using System.Collections;
-using CodeStack.Sw.MyToolbar.UI.Views;
-using CodeStack.Sw.MyToolbar.Services;
-using System.Windows.Forms;
-using CodeStack.Sw.MyToolbar.Helpers;
 
 namespace CodeStack.Sw.MyToolbar.UI.ViewModels
 {
@@ -116,7 +115,7 @@ namespace CodeStack.Sw.MyToolbar.UI.ViewModels
                 NotifyChanged();
             }
         }
-        
+
         public ICommandVM SelectedElement
         {
             get
@@ -160,7 +159,7 @@ namespace CodeStack.Sw.MyToolbar.UI.ViewModels
                             {
                                 { "Toolbar Specification File", new FileFilterExtensions("json") }
                             }, ToolbarSpecificationPath);
-                        
+
                         if (!string.IsNullOrEmpty(specFile))
                         {
                             ToolbarSpecificationPath = specFile;

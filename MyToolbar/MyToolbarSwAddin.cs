@@ -1,31 +1,23 @@
-using System;
-using System.Runtime.InteropServices;
-using SolidWorks.Interop.sldworks;
-using SolidWorks.Interop.swpublished;
-using SolidWorksTools;
-using CodeStack.Sw.MyToolbar.Structs;
-using System.IO;
-using Newtonsoft.Json;
-using CodeStack.Sw.MyToolbar.Properties;
-using System.Linq;
-using SolidWorks.Interop.swconst;
-using System.Drawing;
-using CodeStack.SwEx.AddIn;
-using CodeStack.SwEx.AddIn.Attributes;
-using Xarial.AppLaunchKit;
-using Xarial.AppLaunchKit.Services.Updates;
-using Xarial.AppLaunchKit.Services.About;
-using Xarial.AppLaunchKit.Services.UserSettings;
-using Xarial.AppLaunchKit.Base.Services;
-using CodeStack.SwEx.AddIn.Core;
+//**********************
+//MyToolbar - Custom toolbar manager
+//Copyright(C) 2019 www.codestack.net
+//License: https://github.com/codestack-net-dev/my-toolbar/blob/master/LICENSE
+//Product URL: https://www.codestack.net/labs/solidworks/my-toolbar/
+//**********************
+
 using CodeStack.Sw.MyToolbar.Base;
+using CodeStack.Sw.MyToolbar.Exceptions;
+using CodeStack.Sw.MyToolbar.Services;
+using CodeStack.Sw.MyToolbar.Structs;
 using CodeStack.Sw.MyToolbar.UI.Forms;
 using CodeStack.Sw.MyToolbar.UI.ViewModels;
-using CodeStack.Sw.MyToolbar.Services;
+using CodeStack.SwEx.AddIn;
+using CodeStack.SwEx.AddIn.Attributes;
 using Newtonsoft.Json.Linq;
-using CodeStack.Sw.MyToolbar.Exceptions;
+using System;
+using System.Runtime.InteropServices;
 using System.Windows.Threading;
-using System.Threading;
+using Xarial.AppLaunchKit.Base.Services;
 
 namespace CodeStack.Sw.MyToolbar
 {
@@ -55,7 +47,7 @@ namespace CodeStack.Sw.MyToolbar
 
                 return true;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Logger.Log(ex);
                 new MessageService().ShowMessage("Critical error while loading add-in", MessageType_e.Error);
@@ -112,7 +104,7 @@ namespace CodeStack.Sw.MyToolbar
 
                     var vm = m_Services.GetService<CommandManagerVM>();
 
-                    if (new CommandManagerForm(vm, 
+                    if (new CommandManagerForm(vm,
                         new IntPtr(App.IFrameObject().GetHWnd())).ShowDialog() == true)
                     {
                         UpdatedToolbarConfiguration(vm.Settings, vm.ToolbarInfo);

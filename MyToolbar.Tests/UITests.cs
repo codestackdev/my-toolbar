@@ -1,13 +1,17 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Windows;
-using CodeStack.Sw.MyToolbar.UI.Views;
-using System.Collections.ObjectModel;
-using CodeStack.Sw.MyToolbar.UI.ViewModels;
+﻿//**********************
+//MyToolbar - Custom toolbar manager
+//Copyright(C) 2019 www.codestack.net
+//License: https://github.com/codestack-net-dev/my-toolbar/blob/master/LICENSE
+//Product URL: https://www.codestack.net/labs/solidworks/my-toolbar/
+//**********************
+
+using CodeStack.Sw.MyToolbar.Services;
 using CodeStack.Sw.MyToolbar.Structs;
 using CodeStack.Sw.MyToolbar.UI.Forms;
-using CodeStack.Sw.MyToolbar.Services;
+using CodeStack.Sw.MyToolbar.UI.ViewModels;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using System;
 
 namespace MyToolbar.Tests
 {
@@ -58,7 +62,7 @@ namespace MyToolbar.Tests
 
             settsProviderMock.Setup(p => p.GetSettings())
                 .Returns(new ToolbarSettings());
-            
+
             var vm = new CommandManagerVM(confProviderMock.Object, settsProviderMock.Object,
                 new Mock<IMessageService>().Object);
 
