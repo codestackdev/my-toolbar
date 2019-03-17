@@ -7,23 +7,15 @@
 
 using CodeStack.Sw.MyToolbar.UI.Base;
 using System;
-using System.Collections;
 using System.Windows.Input;
 
 namespace CodeStack.Sw.MyToolbar.UI.ViewModels
 {
     public class NewCommandPlaceholderVM
     {
+        public event Action AddNewCommand;
+
         private ICommand m_AddNewItemCommand;
-
-        private readonly IList m_Items;
-        private readonly Func<object> m_NewItemFunc;
-
-        public NewCommandPlaceholderVM(IList items, Func<object> newItemFunc)
-        {
-            m_Items = items;
-            m_NewItemFunc = newItemFunc;
-        }
 
         public ICommand AddNewItemCommand
         {
@@ -32,7 +24,10 @@ namespace CodeStack.Sw.MyToolbar.UI.ViewModels
                 if (m_AddNewItemCommand == null)
                 {
                     m_AddNewItemCommand = new RelayCommand(
-                        () => m_Items.Add(m_NewItemFunc.Invoke()));
+                        () =>
+                        {
+                            AddNewCommand?.Invoke();
+                        });
                 }
 
                 return m_AddNewItemCommand;

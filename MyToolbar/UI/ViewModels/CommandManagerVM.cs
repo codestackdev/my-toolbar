@@ -22,6 +22,12 @@ namespace CodeStack.Sw.MyToolbar.UI.ViewModels
         private ICommand m_SelectCommandCommand;
         private ICommand m_BrowseToolbarSpecificationCommand;
 
+        private ICommand m_MoveCommandUpCommand;
+        private ICommand m_MoveCommandDownCommand;
+        private ICommand m_InsertCommandAfterCommand;
+        private ICommand m_InsertCommandBeforeCommand;
+        private ICommand m_CommandRemoveCommand;
+
         private CommandsCollection<CommandGroupVM> m_Groups;
 
         private readonly IToolbarConfigurationProvider m_ConfsProvider;
@@ -65,13 +71,22 @@ namespace CodeStack.Sw.MyToolbar.UI.ViewModels
             if (Groups != null)
             {
                 Groups.CommandsChanged -= OnGroupsCollectionChanged;
+                Groups.NewCommandCreated -= OnNewCommandCreated;
             }
 
             Groups = new CommandsCollection<CommandGroupVM>(
                 (m_ToolbarInfo.Groups ?? new CommandGroupInfo[0])
                 .Select(g => new CommandGroupVM(g)));
 
+            HandleCommandGroupCommandCreation(Groups.Commands);
+
+            Groups.NewCommandCreated += OnNewCommandCreated;
             Groups.CommandsChanged += OnGroupsCollectionChanged;
+        }
+
+        private void OnNewCommandCreated(ICommandVM cmd)
+        {
+            SelectedElement = cmd;
         }
 
         public bool IsEditable
@@ -187,10 +202,187 @@ namespace CodeStack.Sw.MyToolbar.UI.ViewModels
             }
         }
 
-        private void OnGroupsCollectionChanged(IEnumerable<CommandGroupVM> cmds)
+        public ICommand MoveCommandUpCommand
         {
-            m_ToolbarInfo.Groups = cmds
+            get
+            {
+                if (m_MoveCommandUpCommand == null)
+                {
+                    m_MoveCommandUpCommand = new RelayCommand<ICommandVM>(x =>
+                    {
+                        ExceptionHelper.ExecuteUserCommand(
+                            () => MoveCommand(x, true),
+                            e => "Failed to move command to this position");
+                    });
+                }
+
+                return m_MoveCommandUpCommand;
+            }
+        }
+
+        public ICommand MoveCommandDownCommand
+        {
+            get
+            {
+                if (m_MoveCommandDownCommand == null)
+                {
+                    m_MoveCommandDownCommand = new RelayCommand<ICommandVM>(x =>
+                    {
+                        ExceptionHelper.ExecuteUserCommand(
+                            () => MoveCommand(x, false),
+                            e => "Failed to move command to this position");
+                    });
+                }
+
+                return m_MoveCommandDownCommand;
+            }
+        }
+
+        public ICommand InsertCommandAfterCommand
+        {
+            get
+            {
+                if (m_InsertCommandAfterCommand == null)
+                {
+                    m_InsertCommandAfterCommand = new RelayCommand<ICommandVM>(x =>
+                    {
+                        ExceptionHelper.ExecuteUserCommand(
+                            () => InsertNewCommand(x, true),
+                            e => "Failed to move insert new command in this position");
+                    });
+                }
+
+                return m_InsertCommandAfterCommand;
+            }
+        }
+
+        public ICommand InsertCommandBeforeCommand
+        {
+            get
+            {
+                if (m_InsertCommandBeforeCommand == null)
+                {
+                    m_InsertCommandBeforeCommand = new RelayCommand<ICommandVM>(x =>
+                    {
+                        ExceptionHelper.ExecuteUserCommand(
+                            () => InsertNewCommand(x, false),
+                            e => "Failed to move insert new command in this position");
+                    });
+                }
+
+                return m_InsertCommandBeforeCommand;
+            }
+        }
+
+        public ICommand CommandRemoveCommand
+        {
+            get
+            {
+                if (m_CommandRemoveCommand == null)
+                {
+                    m_CommandRemoveCommand = new RelayCommand<ICommandVM>(x =>
+                    {
+                        ExceptionHelper.ExecuteUserCommand(
+                            () => RemoveCommand(x),
+                            e => "Failed to remove command");
+                    });
+                }
+
+                return m_CommandRemoveCommand;
+            }
+        }
+
+        private void MoveCommand(ICommandVM cmd, bool forward)
+        {
+            ICommandsCollection coll;
+
+            var index = CalculateCommandIndex(cmd, forward, out coll);
+
+            var cmds = coll.Commands;
+
+            if (index < 0 || index >= cmds.Count)
+            {
+                throw new IndexOutOfRangeException("Index is outside the boundaries of the commands collection");
+            }
+
+            cmds.Remove(cmd);
+            cmds.Insert(index, cmd);
+            SelectedElement = cmd;
+        }
+
+        private void InsertNewCommand(ICommandVM cmd, bool after)
+        {
+            ICommandsCollection coll;
+
+            var index = CalculateCommandIndex(cmd, after, out coll);
+
+            if (!after)
+            {
+                index++;//insert to current position
+            }
+
+            var newCmd = coll.AddNewCommand(index);
+        }
+
+        private void RemoveCommand(ICommandVM cmd)
+        {
+            var coll = FindCommandCollection(cmd);
+            coll.Commands.Remove(cmd);
+        }
+
+        private int CalculateCommandIndex(ICommandVM cmd, bool forward, out ICommandsCollection coll)
+        {
+            var offset = forward ? 1 : -1;
+            coll = FindCommandCollection(cmd);
+
+            var index = coll.Commands.IndexOf(cmd);
+
+            if (index == -1)
+            {
+                throw new IndexOutOfRangeException("Index of the command is not found");
+            }
+
+            return index + offset;
+        }
+
+        private ICommandsCollection FindCommandCollection(ICommandVM targetCmd)
+        {
+            foreach (var grp in Groups.Commands)
+            {
+                if (grp == targetCmd)
+                {
+                    return Groups;
+                }
+                else
+                {
+                    foreach (var cmd in grp.Commands.Commands)
+                    {
+                        if (cmd == targetCmd)
+                        {
+                            return grp.Commands;
+                        }
+                    }
+                }
+            }
+
+            throw new NullReferenceException("Failed to find the command");
+        }
+
+        private void OnGroupsCollectionChanged(IEnumerable<CommandGroupVM> grps)
+        {
+            m_ToolbarInfo.Groups = grps
                 .Select(g => g.Command).ToArray();
+
+            HandleCommandGroupCommandCreation(grps);
+        }
+
+        private void HandleCommandGroupCommandCreation(IEnumerable<CommandGroupVM> grps)
+        {
+            foreach (var grp in grps)
+            {
+                grp.Commands.NewCommandCreated -= OnNewCommandCreated;
+                grp.Commands.NewCommandCreated += OnNewCommandCreated;
+            }
         }
     }
 }

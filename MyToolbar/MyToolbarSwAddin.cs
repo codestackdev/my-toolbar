@@ -7,6 +7,7 @@
 
 using CodeStack.Sw.MyToolbar.Base;
 using CodeStack.Sw.MyToolbar.Exceptions;
+using CodeStack.Sw.MyToolbar.Helpers;
 using CodeStack.Sw.MyToolbar.Services;
 using CodeStack.Sw.MyToolbar.Structs;
 using CodeStack.Sw.MyToolbar.UI.Forms;
@@ -22,9 +23,7 @@ using Xarial.AppLaunchKit.Base.Services;
 namespace CodeStack.Sw.MyToolbar
 {
     [Guid("63496b16-e9ad-4d3a-8473-99d124a1672b"), ComVisible(true)]
-#if DEBUG
     [AutoRegister("MyToolbar", "Add-in for managing custom toolbars", true)]
-#endif
     public class MyToolbarSwAddin : SwAddInEx
     {
         private ServicesContainer m_Services;
@@ -41,7 +40,7 @@ namespace CodeStack.Sw.MyToolbar
                 AppDomain.CurrentDomain.UnhandledException += OnDomainUnhandledException;
                 m_Services = new ServicesContainer(App, Logger);
 
-                ExecuteUserCommand(LoadUserToolbar, e => "Failed to load toolbar specification");
+                ExceptionHelper.ExecuteUserCommand(LoadUserToolbar, e => "Failed to load toolbar specification");
 
                 AddCommandGroup<Commands_e>(OnButtonClick);
 
@@ -92,7 +91,7 @@ namespace CodeStack.Sw.MyToolbar
 
         private void RunMacroCommand(CommandMacroInfo cmd)
         {
-            ExecuteUserCommand(() => m_Services.GetService<IMacroRunner>().RunMacro(cmd.MacroPath, cmd.EntryPoint),
+            ExceptionHelper.ExecuteUserCommand(() => m_Services.GetService<IMacroRunner>().RunMacro(cmd.MacroPath, cmd.EntryPoint),
                 e => "Failed to run macro");
         }
 
@@ -119,7 +118,7 @@ namespace CodeStack.Sw.MyToolbar
 
         private void UpdatedToolbarConfiguration(ToolbarSettings toolbarSets, CustomToolbarInfo toolbarConf)
         {
-            ExecuteUserCommand(() =>
+            ExceptionHelper.ExecuteUserCommand(() =>
             {
                 var isSettsChanged = true;
 
@@ -172,25 +171,6 @@ namespace CodeStack.Sw.MyToolbar
                 {
                     throw new ToolbarConfigurationReadOnlyException();
                 }
-            }
-        }
-
-        private void ExecuteUserCommand(Action cmd, Func<Exception, string> unknownErrorDescriptionHandler)
-        {
-            try
-            {
-                cmd.Invoke();
-            }
-            catch (UserException ex)
-            {
-                Logger.Log(ex);
-                MessageService.ShowMessage(ex.Message, MessageType_e.Error);
-            }
-            catch (Exception ex)
-            {
-                var errDesc = unknownErrorDescriptionHandler.Invoke(ex);
-                Logger.Log(ex);
-                MessageService.ShowMessage(errDesc, MessageType_e.Error);
             }
         }
 

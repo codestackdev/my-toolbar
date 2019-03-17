@@ -18,6 +18,7 @@ namespace CodeStack.Sw.MyToolbar.UI.ViewModels
         string Description { get; set; }
         string IconPath { get; set; }
         ICommand BrowseIconCommand { get; }
+        CommandItemInfo Command { get; }
     }
 
     public abstract class CommandVM<TCmdInfo> : NotifyPropertyChanged, ICommandVM
@@ -96,6 +97,14 @@ namespace CodeStack.Sw.MyToolbar.UI.ViewModels
                 }
 
                 return m_BrowseIconCommand;
+            }
+        }
+
+        CommandItemInfo ICommandVM.Command
+        {
+            get
+            {
+                return Command;
             }
         }
 

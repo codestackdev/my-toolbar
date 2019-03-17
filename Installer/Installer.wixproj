@@ -21,6 +21,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="AddInReg.wxs" />
+    <Compile Include="AddInRegistry.wxs" />
     <Compile Include="Files.wxs" />
     <Compile Include="Product.wxs" />
   </ItemGroup>
@@ -50,28 +51,10 @@
     <Error Text="The WiX Toolset v3.11 (or newer) build tools must be installed to build this project. To download the WiX Toolset, see http://wixtoolset.org/releases/" />
   </Target>
   <Target Name="BeforeBuild">
-    <HeatDirectory Directory="..\Build" 
-                   Transforms="DirectoryHeatTransform.xslt"
-                   PreprocessorVariable="var.SourceOutDir"
-                   OutputFile="Files.wxs" 
-                   ComponentGroupName="FilesRegGroup" 
-                   DirectoryRefId="INSTALLFOLDER" 
-                   AutogenerateGuids="true"
-                   ToolPath="$(WixToolPath)" 
-                   SuppressFragments="true" 
-                   SuppressRegistry="true" 
-                   SuppressCom="true" 
-                   SuppressRootDirectory="true" />
-    <HeatFile File="..\Build\CodeStack.Sw.MyToolbar.dll" 
-              PreprocessorVariable="var.SourceOutDir" 
-              OutputFile="AddInReg.wxs" 
-              ComponentGroupName="AddInComRegGroup" 
-              DirectoryRefId="INSTALLFOLDER"
-              AutogenerateGuids="true"
-              ToolPath="$(WixToolPath)"
-              SuppressFragments="true"
-              SuppressRegistry="false"
-              SuppressCom="false"
-              SuppressRootDirectory="true" />
+    <HeatDirectory Directory="..\Build" Transforms="DirectoryHeatTransform.xslt" PreprocessorVariable="var.SourceOutDir" OutputFile="Files.wxs" ComponentGroupName="FilesRegGroup" DirectoryRefId="INSTALLFOLDER" AutogenerateGuids="true" ToolPath="$(WixToolPath)" SuppressFragments="true" SuppressRegistry="true" SuppressCom="true" SuppressRootDirectory="true" />
+    <HeatFile File="..\Build\CodeStack.Sw.MyToolbar.dll" PreprocessorVariable="var.SourceOutDir" OutputFile="AddInReg.wxs" ComponentGroupName="AddInComRegGroup" DirectoryRefId="INSTALLFOLDER" AutogenerateGuids="true" ToolPath="$(WixToolPath)" SuppressFragments="false" SuppressRegistry="false" SuppressCom="false" SuppressRootDirectory="true" />
   </Target>
+  <PropertyGroup>
+    <PreBuildEvent>"%25Wix%25bin\heat" file "$(SolutionDir)Build\CodeStack.Sw.MyToolbar.dll" -gg -srd -sfrag -template fragment -cg AddinComponents -var var.SourceOutDir -dr INSTALLFOLDER -out "$(ProjectDir)Addin11.wxs"</PreBuildEvent>
+  </PropertyGroup>
 </Project>

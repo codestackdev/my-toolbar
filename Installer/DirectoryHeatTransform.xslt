@@ -13,26 +13,22 @@
   <xsl:key
     name="AddInToRemove"
     match="wix:Component[ wix:File/@Source = '$(var.SourceOutDir)\CodeStack.Sw.MyToolbar.dll']"
-    use="@Id"
-    />
-  
+    use="@Id" />
+
   <xsl:key
       name="TlbToRemove"
       match="wix:Component[ substring( wix:File/@Source, string-length( wix:File/@Source ) - 3 ) = '.tlb' ]"
-      use="@Id"
-    />
+      use="@Id" />
 
   <xsl:key
     name="XmlToRemove"
     match="wix:Component[ substring( wix:File/@Source, string-length( wix:File/@Source ) - 3 ) = '.xml' ]"
-    use="@Id"
-    />
+    use="@Id" />
 
   <xsl:key
       name="PdbToRemove"
       match="wix:Component[ substring( wix:File/@Source, string-length( wix:File/@Source ) - 3 ) = '.pdb' ]"
-      use="@Id"
-    />
+      use="@Id" />
 
   <xsl:template match="@*|node()">
     <xsl:copy>
@@ -44,5 +40,4 @@
   <xsl:template match="*[ self::wix:Component or self::wix:ComponentRef ][ key( 'TlbToRemove', @Id ) ]" />
   <xsl:template match="*[ self::wix:Component or self::wix:ComponentRef ][ key( 'XmlToRemove', @Id ) ]" />
   <xsl:template match="*[ self::wix:Component or self::wix:ComponentRef ][ key( 'PdbToRemove', @Id ) ]" />
-
 </xsl:stylesheet>

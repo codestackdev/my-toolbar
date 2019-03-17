@@ -18,6 +18,7 @@
 		<Feature Id="ProductFeature" Title="Setup" Level="1">
       <ComponentGroupRef Id="FilesRegGroup" />
 			<ComponentGroupRef Id="AddInComRegGroup" />
+			<ComponentRef Id="Reg"/>
 		</Feature>
 	</Product>
 

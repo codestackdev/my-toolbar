@@ -27,7 +27,6 @@
     </FileUpgradeFlags>
     <UpgradeBackupLocation>
     </UpgradeBackupLocation>
-    <StartProgram>C:\Program Files\SOLIDWORKS Corp\SOLIDWORKS (2)\\SldWorks.exe</StartProgram>
     <StartAction>Program</StartAction>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <OldToolsVersion>2.0</OldToolsVersion>
@@ -173,6 +172,8 @@
     <Compile Include="Exceptions\MacroRunFailedException.cs" />
     <Compile Include="Exceptions\ToolbarConfigurationReadOnlyException.cs" />
     <Compile Include="Exceptions\UserException.cs" />
+    <Compile Include="Helpers\DataContextProxy.cs" />
+    <Compile Include="Helpers\ExceptionHelper.cs" />
     <Compile Include="Helpers\FileBrowseHelper.cs" />
     <Compile Include="Structs\CommandGroupInfo.cs" />
     <Compile Include="Structs\CommandItemInfo.cs" />
@@ -209,10 +210,12 @@
     <Compile Include="UI\Base\CommandDataTemplateSelector.cs" />
     <Compile Include="UI\Base\NotifyPropertyChanged.cs" />
     <Compile Include="UI\Base\RelayCommand.cs" />
+    <Compile Include="UI\Converters\CommandContextMenuTitleConverter.cs" />
     <Compile Include="UI\Converters\MacroPathToEntryPointsConverter.cs" />
     <Compile Include="UI\Converters\PathToIconConverter.cs" />
     <Compile Include="UI\Converters\SelectedCommandConverter.cs" />
     <Compile Include="UI\Converters\SelectedCommandGroupConverter.cs" />
+    <Compile Include="UI\Extensions\UIElementExtension.cs" />
     <Compile Include="UI\Forms\CommandManagerForm.xaml.cs">
       <DependentUpon>CommandManagerForm.xaml</DependentUpon>
     </Compile>

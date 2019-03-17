@@ -61,6 +61,8 @@ namespace CodeStack.Sw.MyToolbar
 
             m_Container.RegisterType<CommandManagerVM>(new TransientLifetimeManager());
 
+            m_Container.RegisterInstance(m_Logger);
+
             m_Container.RegisterInstance(m_Kit.GetService<IUserSettingsService>());
             m_Container.RegisterInstance(m_Kit.GetService<IAboutApplicationService>());
         }

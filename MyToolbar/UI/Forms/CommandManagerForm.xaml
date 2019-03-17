@@ -78,7 +78,7 @@
 				<ColumnDefinition Width="*" />
 				<ColumnDefinition Width="*" />
 			</Grid.ColumnDefinitions>
-			<Button Grid.Column="0" HorizontalAlignment="Left" Margin="95,2,0,2.4" Width="50" Click="OnOk">
+			<Button Grid.Column="0" HorizontalAlignment="Right" Margin="2" Width="50" Click="OnOk">
 				<TextBlock Text="OK" Margin="2" />
 			</Button>
 			<Button Grid.Column="1" HorizontalAlignment="Left" Margin="2" Width="50" Click="OnCancel">
