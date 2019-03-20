@@ -298,6 +298,21 @@
   <ItemGroup>
     <None Include="Resources\toolbar-icon.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\icon-add-after.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\icon-add-before.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\icon-move-left.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\icon-move-right.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\icon-remove.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PreBuildEvent>

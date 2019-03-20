@@ -5,6 +5,7 @@
 //Product URL: https://www.codestack.net/labs/solidworks/my-toolbar/
 //**********************
 
+using CodeStack.Sw.MyToolbar;
 using CodeStack.Sw.MyToolbar.Services;
 using CodeStack.Sw.MyToolbar.Structs;
 using CodeStack.Sw.MyToolbar.UI.Forms;
@@ -18,6 +19,22 @@ namespace MyToolbar.Tests
     [TestClass]
     public class UITests
     {
+        private ServicesContainer m_Services;
+
+        [TestInitialize]
+        public void Setup()
+        {
+            var appMock = new Mock<SolidWorks.Interop.sldworks.ISldWorks>();
+            var frameMock = new Mock<SolidWorks.Interop.sldworks.Frame>();
+            frameMock.Setup(m => m.GetHWnd()).Returns(0);
+
+            appMock.Setup(a => a.IFrameObject()).Returns(frameMock.Object);
+
+            m_Services = new ServicesContainer(
+                appMock.Object,
+                new Mock<CodeStack.SwEx.Common.Diagnostics.ILogger>().Object);
+        }
+
         [TestMethod]
         public void DisplayCommandManagerView()
         {
