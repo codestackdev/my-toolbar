@@ -106,7 +106,10 @@ namespace CodeStack.Sw.MyToolbar
                     if (new CommandManagerForm(vm,
                         new IntPtr(App.IFrameObject().GetHWnd())).ShowDialog() == true)
                     {
-                        UpdatedToolbarConfiguration(vm.Settings, vm.ToolbarInfo);
+                        ExceptionHelper.ExecuteUserCommand(() =>
+                        {
+                            UpdatedToolbarConfiguration(vm.Settings, vm.ToolbarInfo);
+                        }, e => "Failed to save toolbar specification");
                     }
                     break;
 
@@ -118,36 +121,25 @@ namespace CodeStack.Sw.MyToolbar
 
         private void UpdatedToolbarConfiguration(ToolbarSettings toolbarSets, CustomToolbarInfo toolbarConf)
         {
-            ExceptionHelper.ExecuteUserCommand(() =>
+            bool isToolbarChanged;
+
+            SaveSettingChanges(toolbarSets, toolbarConf, out isToolbarChanged);
+
+            if (isToolbarChanged)
             {
-                var isSettsChanged = true;
-
-                if (isSettsChanged)
-                {
-                    var settsProvider = m_Services.GetService<ISettingsProvider>();
-                    settsProvider.SaveSettings(toolbarSets);
-                }
-
-                bool isToolbarChanged;
-
-                SaveSettingChanges(toolbarSets, toolbarConf, out isToolbarChanged);
-
-                if (isToolbarChanged)
-                {
-                    MessageService.ShowMessage("Toolbar specification has changed. Please restart SOLIDWORKS",
-                        MessageType_e.Info);
-                }
-            }, e => "Failed to save toolbar specification");
+                MessageService.ShowMessage("Toolbar specification has changed. Please restart SOLIDWORKS",
+                    MessageType_e.Info);
+            }
         }
 
         private void SaveSettingChanges(ToolbarSettings toolbarSets, CustomToolbarInfo toolbarConf, out bool isToolbarChanged)
         {
             isToolbarChanged = false;
-
+            
             var settsProvider = m_Services.GetService<ISettingsProvider>();
             var oldToolbarSetts = settsProvider.GetSettings();
 
-            if (!JToken.DeepEquals(JToken.FromObject(toolbarSets), JToken.FromObject(oldToolbarSetts)))
+            if (!DeepCompare(toolbarSets, oldToolbarSetts))
             {
                 settsProvider.SaveSettings(toolbarSets);
             }
@@ -159,7 +151,7 @@ namespace CodeStack.Sw.MyToolbar
             var oldToolbarConf = toolbarConfProvider
                 .GetToolbar(out isReadOnly, oldToolbarSetts.SpecificationFile);
 
-            isToolbarChanged = !JToken.DeepEquals(JToken.FromObject(toolbarConf), JToken.FromObject(oldToolbarConf));
+            isToolbarChanged = !DeepCompare(toolbarConf, oldToolbarConf);
 
             if (isToolbarChanged)
             {
@@ -172,6 +164,11 @@ namespace CodeStack.Sw.MyToolbar
                     throw new ToolbarConfigurationReadOnlyException();
                 }
             }
+        }
+
+        private bool DeepCompare(object obj1, object obj2)
+        {
+            return JToken.DeepEquals(JToken.FromObject(obj1), JToken.FromObject(obj2));
         }
 
         private IToolbarConfigurationProvider ToolbarProvider

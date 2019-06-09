@@ -35,7 +35,7 @@ namespace CodeStack.Sw.MyToolbar.Base
                 icon = Resources.macro_icon_default;
             }
 
-            return new MasterIcon(icon);
+            return new MacroButtonIcon(icon);
         }
     }
 }

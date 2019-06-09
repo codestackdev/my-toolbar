@@ -92,27 +92,27 @@
                                 <Setter Property="Height" Value="24"/>
                             </Style>
                         </StackPanel.Resources>
-                        <Button Style="{StaticResource ToolbarButton}"
+                        <Button Style="{StaticResource ToolbarButton}" Focusable="False"
                                 ToolTip="{Binding Path=SelectedElement, Converter={StaticResource menuTitleConv}, ConverterParameter={x:Static conv:CommandContextMenu_e.MoveUp}}"
                                 Command="{Binding Path=MoveCommandUpCommand}" CommandParameter="{Binding Path=SelectedElement}">
-                            <Image Source="/CodeStack.Sw.MyToolbar;component/Resources/icon-move-right.png"/>
-                        </Button>
-                        <Button Style="{StaticResource ToolbarButton}"
-                                ToolTip="{Binding Path=SelectedElement, Converter={StaticResource menuTitleConv}, ConverterParameter={x:Static conv:CommandContextMenu_e.MoveDown}}"
-                                Command="{Binding Path=MoveCommandDownCommand}" CommandParameter="{Binding Path=SelectedElement}">
                             <Image Source="/CodeStack.Sw.MyToolbar;component/Resources/icon-move-left.png"/>
                         </Button>
-                        <Button Style="{StaticResource ToolbarButton}"
-                                ToolTip="{Binding Path=SelectedElement, Converter={StaticResource menuTitleConv}, ConverterParameter={x:Static conv:CommandContextMenu_e.InsertAfter}}"
-                                Command="{Binding Path=InsertCommandAfterCommand}" CommandParameter="{Binding Path=SelectedElement}">
-                            <Image Source="/CodeStack.Sw.MyToolbar;component/Resources/icon-add-after.png"/>
+						<Button Style="{StaticResource ToolbarButton}" Focusable="False"
+                                ToolTip="{Binding Path=SelectedElement, Converter={StaticResource menuTitleConv}, ConverterParameter={x:Static conv:CommandContextMenu_e.MoveDown}}"
+                                Command="{Binding Path=MoveCommandDownCommand}" CommandParameter="{Binding Path=SelectedElement}">
+                            <Image Source="/CodeStack.Sw.MyToolbar;component/Resources/icon-move-right.png"/>
                         </Button>
-                        <Button Style="{StaticResource ToolbarButton}"
+						<Button Style="{StaticResource ToolbarButton}" Focusable="False"
                                 ToolTip="{Binding Path=SelectedElement, Converter={StaticResource menuTitleConv}, ConverterParameter={x:Static conv:CommandContextMenu_e.InsertBefore}}"
                                 Command="{Binding Path=InsertCommandBeforeCommand}" CommandParameter="{Binding Path=SelectedElement}">
+                            <Image Source="/CodeStack.Sw.MyToolbar;component/Resources/icon-add-after.png"/>
+                        </Button>
+						<Button Style="{StaticResource ToolbarButton}" Focusable="False"
+                                ToolTip="{Binding Path=SelectedElement, Converter={StaticResource menuTitleConv}, ConverterParameter={x:Static conv:CommandContextMenu_e.InsertAfter}}"
+                                Command="{Binding Path=InsertCommandAfterCommand}" CommandParameter="{Binding Path=SelectedElement}">
                             <Image Source="/CodeStack.Sw.MyToolbar;component/Resources/icon-add-before.png"/>
                         </Button>
-                        <Button Style="{StaticResource ToolbarButton}"
+						<Button Style="{StaticResource ToolbarButton}" Focusable="False"
                                 ToolTip="{Binding Path=SelectedElement, Converter={StaticResource menuTitleConv}, ConverterParameter={x:Static conv:CommandContextMenu_e.Remove}}"
                                 Command="{Binding Path=CommandRemoveCommand}" CommandParameter="{Binding Path=SelectedElement}">
                             <Image Source="/CodeStack.Sw.MyToolbar;component/Resources/icon-remove.png"/>

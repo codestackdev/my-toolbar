@@ -8,9 +8,6 @@
     <Setting Name="AppRootDir" Type="System.String" Scope="Application">
       <Value Profile="(Default)">CodeStack\MyToolbar</Value>
     </Setting>
-    <Setting Name="IconsCacheFolder" Type="System.String" Scope="User">
-      <Value Profile="(Default)">IconsCache</Value>
-    </Setting>
     <Setting Name="UpgradeUrl" Type="System.String" Scope="User">
       <Value Profile="(Default)">https://www.codestack.net/labs/solidworks/my-toolbar/version-info.json</Value>
     </Setting>

@@ -36,10 +36,10 @@ namespace CodeStack.Sw.MyToolbar.UI.Converters
                         switch (type)
                         {
                             case CommandContextMenu_e.MoveUp:
-                                return "Move Right";
+                                return "Move Left";
 
                             case CommandContextMenu_e.MoveDown:
-                                return "Move Left";
+                                return "Move Right";
 
                             case CommandContextMenu_e.InsertBefore:
                                 return "Insert New Macro Button Before";

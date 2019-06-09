@@ -8,7 +8,9 @@
 using CodeStack.Sw.MyToolbar.Structs;
 using SolidWorks.Interop.sldworks;
 using SolidWorks.Interop.swconst;
+using System.Collections.Generic;
 using System.Linq;
+using System;
 
 namespace CodeStack.Sw.MyToolbar.Services
 {
@@ -19,6 +21,32 @@ namespace CodeStack.Sw.MyToolbar.Services
 
     public class MacroEntryPointsExtractor : IMacroEntryPointsExtractor
     {
+        private class EntryPointComparer : IComparer<MacroEntryPoint>
+        {
+            private const string MAIN_NAME = "main";
+
+            public int Compare(MacroEntryPoint x, MacroEntryPoint y)
+            {
+                if (object.ReferenceEquals(x, y) || x == null || y == null)
+                {
+                    return 0;
+                }
+
+                if (string.Equals(x.SubName, MAIN_NAME, StringComparison.CurrentCultureIgnoreCase))
+                {
+                    return -1;
+                }
+                else if (string.Equals(y.SubName, MAIN_NAME, StringComparison.CurrentCultureIgnoreCase))
+                {
+                    return 1;
+                }
+                else
+                {
+                    return 0;
+                }
+            }
+        }
+
         private readonly ISldWorks m_App;
 
         public MacroEntryPointsExtractor(ISldWorks app)
@@ -41,7 +69,7 @@ namespace CodeStack.Sw.MyToolbar.Services
                         ModuleName = ep[0],
                         SubName = ep[1]
                     };
-                }).ToArray();
+                }).OrderBy(e => e, new EntryPointComparer()).ToArray();
             }
 
             return null;

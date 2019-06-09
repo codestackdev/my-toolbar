@@ -40,7 +40,9 @@
 
             <TextBlock Text="Entry Point:" Grid.Column="0" Grid.Row="1" Margin="2" />
             <ComboBox SelectedItem="{Binding Path=EntryPoint, UpdateSourceTrigger=PropertyChanged}"
-                 Grid.Column="1" Grid.Row="1" Margin="2" ItemsSource="{Binding Path=MacroPath, Converter={StaticResource macroPathToEntryPtsConv}}" />
+					  Grid.Column="1" Grid.Row="1" Margin="2"
+					  IsSynchronizedWithCurrentItem="True"
+					  ItemsSource="{Binding Path=MacroPath, Converter={StaticResource macroPathToEntryPtsConv}}" />
         </Grid>
     </StackPanel>
 </UserControl>

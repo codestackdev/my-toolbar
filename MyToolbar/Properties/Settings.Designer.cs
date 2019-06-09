@@ -43,18 +43,6 @@ namespace CodeStack.Sw.MyToolbar.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("IconsCache")]
-        public string IconsCacheFolder {
-            get {
-                return ((string)(this["IconsCacheFolder"]));
-            }
-            set {
-                this["IconsCacheFolder"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("https://www.codestack.net/labs/solidworks/my-toolbar/version-info.json")]
         public string UpgradeUrl {
             get {

@@ -6,6 +6,10 @@
 //**********************
 
 using CodeStack.Sw.MyToolbar.Structs;
+using System;
+using System.IO;
+using System.Security;
+using System.Security.Permissions;
 using Xarial.AppLaunchKit.Base.Services;
 
 namespace CodeStack.Sw.MyToolbar.Services
@@ -28,8 +32,25 @@ namespace CodeStack.Sw.MyToolbar.Services
 
         public CustomToolbarInfo GetToolbar(out bool isReadOnly, string toolbarSpecFilePath)
         {
-            isReadOnly = false;
+            isReadOnly = !IsEditable(toolbarSpecFilePath);
             return m_UserSettsSrv.ReadSettings<CustomToolbarInfo>(toolbarSpecFilePath);
+        }
+
+        private bool IsEditable(string filePath)
+        {
+            if (!new FileInfo(filePath).IsReadOnly)
+            {
+                var permissionSet = new PermissionSet(PermissionState.None);
+                var writePermission = new FileIOPermission(
+                    FileIOPermissionAccess.Write, filePath);
+                permissionSet.AddPermission(writePermission);
+
+                return permissionSet.IsSubsetOf(AppDomain.CurrentDomain.PermissionSet);
+            }
+            else
+            {
+                return false;
+            }
         }
 
         public void SaveToolbar(CustomToolbarInfo toolbar, string toolbarSpecFilePath)

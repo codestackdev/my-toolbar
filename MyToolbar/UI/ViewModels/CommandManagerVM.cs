@@ -314,7 +314,7 @@ namespace CodeStack.Sw.MyToolbar.UI.ViewModels
         {
             ICommandsCollection coll;
 
-            var index = CalculateCommandIndex(cmd, after, out coll);
+            var index = CalculateCommandIndex(cmd, !after, out coll);
 
             if (!after)
             {
@@ -332,7 +332,7 @@ namespace CodeStack.Sw.MyToolbar.UI.ViewModels
 
         private int CalculateCommandIndex(ICommandVM cmd, bool forward, out ICommandsCollection coll)
         {
-            var offset = forward ? 1 : -1;
+            var offset = forward ? -1 : 1;
             coll = FindCommandCollection(cmd);
 
             var index = coll.Commands.IndexOf(cmd);
