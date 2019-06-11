@@ -2,7 +2,7 @@
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
     <Fragment>
         <DirectoryRef Id="INSTALLFOLDER">
-            <Component Id="cmp88292F68F35EB8F79623221F5580BB75" Guid="{AC459EFB-0F07-48A1-B6F6-C026A8EC4066}">
+            <Component Id="cmp88292F68F35EB8F79623221F5580BB75" Guid="{58ACFA48-9D5F-4FD8-B5B8-ABEB3ED83825}">
                 <Class Id="{63496B16-E9AD-4D3A-8473-99D124A1672B}" Context="InprocServer32" Description="CodeStack.Sw.MyToolbar.MyToolbarSwAddin" ThreadingModel="both" ForeignServer="mscoree.dll">
                     <ProgId Id="CodeStack.Sw.MyToolbar.MyToolbarSwAddin" Description="CodeStack.Sw.MyToolbar.MyToolbarSwAddin" />
                 </Class>
