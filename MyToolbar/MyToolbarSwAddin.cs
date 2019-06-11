@@ -108,7 +108,7 @@ namespace CodeStack.Sw.MyToolbar
                     {
                         ExceptionHelper.ExecuteUserCommand(() =>
                         {
-                            UpdatedToolbarConfiguration(vm.Settings, vm.ToolbarInfo);
+                            UpdatedToolbarConfiguration(vm.Settings, vm.ToolbarInfo, vm.IsEditable);
                         }, e => "Failed to save toolbar specification");
                     }
                     break;
@@ -119,11 +119,11 @@ namespace CodeStack.Sw.MyToolbar
             }
         }
 
-        private void UpdatedToolbarConfiguration(ToolbarSettings toolbarSets, CustomToolbarInfo toolbarConf)
+        private void UpdatedToolbarConfiguration(ToolbarSettings toolbarSets, CustomToolbarInfo toolbarConf, bool isEditable)
         {
             bool isToolbarChanged;
 
-            SaveSettingChanges(toolbarSets, toolbarConf, out isToolbarChanged);
+            SaveSettingChanges(toolbarSets, toolbarConf, isEditable, out isToolbarChanged);
 
             if (isToolbarChanged)
             {
@@ -132,10 +132,11 @@ namespace CodeStack.Sw.MyToolbar
             }
         }
 
-        private void SaveSettingChanges(ToolbarSettings toolbarSets, CustomToolbarInfo toolbarConf, out bool isToolbarChanged)
+        private void SaveSettingChanges(ToolbarSettings toolbarSets, CustomToolbarInfo toolbarConf,
+            bool isEditable, out bool isToolbarChanged)
         {
             isToolbarChanged = false;
-            
+
             var settsProvider = m_Services.GetService<ISettingsProvider>();
             var oldToolbarSetts = settsProvider.GetSettings();
 
@@ -155,13 +156,9 @@ namespace CodeStack.Sw.MyToolbar
 
             if (isToolbarChanged)
             {
-                if (!isReadOnly)
+                if (isEditable)
                 {
                     toolbarConfProvider.SaveToolbar(toolbarConf, toolbarSets.SpecificationFile);
-                }
-                else
-                {
-                    throw new ToolbarConfigurationReadOnlyException();
                 }
             }
         }

@@ -173,7 +173,6 @@
     <Compile Include="Base\MacroButtonIcon.cs" />
     <Compile Include="Commands.cs" />
     <Compile Include="Exceptions\MacroRunFailedException.cs" />
-    <Compile Include="Exceptions\ToolbarConfigurationReadOnlyException.cs" />
     <Compile Include="Exceptions\UserException.cs" />
     <Compile Include="Helpers\DataContextProxy.cs" />
     <Compile Include="Helpers\ExceptionHelper.cs" />

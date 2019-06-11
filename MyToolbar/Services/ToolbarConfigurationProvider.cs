@@ -32,8 +32,16 @@ namespace CodeStack.Sw.MyToolbar.Services
 
         public CustomToolbarInfo GetToolbar(out bool isReadOnly, string toolbarSpecFilePath)
         {
-            isReadOnly = !IsEditable(toolbarSpecFilePath);
-            return m_UserSettsSrv.ReadSettings<CustomToolbarInfo>(toolbarSpecFilePath);
+            if (File.Exists(toolbarSpecFilePath))
+            {
+                isReadOnly = !IsEditable(toolbarSpecFilePath);
+                return m_UserSettsSrv.ReadSettings<CustomToolbarInfo>(toolbarSpecFilePath);
+            }
+            else
+            {
+                isReadOnly = false;
+                return new CustomToolbarInfo();
+            }
         }
 
         private bool IsEditable(string filePath)

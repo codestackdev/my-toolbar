@@ -172,7 +172,7 @@ namespace CodeStack.Sw.MyToolbar.UI.ViewModels
                         var specFile = FileBrowseHelper.BrowseFile("Select toolbar specification file",
                             new FileFilter()
                             {
-                                { "Toolbar Specification File", new FileFilterExtensions("json") }
+                                { "Toolbar Specification File", new FileFilterExtensions("setts") }
                             }, ToolbarSpecificationPath);
 
                         if (!string.IsNullOrEmpty(specFile))

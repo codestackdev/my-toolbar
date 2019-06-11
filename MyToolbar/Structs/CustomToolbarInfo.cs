@@ -16,15 +16,6 @@ namespace CodeStack.Sw.MyToolbar.Structs
 
         public CustomToolbarInfo()
         {
-            Groups = new CommandGroupInfo[]
-            {
-                new CommandGroupInfo()
-                {
-                    Id = 0,
-                    Title = "CodeStack Toolbar",
-                    Description = "Customized commands library toolbar",
-                }
-            };
         }
     }
 }

@@ -11,12 +11,12 @@
                 </Class>
                 <File Id="fil4320846A83E1D6A9BFA99753384C2099" KeyPath="yes" Source="$(var.SourceOutDir)\CodeStack.Sw.MyToolbar.dll" />
                 <RegistryValue Root="HKCR" Key="CLSID\{63496B16-E9AD-4D3A-8473-99D124A1672B}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
-                <RegistryValue Root="HKCR" Key="CLSID\{63496B16-E9AD-4D3A-8473-99D124A1672B}\InprocServer32\1.1.0.0" Name="Class" Value="CodeStack.Sw.MyToolbar.MyToolbarSwAddin" Type="string" Action="write" />
-                <RegistryValue Root="HKCR" Key="CLSID\{63496B16-E9AD-4D3A-8473-99D124A1672B}\InprocServer32\1.1.0.0" Name="Assembly" Value="CodeStack.Sw.MyToolbar, Version=1.1.0.0, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
-                <RegistryValue Root="HKCR" Key="CLSID\{63496B16-E9AD-4D3A-8473-99D124A1672B}\InprocServer32\1.1.0.0" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
-                <RegistryValue Root="HKCR" Key="CLSID\{63496B16-E9AD-4D3A-8473-99D124A1672B}\InprocServer32\1.1.0.0" Name="CodeBase" Value="file:///[#fil4320846A83E1D6A9BFA99753384C2099]" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{63496B16-E9AD-4D3A-8473-99D124A1672B}\InprocServer32\2.0.0.0" Name="Class" Value="CodeStack.Sw.MyToolbar.MyToolbarSwAddin" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{63496B16-E9AD-4D3A-8473-99D124A1672B}\InprocServer32\2.0.0.0" Name="Assembly" Value="CodeStack.Sw.MyToolbar, Version=2.0.0.0, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{63496B16-E9AD-4D3A-8473-99D124A1672B}\InprocServer32\2.0.0.0" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{63496B16-E9AD-4D3A-8473-99D124A1672B}\InprocServer32\2.0.0.0" Name="CodeBase" Value="file:///[#fil4320846A83E1D6A9BFA99753384C2099]" Type="string" Action="write" />
                 <RegistryValue Root="HKCR" Key="CLSID\{63496B16-E9AD-4D3A-8473-99D124A1672B}\InprocServer32" Name="Class" Value="CodeStack.Sw.MyToolbar.MyToolbarSwAddin" Type="string" Action="write" />
-                <RegistryValue Root="HKCR" Key="CLSID\{63496B16-E9AD-4D3A-8473-99D124A1672B}\InprocServer32" Name="Assembly" Value="CodeStack.Sw.MyToolbar, Version=1.1.0.0, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{63496B16-E9AD-4D3A-8473-99D124A1672B}\InprocServer32" Name="Assembly" Value="CodeStack.Sw.MyToolbar, Version=2.0.0.0, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
                 <RegistryValue Root="HKCR" Key="CLSID\{63496B16-E9AD-4D3A-8473-99D124A1672B}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
                 <RegistryValue Root="HKCR" Key="CLSID\{63496B16-E9AD-4D3A-8473-99D124A1672B}\InprocServer32" Name="CodeBase" Value="file:///[#fil4320846A83E1D6A9BFA99753384C2099]" Type="string" Action="write" />
             </Component>
