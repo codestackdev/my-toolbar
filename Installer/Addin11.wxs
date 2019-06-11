@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+    <Fragment>
+        <DirectoryRef Id="INSTALLFOLDER">
+            <Component Id="cmp88292F68F35EB8F79623221F5580BB75" Guid="{58ACFA48-9D5F-4FD8-B5B8-ABEB3ED83825}">
+                <Class Id="{63496B16-E9AD-4D3A-8473-99D124A1672B}" Context="InprocServer32" Description="CodeStack.Sw.MyToolbar.MyToolbarSwAddin" ThreadingModel="both" ForeignServer="mscoree.dll">
+                    <ProgId Id="CodeStack.Sw.MyToolbar.MyToolbarSwAddin" Description="CodeStack.Sw.MyToolbar.MyToolbarSwAddin" />
+                </Class>
+                <File Id="fil4320846A83E1D6A9BFA99753384C2099" KeyPath="yes" Source="$(var.SourceOutDir)\CodeStack.Sw.MyToolbar.dll" />
+                <RegistryValue Root="HKCR" Key="CLSID\{63496B16-E9AD-4D3A-8473-99D124A1672B}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{63496B16-E9AD-4D3A-8473-99D124A1672B}\InprocServer32\2.0.0.0" Name="Class" Value="CodeStack.Sw.MyToolbar.MyToolbarSwAddin" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{63496B16-E9AD-4D3A-8473-99D124A1672B}\InprocServer32\2.0.0.0" Name="Assembly" Value="CodeStack.Sw.MyToolbar, Version=2.0.0.0, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{63496B16-E9AD-4D3A-8473-99D124A1672B}\InprocServer32\2.0.0.0" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{63496B16-E9AD-4D3A-8473-99D124A1672B}\InprocServer32\2.0.0.0" Name="CodeBase" Value="file:///[#fil4320846A83E1D6A9BFA99753384C2099]" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{63496B16-E9AD-4D3A-8473-99D124A1672B}\InprocServer32" Name="Class" Value="CodeStack.Sw.MyToolbar.MyToolbarSwAddin" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{63496B16-E9AD-4D3A-8473-99D124A1672B}\InprocServer32" Name="Assembly" Value="CodeStack.Sw.MyToolbar, Version=2.0.0.0, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{63496B16-E9AD-4D3A-8473-99D124A1672B}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{63496B16-E9AD-4D3A-8473-99D124A1672B}\InprocServer32" Name="CodeBase" Value="file:///[#fil4320846A83E1D6A9BFA99753384C2099]" Type="string" Action="write" />
+            </Component>
+        </DirectoryRef>
+    </Fragment>
+    <Fragment>
+        <ComponentGroup Id="AddinComponents">
+            <ComponentRef Id="cmp88292F68F35EB8F79623221F5580BB75" />
+        </ComponentGroup>
+    </Fragment>
+</Wix>

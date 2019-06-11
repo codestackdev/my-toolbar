@@ -1,0 +1,18 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="CodeStack.Sw.MyToolbar.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="ToolbarsSpecFile" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">toolbars.setts</Value>
+    </Setting>
+    <Setting Name="AppRootDir" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">CodeStack\MyToolbar</Value>
+    </Setting>
+    <Setting Name="UpgradeUrl" Type="System.String" Scope="User">
+      <Value Profile="(Default)">https://www.codestack.net/labs/solidworks/my-toolbar/version-info.json</Value>
+    </Setting>
+    <Setting Name="SettingsStoreName" Type="System.String" Scope="User">
+      <Value Profile="(Default)">settings</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

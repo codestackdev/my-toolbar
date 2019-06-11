@@ -1,0 +1,67 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+    <Fragment>
+        <DirectoryRef Id="INSTALLFOLDER">
+            <Component Id="cmp5462C59B02C3690BC969A0A47F7596F6" Guid="*">
+                <File Id="fil4F34878E3C1A66E46D6497177A4B5ADF" KeyPath="yes" Source="$(var.SourceOutDir)\CodeStack.Sw.MyToolbar.dll.config" />
+            </Component>
+            <Component Id="cmp22B9595DEE9651E358FA1BFE340B166F" Guid="*">
+                <File Id="fil822019A5BFEAA752472CE3EAB9C37283" KeyPath="yes" Source="$(var.SourceOutDir)\CodeStack.SwEx.AddIn.dll" />
+            </Component>
+            <Component Id="cmp8109B5EF19D294F9F208DE96B78B81A5" Guid="*">
+                <File Id="fil34A1CA6C6E588B2ABDA2EDAA14A0A7EB" KeyPath="yes" Source="$(var.SourceOutDir)\CodeStack.SwEx.Common.dll" />
+            </Component>
+            <Component Id="cmpBC4FC00A26E7D32479D42D3411317FC5" Guid="*">
+                <File Id="fil90A8AAD9FC612906D405476D61CEA3F4" KeyPath="yes" Source="$(var.SourceOutDir)\Newtonsoft.Json.dll" />
+            </Component>
+            <Component Id="cmp54E9FBB2FCA1126157C6D3BBDF129E95" Guid="*">
+                <File Id="fil1DCA2E4809DC55443FA77B254C50E4D9" KeyPath="yes" Source="$(var.SourceOutDir)\SolidWorks.Interop.sldworks.dll" />
+            </Component>
+            <Component Id="cmp6FFEB3A81DA04A83F48DCDFBF5E1A4D3" Guid="*">
+                <File Id="filE728C519C6E2BD1438A14782A37CAD1F" KeyPath="yes" Source="$(var.SourceOutDir)\SolidWorks.Interop.swconst.dll" />
+            </Component>
+            <Component Id="cmp1B8A050B9300A7AE31C2555BA867DB6B" Guid="*">
+                <File Id="filE827DB20F755B6D29AE6D2ABF2BAEFFC" KeyPath="yes" Source="$(var.SourceOutDir)\SolidWorks.Interop.swpublished.dll" />
+            </Component>
+            <Component Id="cmpFF2F86BF387FD704764BE09AE0FC2D39" Guid="*">
+                <File Id="fil8EA08A39E89908780953F7E80FA1517B" KeyPath="yes" Source="$(var.SourceOutDir)\SolidWorksTools.dll" />
+            </Component>
+            <Component Id="cmpAFCF21A15F6EDA45A32D147050609285" Guid="*">
+                <File Id="filAE286E96EA00902BC284AEBF3030D6E4" KeyPath="yes" Source="$(var.SourceOutDir)\System.Runtime.CompilerServices.Unsafe.dll" />
+            </Component>
+            <Component Id="cmp3A99A623A71A716A198559E0C9D59400" Guid="*">
+                <File Id="filE6242AE03AF2509440ADF395C76688A4" KeyPath="yes" Source="$(var.SourceOutDir)\System.ValueTuple.dll" />
+            </Component>
+            <Component Id="cmpBEC715782490BD2AC6E2C93F2525865F" Guid="*">
+                <File Id="filF7E6EF61D1437B4669D7DE7C4066BD7E" KeyPath="yes" Source="$(var.SourceOutDir)\Unity.Abstractions.dll" />
+            </Component>
+            <Component Id="cmp665B78AB4AC844F961BF5ECBB81E189B" Guid="*">
+                <File Id="filA3C7419293ACF778143324C6DB73F920" KeyPath="yes" Source="$(var.SourceOutDir)\Unity.Container.dll" />
+            </Component>
+            <Component Id="cmpACE88825A8B78D7A73E6E1B90D86EBEA" Guid="*">
+                <File Id="fil31DBED60DE27587985833B6347667EC2" KeyPath="yes" Source="$(var.SourceOutDir)\Xarial.Signal2Go.dll" />
+            </Component>
+            <Component Id="cmpF81104F84C356541139B16A15FA0F5AE" Guid="*">
+                <File Id="fil7055F501B158CBF48F06DCFFEE0AAEAD" KeyPath="yes" Source="$(var.SourceOutDir)\Xarial.Signal2Go.Services.UserSettings.dll" />
+            </Component>
+        </DirectoryRef>
+    </Fragment>
+    <Fragment>
+        <ComponentGroup Id="FilesRegGroup">
+            <ComponentRef Id="cmp5462C59B02C3690BC969A0A47F7596F6" />
+            <ComponentRef Id="cmp22B9595DEE9651E358FA1BFE340B166F" />
+            <ComponentRef Id="cmp8109B5EF19D294F9F208DE96B78B81A5" />
+            <ComponentRef Id="cmpBC4FC00A26E7D32479D42D3411317FC5" />
+            <ComponentRef Id="cmp54E9FBB2FCA1126157C6D3BBDF129E95" />
+            <ComponentRef Id="cmp6FFEB3A81DA04A83F48DCDFBF5E1A4D3" />
+            <ComponentRef Id="cmp1B8A050B9300A7AE31C2555BA867DB6B" />
+            <ComponentRef Id="cmpFF2F86BF387FD704764BE09AE0FC2D39" />
+            <ComponentRef Id="cmpAFCF21A15F6EDA45A32D147050609285" />
+            <ComponentRef Id="cmp3A99A623A71A716A198559E0C9D59400" />
+            <ComponentRef Id="cmpBEC715782490BD2AC6E2C93F2525865F" />
+            <ComponentRef Id="cmp665B78AB4AC844F961BF5ECBB81E189B" />
+            <ComponentRef Id="cmpACE88825A8B78D7A73E6E1B90D86EBEA" />
+            <ComponentRef Id="cmpF81104F84C356541139B16A15FA0F5AE" />
+        </ComponentGroup>
+    </Fragment>
+</Wix>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+	<Product Id="*" Name="MyToolbar" Language="1033" Version="2.0.0.0" Manufacturer="CodeStack" UpgradeCode="{61EB1313-A362-41AC-A3D5-F50D43CE74D8}">
+		<Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" />
+
+		<MajorUpgrade DowngradeErrorMessage="A newer version of MyToolbar is already installed." />
+		<MediaTemplate EmbedCab="yes" />
+
+		<UIRef Id="WixUI_InstallDir" />
+		<UIRef Id="WixUI_Common" />
+		<Property Id="WIXUI_INSTALLDIR" Value="INSTALLFOLDER" />
+		<Icon Id="MainIconId" SourceFile="Resources\icon.ico" />
+		<Property Id="ARPPRODUCTICON" Value="MainIconId" />
+		<WixVariable Id="WixUIBannerBmp" Value="Resources\banner.bmp" />
+		<WixVariable Id="WixUIDialogBmp" Value="Resources\dialog.bmp" />
+		<WixVariable Id="WixUILicenseRtf" Value="Resources\eula.rtf" />
+
+		<Feature Id="ProductFeature" Title="Setup" Level="1">
+      <ComponentGroupRef Id="FilesRegGroup" />
+			<ComponentGroupRef Id="AddInComRegGroup" />
+			<ComponentRef Id="Reg"/>
+		</Feature>
+	</Product>
+
+	<Fragment>
+		<Directory Id="TARGETDIR" Name="SourceDir">
+			<Directory Id="ProgramFiles64Folder">
+				<Directory Id="CodeStackDirId" Name="CodeStack">
+					<Directory Id="INSTALLFOLDER" Name="MyToolbar" />
+				</Directory>
+			</Directory>
+		</Directory>
+	</Fragment>
+</Wix>
