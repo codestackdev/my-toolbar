@@ -11,6 +11,7 @@ using SolidWorks.Interop.swconst;
 using System.Collections.Generic;
 using System.Linq;
 using System;
+using System.IO;
 
 namespace CodeStack.Sw.MyToolbar.Services
 {
@@ -47,6 +48,8 @@ namespace CodeStack.Sw.MyToolbar.Services
             }
         }
 
+        private const string VSTA_FILE_EXT = ".dll";
+
         private readonly ISldWorks m_App;
 
         public MacroEntryPointsExtractor(ISldWorks app)
@@ -63,16 +66,32 @@ namespace CodeStack.Sw.MyToolbar.Services
             {
                 return methods.Select(m =>
                 {
-                    var ep = m.Split('.');
-                    return new MacroEntryPoint()
+                    if (IsVstaMacro(macroPath))
                     {
-                        ModuleName = ep[0],
-                        SubName = ep[1]
-                    };
+                        return new MacroEntryPoint()
+                        {
+                            SubName = m
+                        };
+                    }
+                    else
+                    {
+                        var ep = m.Split('.');
+                        return new MacroEntryPoint()
+                        {
+                            ModuleName = ep[0],
+                            SubName = ep[1]
+                        };
+                    }
                 }).OrderBy(e => e, new EntryPointComparer()).ToArray();
             }
 
             return null;
+        }
+
+        public bool IsVstaMacro(string macroPath)
+        {
+            return Path.GetExtension(macroPath).Equals(VSTA_FILE_EXT,
+                StringComparison.CurrentCultureIgnoreCase);
         }
     }
 }
