@@ -58,7 +58,14 @@ namespace CodeStack.Sw.MyToolbar.Structs
 
         public override string ToString()
         {
-            return $"{ModuleName}.{SubName}";
+            if (!string.IsNullOrEmpty(ModuleName))
+            {
+                return $"{ModuleName}.{SubName}";
+            }
+            else
+            {
+                return SubName;
+            }
         }
     }
 }
