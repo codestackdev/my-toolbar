@@ -55,6 +55,6 @@
     <HeatFile File="..\Build\CodeStack.Sw.MyToolbar.dll" PreprocessorVariable="var.SourceOutDir" OutputFile="AddInReg.wxs" ComponentGroupName="AddInComRegGroup" DirectoryRefId="INSTALLFOLDER" AutogenerateGuids="true" ToolPath="$(WixToolPath)" SuppressFragments="false" SuppressRegistry="false" SuppressCom="false" SuppressRootDirectory="true" />
   </Target>
   <PropertyGroup>
-    <PreBuildEvent>"%25Wix%25bin\heat" file "$(SolutionDir)Build\CodeStack.Sw.MyToolbar.dll" -gg -srd -sfrag -template fragment -cg AddinComponents -var var.SourceOutDir -dr INSTALLFOLDER -out "$(ProjectDir)Addin11.wxs"</PreBuildEvent>
+    <PreBuildEvent />
   </PropertyGroup>
 </Project>
