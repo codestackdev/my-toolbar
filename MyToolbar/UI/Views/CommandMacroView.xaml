@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:CodeStack.Sw.MyToolbar.UI.Views"
+             xmlns:ctrls="clr-namespace:CodeStack.Sw.MyToolbar.UI.Controls"
 			 xmlns:conv="clr-namespace:CodeStack.Sw.MyToolbar.UI.Converters"
              xmlns:vm="clr-namespace:CodeStack.Sw.MyToolbar.UI.ViewModels"
              mc:Ignorable="d"
@@ -20,6 +21,7 @@
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
@@ -43,6 +45,10 @@
 					  Grid.Column="1" Grid.Row="1" Margin="2"
 					  IsSynchronizedWithCurrentItem="True"
 					  ItemsSource="{Binding Path=MacroPath, Converter={StaticResource macroPathToEntryPtsConv}}" />
+
+            <TextBlock Text="Scope:" Grid.Column="0" Grid.Row="2" Margin="2" />
+            <ctrls:EnumComboBox Grid.Column="1" Grid.Row="2" Margin="2" Value="{Binding Path=Scope}"/>
+
         </Grid>
     </StackPanel>
 </UserControl>

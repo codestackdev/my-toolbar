@@ -12,6 +12,7 @@ using System.Runtime.InteropServices;
 using Xarial.AppLaunchKit.Attributes;
 using Xarial.AppLaunchKit.Services.Attributes;
 
+[assembly: System.Windows.ThemeInfo(System.Windows.ResourceDictionaryLocation.None, System.Windows.ResourceDictionaryLocation.SourceAssembly)]
 [assembly: AssemblyTitle("MyToolbar")]
 [assembly: AssemblyDescription("Add-in to manage custom toolbars in SOLIDWORKS")]
 [assembly: AssemblyConfiguration("")]
