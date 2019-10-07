@@ -5,26 +5,14 @@
 //Product URL: https://www.codestack.net/labs/solidworks/my-toolbar/
 //**********************
 
+using CodeStack.Sw.MyToolbar.Enums;
 using CodeStack.Sw.MyToolbar.Helpers;
 using CodeStack.Sw.MyToolbar.Structs;
 using CodeStack.Sw.MyToolbar.UI.Base;
-using System;
 using System.Windows.Input;
 
 namespace CodeStack.Sw.MyToolbar.UI.ViewModels
 {
-    [Flags]
-    public enum MacroScope_e
-    {
-        None = 0,
-        Application = 1,
-        Part = 2,
-        Assembly = 4,
-        Drawing = 8,
-        AllDocuments = Part | Assembly | Drawing,
-        All = Application | AllDocuments
-    }
-
     public class CommandMacroVM : CommandVM<CommandMacroInfo>
     {
         private ICommand m_BrowseMacroPathCommand;
@@ -80,17 +68,28 @@ namespace CodeStack.Sw.MyToolbar.UI.ViewModels
             }
         }
 
-        private MacroScope_e m_Scope = MacroScope_e.Application | MacroScope_e.Part | MacroScope_e.Assembly | MacroScope_e.Drawing;
-
         public MacroScope_e Scope
         {
             get
             {
-                return m_Scope;
+                return Command.Scope;
             }
             set
             {
-                m_Scope = value;
+                Command.Scope = value;
+                NotifyChanged();
+            }
+        }
+
+        public Triggers_e Triggers
+        {
+            get
+            {
+                return Command.Triggers;
+            }
+            set
+            {
+                Command.Triggers = value;
                 NotifyChanged();
             }
         }

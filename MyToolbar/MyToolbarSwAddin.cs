@@ -6,6 +6,7 @@
 //**********************
 
 using CodeStack.Sw.MyToolbar.Base;
+using CodeStack.Sw.MyToolbar.Enums;
 using CodeStack.Sw.MyToolbar.Exceptions;
 using CodeStack.Sw.MyToolbar.Helpers;
 using CodeStack.Sw.MyToolbar.Services;
@@ -14,8 +15,12 @@ using CodeStack.Sw.MyToolbar.UI.Forms;
 using CodeStack.Sw.MyToolbar.UI.ViewModels;
 using CodeStack.SwEx.AddIn;
 using CodeStack.SwEx.AddIn.Attributes;
+using CodeStack.SwEx.AddIn.Base;
+using CodeStack.SwEx.AddIn.Core;
 using Newtonsoft.Json.Linq;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.InteropServices;
 using System.Windows.Threading;
 using Xarial.AppLaunchKit.Base.Services;
@@ -27,6 +32,10 @@ namespace CodeStack.Sw.MyToolbar
     public class MyToolbarSwAddin : SwAddInEx
     {
         private ServicesContainer m_Services;
+
+        private Dictionary<Triggers_e, CommandMacroInfo[]> m_Triggers;
+
+        private IDocumentsHandler<DocumentHandler> m_DocHandler;
 
         public override bool OnConnect()
         {
@@ -40,9 +49,19 @@ namespace CodeStack.Sw.MyToolbar
                 AppDomain.CurrentDomain.UnhandledException += OnDomainUnhandledException;
                 m_Services = new ServicesContainer(App, Logger);
 
-                ExceptionHelper.ExecuteUserCommand(LoadUserToolbar, e => "Failed to load toolbar specification");
+                CustomToolbarInfo toolbarInfo = null;
+                ExceptionHelper.ExecuteUserCommand(() => toolbarInfo = LoadUserToolbar(),
+                    e => "Failed to load toolbar specification");
+
+                ExceptionHelper.ExecuteUserCommand(() => LoadTriggers(toolbarInfo),
+                    e => "Failed to load toolbar specification");
 
                 AddCommandGroup<Commands_e>(OnButtonClick);
+
+                m_DocHandler = CreateDocumentsHandler();
+                m_DocHandler.HandlerCreated += OnDocumentHandlerCreated;
+
+                InvokeTrigger(Triggers_e.ApplicationStart);
 
                 return true;
             }
@@ -52,6 +71,93 @@ namespace CodeStack.Sw.MyToolbar
                 new MessageService().ShowMessage("Critical error while loading add-in", MessageType_e.Error);
                 throw;
             }
+        }
+
+        public override bool OnDisconnect()
+        {
+            InvokeTrigger(Triggers_e.ApplicationClose);
+
+            m_DocHandler.HandlerCreated -= OnDocumentHandlerCreated;
+
+            return true;
+        }
+
+        private void OnDocumentHandlerCreated(DocumentHandler doc)
+        {
+            if (doc.Model == App.IActiveDoc2)
+            {
+                InvokeTrigger(Triggers_e.DocumentOpen);
+            }
+
+            foreach (var trigger in m_Triggers.Keys)
+            {
+                switch (trigger)
+                {
+                    case Triggers_e.DocumentSave:
+                        doc.Save += OnSave;
+                        break;
+                    case Triggers_e.NewSelection:
+                        doc.Selection += OnSelection;
+                        break;
+                    case Triggers_e.ConfigurationChange:
+                        doc.ConfigurationChange += OnConfigurationChange;
+                        break;
+                    case Triggers_e.Rebuild:
+                        doc.Rebuild += OnRebuild;
+                        break;
+                }
+            }
+
+            doc.Destroyed += OnDestroyed;
+        }
+
+        private bool OnSave(DocumentHandler docHandler, string fileName, SwEx.AddIn.Enums.SaveState_e state)
+        {
+            if (state == SwEx.AddIn.Enums.SaveState_e.PreSave)
+            {
+                InvokeTrigger(Triggers_e.DocumentSave);
+            }
+
+            return true;
+        }
+
+        private bool OnSelection(DocumentHandler docHandler, SolidWorks.Interop.swconst.swSelectType_e selType, SwEx.AddIn.Enums.SelectionState_e state)
+        {
+            if (state == SwEx.AddIn.Enums.SelectionState_e.NewSelection)
+            {
+                InvokeTrigger(Triggers_e.NewSelection);
+            }
+
+            return true;
+        }
+
+        private void OnConfigurationChange(DocumentHandler docHandler, SwEx.AddIn.Enums.ConfigurationChangeState_e state, string confName)
+        {
+            if (state == SwEx.AddIn.Enums.ConfigurationChangeState_e.PostActivate)
+            {
+                InvokeTrigger(Triggers_e.ConfigurationChange);
+            }
+        }
+
+        private bool OnRebuild(DocumentHandler docHandler, SwEx.AddIn.Enums.RebuildState_e state)
+        {
+            if (state == SwEx.AddIn.Enums.RebuildState_e.PostRebuild)
+            {
+                InvokeTrigger(Triggers_e.Rebuild);
+            }
+
+            return true;
+        }
+
+        private void OnDestroyed(DocumentHandler docHandler)
+        {
+            InvokeTrigger(Triggers_e.DocumentClose);
+
+            docHandler.Save -= OnSave;
+            docHandler.Selection -= OnSelection;
+            docHandler.ConfigurationChange -= OnConfigurationChange;
+            docHandler.Rebuild -= OnRebuild;
+            docHandler.Destroyed -= OnDestroyed;
         }
 
         private void OnDomainUnhandledException(object sender, UnhandledExceptionEventArgs e)
@@ -67,7 +173,7 @@ namespace CodeStack.Sw.MyToolbar
             MessageService.ShowMessage("Unknown dispatcher error", MessageType_e.Error);
         }
 
-        private void LoadUserToolbar()
+        private CustomToolbarInfo LoadUserToolbar()
         {
             bool isReadOnly;
             var toolbarInfo = ToolbarProvider.GetToolbar(out isReadOnly,
@@ -75,11 +181,41 @@ namespace CodeStack.Sw.MyToolbar
 
             if (toolbarInfo?.Groups != null)
             {
-                foreach (var grp in toolbarInfo.Groups)
+                foreach (var grp in toolbarInfo.Groups
+                    .Where(g => g.Commands?.Any(c => c.Triggers.HasFlag(Triggers_e.Button)) == true))
                 {
-                    var cmdGrp = new CommandGroupInfoSpec(grp);
+                    var cmdGrp = new CommandGroupInfoSpec(grp, App);
                     cmdGrp.MacroCommandClick += OnMacroCommandClick;
+
+                    Logger.Log($"Adding command group: {cmdGrp.Title} [{cmdGrp.Id}]. Commands: {string.Join(", ", cmdGrp.Commands.Select(c => $"{c.Title} [{c.UserId}]").ToArray())}");
+
                     AddCommandGroup(cmdGrp);
+                }
+            }
+
+            return toolbarInfo;
+        }
+
+        private void LoadTriggers(CustomToolbarInfo toolbarInfo)
+        {
+            m_Triggers = new Dictionary<Triggers_e, CommandMacroInfo[]>();
+
+            var allCmds = toolbarInfo.Groups?.SelectMany(g => g.Commands);
+
+            if (allCmds == null)
+            {
+                return;
+            }
+
+            var triggers = EnumHelper.GetFlags(typeof(Triggers_e)).Where(e => !e.Equals(Triggers_e.Button));
+
+            foreach (Triggers_e trigger in triggers)
+            {
+                var cmds = allCmds.Where(c => c.Scope.HasFlag(trigger));
+
+                if (cmds.Any())
+                {
+                    m_Triggers.Add(trigger, cmds.ToArray());
                 }
             }
         }
@@ -87,6 +223,26 @@ namespace CodeStack.Sw.MyToolbar
         private void OnMacroCommandClick(CommandMacroInfo cmd)
         {
             RunMacroCommand(cmd);
+        }
+
+        private void InvokeTrigger(Triggers_e trigger)
+        {
+            CommandMacroInfo[] cmds;
+
+            if (m_Triggers.TryGetValue(trigger, out cmds))
+            {
+                cmds = cmds.Where(c => c.Scope.IsInScope(App)).ToArray();
+
+                if (cmds != null && cmds.Any())
+                {
+                    Logger.Log($"Invoking {cmds.Length} command(s) for the trigger {trigger}");
+
+                    foreach (var cmd in cmds)
+                    {
+                        RunMacroCommand(cmd);
+                    }
+                }
+            }
         }
 
         private void RunMacroCommand(CommandMacroInfo cmd)
@@ -159,6 +315,10 @@ namespace CodeStack.Sw.MyToolbar
                 if (isEditable)
                 {
                     toolbarConfProvider.SaveToolbar(toolbarConf, toolbarSets.SpecificationFile);
+                }
+                else
+                {
+                    Logger.Log("Skipped saving of read-only toolbar settings");
                 }
             }
         }

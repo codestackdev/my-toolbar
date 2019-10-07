@@ -26,6 +26,7 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
 
             <TextBlock Margin="2" Text="Macro Path:" Grid.Column="0" Grid.Row="0" />
@@ -48,6 +49,9 @@
 
             <TextBlock Text="Scope:" Grid.Column="0" Grid.Row="2" Margin="2" />
             <ctrls:EnumComboBox Grid.Column="1" Grid.Row="2" Margin="2" Value="{Binding Path=Scope}"/>
+
+            <TextBlock Text="Triggers:" Grid.Column="0" Grid.Row="3" Margin="2" />
+            <ctrls:EnumComboBox Grid.Column="1" Grid.Row="3" Margin="2" Value="{Binding Path=Triggers}"/>
 
         </Grid>
     </StackPanel>

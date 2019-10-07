@@ -4,6 +4,8 @@
     xmlns:local="clr-namespace:CodeStack.Sw.MyToolbar.UI.Controls">
 
     <local:EnumValueToHeaderConverter x:Key="valToHeaderConv"/>
+    <local:EnumItemTypeToForegroundConverter x:Key="itemFrgColorConv"/>
+    
     <Style TargetType="{x:Type local:EnumComboBox}" BasedOn="{StaticResource {x:Type ComboBox}}">
         <Setter Property="ItemTemplateSelector">
             <Setter.Value>
@@ -16,7 +18,8 @@
                     <local:EnumComboBoxItemTemplateSelector.Item>
                         <DataTemplate>
                             <CheckBox IsChecked="{Binding Path=IsSelected}">
-                                <TextBlock Text="{Binding}"/>
+                                <TextBlock Text="{Binding Path=Title}" ToolTip="{Binding Path=Description}"
+                                           Foreground="{Binding Path=Type, Converter={StaticResource itemFrgColorConv}}"/>
                             </CheckBox>
                         </DataTemplate>
                     </local:EnumComboBoxItemTemplateSelector.Item>

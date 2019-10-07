@@ -170,17 +170,23 @@
     <Compile Include="Base\CommandItemInfoSpec.cs" />
     <Compile Include="Base\MacroButtonIcon.cs" />
     <Compile Include="Commands.cs" />
+    <Compile Include="Enums\MacroScope_e.cs" />
+    <Compile Include="Enums\Triggers_e.cs" />
     <Compile Include="Exceptions\MacroRunFailedException.cs" />
     <Compile Include="Exceptions\UserException.cs" />
     <Compile Include="Helpers\DataContextProxy.cs" />
+    <Compile Include="Helpers\EnumHelper.cs" />
     <Compile Include="Helpers\ExceptionHelper.cs" />
     <Compile Include="Helpers\FileBrowseHelper.cs" />
+    <Compile Include="Helpers\MacroScopeHelper.cs" />
+    <Compile Include="Services\LocalSettingsProvider.cs" />
     <Compile Include="Structs\CommandGroupInfo.cs" />
     <Compile Include="Structs\CommandItemInfo.cs" />
     <Compile Include="Structs\CommandMacroInfo.cs" />
     <Compile Include="Structs\CustomToolbarInfo.cs" />
     <Compile Include="Structs\Locations.cs" />
     <Compile Include="Structs\MacroEntryPoint.cs" />
+    <Compile Include="Structs\ToolbarLocalSettings.cs" />
     <Compile Include="Structs\ToolbarSettings.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>

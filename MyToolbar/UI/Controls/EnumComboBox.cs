@@ -5,14 +5,19 @@
 //Product URL: https://www.codestack.net/labs/solidworks/my-toolbar/
 //**********************
 
+using CodeStack.Sw.MyToolbar.Helpers;
 using CodeStack.Sw.MyToolbar.UI.Base;
+using CodeStack.SwEx.Common.Reflection;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
+using System.Windows.Media;
+using static CodeStack.Sw.MyToolbar.UI.Controls.EnumComboBox;
 
 namespace CodeStack.Sw.MyToolbar.UI.Controls
 {
@@ -50,6 +55,34 @@ namespace CodeStack.Sw.MyToolbar.UI.Controls
         }
     }
 
+    public class EnumItemTypeToForegroundConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (value is EnumItemType_e)
+            {
+                switch ((EnumItemType_e)value)
+                {
+                    case EnumItemType_e.Default:
+                        return Brushes.Black;
+
+                    case EnumItemType_e.Combined:
+                        return Brushes.Blue;
+
+                    case EnumItemType_e.None:
+                        return Brushes.Gray;
+                }
+            }
+
+            return null;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
     public class EnumComboBox : ComboBox
     {
         public enum EnumItemType_e
@@ -83,6 +116,16 @@ namespace CodeStack.Sw.MyToolbar.UI.Controls
                 else
                 {
                     Type = EnumItemType_e.Default;
+                }
+
+                if (!value.TryGetAttribute<DisplayNameAttribute>(a => Title = a.DisplayName))
+                {
+                    Title = m_Value.ToString();
+                }
+                
+                if (!value.TryGetAttribute<DescriptionAttribute>(a => Description = a.Description))
+                {
+                    Description = m_Value.ToString();
                 }
             }
 
@@ -139,6 +182,9 @@ namespace CodeStack.Sw.MyToolbar.UI.Controls
                 }
             }
 
+            public string Title { get; private set; }
+            public string Description { get; private set; }
+
             private void OnValueChanged(Enum value)
             {
                 NotifyChanged(nameof(IsSelected));
@@ -189,7 +235,7 @@ namespace CodeStack.Sw.MyToolbar.UI.Controls
 
                 if (enumType != cmb.m_CurBoundType)
                 {
-                    cmb.m_CurFlags = GetFlags(enumType);
+                    cmb.m_CurFlags = EnumHelper.GetFlags(enumType);
 
                     cmb.Items.Clear();
 
@@ -208,32 +254,6 @@ namespace CodeStack.Sw.MyToolbar.UI.Controls
             }
 
             cmb.ValueChanged?.Invoke(val);
-        }
-
-        private static Enum[] GetFlags(Type enumType)
-        {
-            var flags = new List<Enum>();
-
-            var flag = 0x1;
-
-            foreach (Enum value in Enum.GetValues(enumType))
-            {
-                var bits = Convert.ToInt32(value);
-
-                if (bits != 0)
-                {
-                    while (flag < bits)
-                    {
-                        flag <<= 1;
-                    }
-                    if (flag == bits)
-                    {
-                        flags.Add(value);
-                    }
-                }
-            }
-
-            return flags.ToArray();
         }
 
         private static void UpdateHeader(EnumComboBox cmb)

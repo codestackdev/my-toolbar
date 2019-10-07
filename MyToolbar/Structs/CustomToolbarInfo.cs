@@ -9,7 +9,7 @@ using Xarial.AppLaunchKit.Services.UserSettings.Attributes;
 
 namespace CodeStack.Sw.MyToolbar.Structs
 {
-    [UserSettingVersion("1.0")]
+    [UserSettingVersion("2.0")]
     public class CustomToolbarInfo
     {
         public CommandGroupInfo[] Groups { get; set; }

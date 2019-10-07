@@ -56,6 +56,9 @@ namespace CodeStack.Sw.MyToolbar
             m_Container.RegisterType<ISettingsProvider, SettingsProvider>(
                 new ContainerControlledLifetimeManager());
 
+            m_Container.RegisterType<ILocalSettingsProvider, LocalSettingsProvider>(
+                new ContainerControlledLifetimeManager());
+
             m_Container.RegisterType<IMessageService, MessageService>(
                 new ContainerControlledLifetimeManager());
 
