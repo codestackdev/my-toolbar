@@ -7,10 +7,13 @@
 
 using CodeStack.Sw.MyToolbar.Services;
 using CodeStack.Sw.MyToolbar.UI.ViewModels;
+using CodeStack.SwEx.AddIn.Base;
+using CodeStack.SwEx.AddIn.Core;
 using CodeStack.SwEx.Common.Diagnostics;
 using SolidWorks.Interop.sldworks;
 using System;
 using Unity;
+using Unity.Injection;
 using Unity.Lifetime;
 using Xarial.AppLaunchKit;
 using Xarial.AppLaunchKit.Base.Services;
@@ -20,23 +23,21 @@ using Xarial.AppLaunchKit.Services.UserSettings;
 
 namespace CodeStack.Sw.MyToolbar
 {
-    public class ServicesContainer
+    public class ServicesContainer : IDisposable
     {
-        public static ServicesContainer Instance
-        {
-            get;
-            private set;
-        }
+        internal static ServicesContainer Instance { get; private set; }
 
         private readonly UnityContainer m_Container;
         private readonly ServicesManager m_Kit;
         private readonly ILogger m_Logger;
+        private readonly ISwAddInEx m_AddIn;
 
-        public ServicesContainer(ISldWorks app, ILogger logger)
+        public ServicesContainer(ISldWorks app, ISwAddInEx addIn)
         {
             Instance = this;
+            m_AddIn = addIn;
 
-            m_Logger = logger;
+            m_Logger = addIn.Logger;
 
             m_Container = new UnityContainer();
 
@@ -44,27 +45,26 @@ namespace CodeStack.Sw.MyToolbar
 
             m_Container.RegisterInstance(app);
 
-            m_Container.RegisterType<IMacroEntryPointsExtractor, MacroEntryPointsExtractor>(
-                new ContainerControlledLifetimeManager());
+            m_Container.RegisterType<IMacroEntryPointsExtractor, MacroEntryPointsExtractor>();
 
-            m_Container.RegisterType<IMacroRunner, MacroRunner>(
-                new ContainerControlledLifetimeManager());
+            m_Container.RegisterType<IMacroRunner, MacroRunner>();
 
-            m_Container.RegisterType<IToolbarConfigurationProvider, ToolbarConfigurationProvider>(
-                new ContainerControlledLifetimeManager());
+            m_Container.RegisterType<IToolbarConfigurationProvider, ToolbarConfigurationProvider>();
 
-            m_Container.RegisterType<ISettingsProvider, SettingsProvider>(
-                new ContainerControlledLifetimeManager());
+            m_Container.RegisterType<ISettingsProvider, SettingsProvider>();
 
-            m_Container.RegisterType<ILocalSettingsProvider, LocalSettingsProvider>(
-                new ContainerControlledLifetimeManager());
+            m_Container.RegisterType<ILocalSettingsProvider, LocalSettingsProvider>();
 
-            m_Container.RegisterType<IMessageService, MessageService>(
-                new ContainerControlledLifetimeManager());
+            m_Container.RegisterType<IMessageService, MessageService>();
 
-            m_Container.RegisterType<CommandManagerVM>(new TransientLifetimeManager());
+            m_Container.RegisterSingleton<CommandManagerVM>();
+
+            m_Container.RegisterFactory<IDocumentsHandler<DocumentHandler>>(c => m_AddIn.CreateDocumentsHandler());
 
             m_Container.RegisterInstance(m_Logger);
+
+            m_Container.RegisterSingleton<ICommandsManager, CommandsManager>();
+            m_Container.RegisterSingleton<ITriggersManager, TriggersManager>();
 
             m_Container.RegisterInstance(m_Kit.GetService<IUserSettingsService>());
             m_Container.RegisterInstance(m_Kit.GetService<IAboutApplicationService>());
@@ -94,6 +94,11 @@ namespace CodeStack.Sw.MyToolbar
             m_Logger.Log(ex);
 
             return true;
+        }
+
+        public void Dispose()
+        {
+            m_Container.Dispose();
         }
     }
 }

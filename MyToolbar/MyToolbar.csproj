@@ -176,10 +176,11 @@
     <Compile Include="Exceptions\UserException.cs" />
     <Compile Include="Helpers\DataContextProxy.cs" />
     <Compile Include="Helpers\EnumHelper.cs" />
-    <Compile Include="Helpers\ExceptionHelper.cs" />
     <Compile Include="Helpers\FileBrowseHelper.cs" />
     <Compile Include="Helpers\MacroScopeHelper.cs" />
+    <Compile Include="Services\CommandsManager.cs" />
     <Compile Include="Services\LocalSettingsProvider.cs" />
+    <Compile Include="Services\TriggersManager.cs" />
     <Compile Include="Structs\CommandGroupInfo.cs" />
     <Compile Include="Structs\CommandItemInfo.cs" />
     <Compile Include="Structs\CommandMacroInfo.cs" />

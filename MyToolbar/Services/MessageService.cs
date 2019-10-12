@@ -5,7 +5,9 @@
 //Product URL: https://www.codestack.net/labs/solidworks/my-toolbar/
 //**********************
 
+using CodeStack.Sw.MyToolbar.Exceptions;
 using CodeStack.Sw.MyToolbar.Properties;
+using System;
 using System.Windows;
 
 namespace CodeStack.Sw.MyToolbar.Services
@@ -20,6 +22,7 @@ namespace CodeStack.Sw.MyToolbar.Services
     public interface IMessageService
     {
         void ShowMessage(string message, MessageType_e type);
+        void ShowError(Exception ex, string baseMsg);
     }
 
     public class MessageService : IMessageService
@@ -44,6 +47,18 @@ namespace CodeStack.Sw.MyToolbar.Services
             }
 
             MessageBox.Show(message, Resources.AppTitle, MessageBoxButton.OK, icon);
+        }
+
+        public void ShowError(Exception ex, string baseMsg)
+        {
+            if(ex is UserException)
+            {
+                ShowMessage(ex.Message, MessageType_e.Error);
+            }
+            else
+            {
+                ShowMessage(baseMsg, MessageType_e.Error);
+            }
         }
     }
 }
