@@ -34,6 +34,7 @@ namespace MyToolbar.Tests
 
             m_Services = new ServicesContainer(
                 appMock.Object,
+                new Mock<IToolbarAddIn>().Object,
                 new Mock<CodeStack.SwEx.Common.Diagnostics.ILogger>().Object);
         }
         

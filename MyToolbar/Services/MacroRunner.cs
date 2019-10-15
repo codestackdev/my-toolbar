@@ -14,7 +14,7 @@ namespace CodeStack.Sw.MyToolbar.Services
 {
     public interface IMacroRunner
     {
-        void RunMacro(string macroPath, MacroEntryPoint entryPoint);
+        void RunMacro(string macroPath, MacroEntryPoint entryPoint, bool unloadAfterRun);
     }
 
     public class MacroRunner : IMacroRunner
@@ -26,11 +26,14 @@ namespace CodeStack.Sw.MyToolbar.Services
             m_App = app;
         }
 
-        public void RunMacro(string macroPath, MacroEntryPoint entryPoint)
+        public void RunMacro(string macroPath, MacroEntryPoint entryPoint, bool unloadAfterRun)
         {
             int err;
 
-            if (!m_App.RunMacro2(macroPath, entryPoint.ModuleName, entryPoint.SubName, 0, out err))
+            var opts = unloadAfterRun ? swRunMacroOption_e.swRunMacroUnloadAfterRun : swRunMacroOption_e.swRunMacroDefault;
+
+            if (!m_App.RunMacro2(macroPath, entryPoint.ModuleName, entryPoint.SubName,
+                (int)opts, out err))
             {
                 throw new MacroRunFailedException((swRunMacroError_e)err);
             }

@@ -7,6 +7,7 @@
 
 using CodeStack.Sw.MyToolbar.Services;
 using CodeStack.Sw.MyToolbar.UI.ViewModels;
+using CodeStack.SwEx.AddIn;
 using CodeStack.SwEx.AddIn.Base;
 using CodeStack.SwEx.AddIn.Core;
 using CodeStack.SwEx.Common.Diagnostics;
@@ -30,20 +31,21 @@ namespace CodeStack.Sw.MyToolbar
         private readonly UnityContainer m_Container;
         private readonly ServicesManager m_Kit;
         private readonly ILogger m_Logger;
-        private readonly ISwAddInEx m_AddIn;
+        private readonly IToolbarAddIn m_AddIn;
 
-        public ServicesContainer(ISldWorks app, ISwAddInEx addIn)
+        public ServicesContainer(ISldWorks app, IToolbarAddIn addIn, ILogger logger)
         {
             Instance = this;
             m_AddIn = addIn;
 
-            m_Logger = addIn.Logger;
+            m_Logger = logger;
 
             m_Container = new UnityContainer();
 
             m_Kit = RegisterServicesManager(app);
 
             m_Container.RegisterInstance(app);
+            m_Container.RegisterInstance(m_AddIn);
 
             m_Container.RegisterType<IMacroEntryPointsExtractor, MacroEntryPointsExtractor>();
 

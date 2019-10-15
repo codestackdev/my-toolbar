@@ -10,8 +10,10 @@ using CodeStack.Sw.MyToolbar.Helpers;
 using CodeStack.Sw.MyToolbar.Structs;
 using CodeStack.SwEx.AddIn.Base;
 using CodeStack.SwEx.AddIn.Core;
+using CodeStack.SwEx.AddIn.Enums;
 using CodeStack.SwEx.Common.Diagnostics;
 using SolidWorks.Interop.sldworks;
+using SolidWorks.Interop.swconst;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -37,6 +39,7 @@ namespace CodeStack.Sw.MyToolbar.Services
         {
             m_CmdMgr = cmdMgr;
             m_App = app;
+            (m_App as SldWorks).DestroyNotify += OnSwAppClose;
             m_DocHandler = docsHandler;
             m_MacroRunner = macroRunner;
             m_Msg = msgSvc;
@@ -61,7 +64,7 @@ namespace CodeStack.Sw.MyToolbar.Services
 
                 foreach (Triggers_e trigger in triggers)
                 {
-                    var cmds = allCmds.Where(c => c.Scope.HasFlag(trigger));
+                    var cmds = allCmds.Where(c => c.Triggers.HasFlag(trigger));
 
                     if (cmds.Any())
                     {
@@ -77,7 +80,14 @@ namespace CodeStack.Sw.MyToolbar.Services
         {
             if (doc.Model == m_App.IActiveDoc2)
             {
-                InvokeTrigger(Triggers_e.DocumentOpen);
+                if (!string.IsNullOrEmpty(doc.Model.GetPathName()))
+                {
+                    InvokeTrigger(Triggers_e.DocumentOpen);
+                }
+                else
+                {
+                    InvokeTrigger(Triggers_e.DocumentNew);
+                }
             }
 
             foreach (var trigger in m_Triggers.Keys)
@@ -99,12 +109,12 @@ namespace CodeStack.Sw.MyToolbar.Services
                 }
             }
 
-            doc.Destroyed += OnDestroyed;
+            doc.Destroyed += OnDocumentClosed;
         }
 
-        private bool OnSave(DocumentHandler docHandler, string fileName, SwEx.AddIn.Enums.SaveState_e state)
+        private bool OnSave(DocumentHandler docHandler, string fileName, SaveState_e state)
         {
-            if (state == SwEx.AddIn.Enums.SaveState_e.PreSave)
+            if (state == SaveState_e.PreSave)
             {
                 InvokeTrigger(Triggers_e.DocumentSave);
             }
@@ -112,9 +122,9 @@ namespace CodeStack.Sw.MyToolbar.Services
             return true;
         }
 
-        private bool OnSelection(DocumentHandler docHandler, SolidWorks.Interop.swconst.swSelectType_e selType, SwEx.AddIn.Enums.SelectionState_e state)
+        private bool OnSelection(DocumentHandler docHandler, swSelectType_e selType, SelectionState_e state)
         {
-            if (state == SwEx.AddIn.Enums.SelectionState_e.NewSelection)
+            if (state == SelectionState_e.NewSelection)
             {
                 InvokeTrigger(Triggers_e.NewSelection);
             }
@@ -122,17 +132,17 @@ namespace CodeStack.Sw.MyToolbar.Services
             return true;
         }
 
-        private void OnConfigurationChange(DocumentHandler docHandler, SwEx.AddIn.Enums.ConfigurationChangeState_e state, string confName)
+        private void OnConfigurationChange(DocumentHandler docHandler, ConfigurationChangeState_e state, string confName)
         {
-            if (state == SwEx.AddIn.Enums.ConfigurationChangeState_e.PostActivate)
+            if (state == ConfigurationChangeState_e.PostActivate)
             {
                 InvokeTrigger(Triggers_e.ConfigurationChange);
             }
         }
 
-        private bool OnRebuild(DocumentHandler docHandler, SwEx.AddIn.Enums.RebuildState_e state)
+        private bool OnRebuild(DocumentHandler docHandler, RebuildState_e state)
         {
-            if (state == SwEx.AddIn.Enums.RebuildState_e.PostRebuild)
+            if (state == RebuildState_e.PostRebuild)
             {
                 InvokeTrigger(Triggers_e.Rebuild);
             }
@@ -140,15 +150,24 @@ namespace CodeStack.Sw.MyToolbar.Services
             return true;
         }
 
-        private void OnDestroyed(DocumentHandler docHandler)
+        private void OnDocumentClosed(DocumentHandler docHandler)
         {
-            InvokeTrigger(Triggers_e.DocumentClose);
+            if (docHandler.Model.Visible)
+            {
+                InvokeTrigger(Triggers_e.DocumentClose);
 
-            docHandler.Save -= OnSave;
-            docHandler.Selection -= OnSelection;
-            docHandler.ConfigurationChange -= OnConfigurationChange;
-            docHandler.Rebuild -= OnRebuild;
-            docHandler.Destroyed -= OnDestroyed;
+                docHandler.Save -= OnSave;
+                docHandler.Selection -= OnSelection;
+                docHandler.ConfigurationChange -= OnConfigurationChange;
+                docHandler.Rebuild -= OnRebuild;
+                docHandler.Destroyed -= OnDocumentClosed;
+            }
+        }
+
+        private int OnSwAppClose()
+        {
+            InvokeTrigger(Triggers_e.ApplicationClose);
+            return 0;
         }
 
         private void InvokeTrigger(Triggers_e trigger)
@@ -167,7 +186,7 @@ namespace CodeStack.Sw.MyToolbar.Services
                     {
                         try
                         {
-                            m_MacroRunner.RunMacro(cmd.MacroPath, cmd.EntryPoint);
+                            m_MacroRunner.RunMacro(cmd.MacroPath, cmd.EntryPoint, false);
                         }
                         catch(Exception ex)
                         {
@@ -181,9 +200,8 @@ namespace CodeStack.Sw.MyToolbar.Services
 
         public void Dispose()
         {
-            InvokeTrigger(Triggers_e.ApplicationClose);
-
             m_DocHandler.HandlerCreated -= OnDocumentHandlerCreated;
+            (m_App as SldWorks).DestroyNotify -= OnSwAppClose;
         }
     }
 }

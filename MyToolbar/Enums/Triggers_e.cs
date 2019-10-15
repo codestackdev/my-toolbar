@@ -18,11 +18,12 @@ namespace CodeStack.Sw.MyToolbar.Enums
 
         ApplicationStart = 1 << 1,
         ApplicationClose = 1 << 2,
-        DocumentOpen = 1 << 3,
-        DocumentSave = 1 << 4,
-        DocumentClose = 1 << 5,
-        NewSelection = 1 << 6,
-        ConfigurationChange = 1 << 7,
-        Rebuild = 1 << 8,
+        DocumentNew = 1 << 3,
+        DocumentOpen = 1 << 4,
+        DocumentSave = 1 << 5,
+        DocumentClose = 1 << 6,
+        NewSelection = 1 << 7,
+        ConfigurationChange = 1 << 8,
+        Rebuild = 1 << 9,
     }
 }

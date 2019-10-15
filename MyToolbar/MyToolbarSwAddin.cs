@@ -18,6 +18,7 @@ using CodeStack.SwEx.AddIn.Attributes;
 using CodeStack.SwEx.AddIn.Base;
 using CodeStack.SwEx.AddIn.Core;
 using Newtonsoft.Json.Linq;
+using SolidWorks.Interop.sldworks;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,9 +28,15 @@ using Xarial.AppLaunchKit.Base.Services;
 
 namespace CodeStack.Sw.MyToolbar
 {
+    public interface IToolbarAddIn
+    {
+        CommandGroup AddCommandGroup(ICommandGroupSpec cmdBar);
+        IDocumentsHandler<DocumentHandler> CreateDocumentsHandler();
+    }
+
     [Guid("63496b16-e9ad-4d3a-8473-99d124a1672b"), ComVisible(true)]
     [AutoRegister("MyToolbar", "Add-in for managing custom toolbars", true)]
-    public class MyToolbarSwAddin : SwAddInEx
+    public class MyToolbarSwAddin : SwAddInEx, IToolbarAddIn
     {
         private ServicesContainer m_Services;
         private IMessageService m_Msg;
@@ -46,7 +53,7 @@ namespace CodeStack.Sw.MyToolbar
                 }
 
                 AppDomain.CurrentDomain.UnhandledException += OnDomainUnhandledException;
-                m_Services = new ServicesContainer(App, this);
+                m_Services = new ServicesContainer(App, this, Logger);
                 m_Msg = m_Services.GetService<IMessageService>();
 
                 m_CmdsMgr = m_Services.GetService<ICommandsManager>();

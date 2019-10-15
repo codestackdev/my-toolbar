@@ -30,7 +30,7 @@ namespace CodeStack.Sw.MyToolbar.Services
 
     public class CommandsManager : ICommandsManager
     {
-        private readonly SwAddInEx m_AddIn;
+        private readonly IToolbarAddIn m_AddIn;
         private readonly ISldWorks m_App;
         private readonly IMacroRunner m_MacroRunner;
         private readonly IMessageService m_Msg;
@@ -40,7 +40,7 @@ namespace CodeStack.Sw.MyToolbar.Services
 
         public CustomToolbarInfo ToolbarInfo { get; }
 
-        public CommandsManager(SwAddInEx addIn, ISldWorks app,
+        public CommandsManager(IToolbarAddIn addIn, ISldWorks app,
             IMacroRunner macroRunner,
             IMessageService msg, ISettingsProvider settsProvider,
             IToolbarConfigurationProvider toolbarConfProvider,
@@ -68,7 +68,7 @@ namespace CodeStack.Sw.MyToolbar.Services
         {
             try
             {
-                m_MacroRunner.RunMacro(cmd.MacroPath, cmd.EntryPoint);
+                m_MacroRunner.RunMacro(cmd.MacroPath, cmd.EntryPoint, false);
             }
             catch (Exception ex)
             {
@@ -104,7 +104,7 @@ namespace CodeStack.Sw.MyToolbar.Services
                     var cmdGrp = new CommandGroupInfoSpec(grp, m_App);
                     cmdGrp.MacroCommandClick += OnMacroCommandClick;
 
-                    m_AddIn.Logger.Log($"Adding command group: {cmdGrp.Title} [{cmdGrp.Id}]. Commands: {string.Join(", ", cmdGrp.Commands.Select(c => $"{c.Title} [{c.UserId}]").ToArray())}");
+                    m_Logger.Log($"Adding command group: {cmdGrp.Title} [{cmdGrp.Id}]. Commands: {string.Join(", ", cmdGrp.Commands.Select(c => $"{c.Title} [{c.UserId}]").ToArray())}");
 
                     m_AddIn.AddCommandGroup(cmdGrp);
                 }

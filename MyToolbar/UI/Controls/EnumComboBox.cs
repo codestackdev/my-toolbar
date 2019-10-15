@@ -26,7 +26,7 @@ namespace CodeStack.Sw.MyToolbar.UI.Controls
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             var enumVal = value as Enum;
-            return enumVal.ToString();
+            return enumVal?.ToString();
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
@@ -135,13 +135,20 @@ namespace CodeStack.Sw.MyToolbar.UI.Controls
             {
                 get
                 {
-                    if (Type == EnumItemType_e.None)
+                    if (m_Parent.Value != null)
                     {
-                        return IsNone(m_Parent.Value);
+                        if (Type == EnumItemType_e.None)
+                        {
+                            return IsNone(m_Parent.Value);
+                        }
+                        else
+                        {
+                            return m_Parent.Value.HasFlag(m_Value);
+                        }
                     }
                     else
                     {
-                        return m_Parent.Value.HasFlag(m_Value);
+                        return false;
                     }
                 }
                 set
