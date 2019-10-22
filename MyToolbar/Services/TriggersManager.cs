@@ -39,7 +39,7 @@ namespace CodeStack.Sw.MyToolbar.Services
         {
             m_CmdMgr = cmdMgr;
             m_App = app;
-            (m_App as SldWorks).DestroyNotify += OnSwAppClose;
+            //(m_App as SldWorks).DestroyNotify += OnSwAppClose;
             m_DocHandler = docsHandler;
             m_MacroRunner = macroRunner;
             m_Msg = msgSvc;
@@ -94,6 +94,9 @@ namespace CodeStack.Sw.MyToolbar.Services
             {
                 switch (trigger)
                 {
+                    case Triggers_e.DocumentActivated:
+                        doc.Activated += OnActivated;
+                        break;
                     case Triggers_e.DocumentSave:
                         doc.Save += OnSave;
                         break;
@@ -116,7 +119,10 @@ namespace CodeStack.Sw.MyToolbar.Services
         {
             if (state == SaveState_e.PreSave)
             {
-                InvokeTrigger(Triggers_e.DocumentSave);
+                if (docHandler.Model == m_App.IActiveDoc2)
+                {
+                    InvokeTrigger(Triggers_e.DocumentSave);
+                }
             }
 
             return true;
@@ -136,7 +142,10 @@ namespace CodeStack.Sw.MyToolbar.Services
         {
             if (state == ConfigurationChangeState_e.PostActivate)
             {
-                InvokeTrigger(Triggers_e.ConfigurationChange);
+                if (docHandler.Model == m_App.IActiveDoc2)
+                {
+                    InvokeTrigger(Triggers_e.ConfigurationChange);
+                }
             }
         }
 
@@ -144,7 +153,10 @@ namespace CodeStack.Sw.MyToolbar.Services
         {
             if (state == RebuildState_e.PostRebuild)
             {
-                InvokeTrigger(Triggers_e.Rebuild);
+                if (docHandler.Model == m_App.IActiveDoc2)
+                {
+                    InvokeTrigger(Triggers_e.Rebuild);
+                }
             }
 
             return true;
@@ -156,6 +168,7 @@ namespace CodeStack.Sw.MyToolbar.Services
             {
                 InvokeTrigger(Triggers_e.DocumentClose);
 
+                docHandler.Activated -= OnActivated;
                 docHandler.Save -= OnSave;
                 docHandler.Selection -= OnSelection;
                 docHandler.ConfigurationChange -= OnConfigurationChange;
@@ -164,11 +177,18 @@ namespace CodeStack.Sw.MyToolbar.Services
             }
         }
 
-        private int OnSwAppClose()
+        private void OnActivated(DocumentHandler docHandler)
         {
-            InvokeTrigger(Triggers_e.ApplicationClose);
-            return 0;
+            InvokeTrigger(Triggers_e.DocumentActivated);
         }
+
+        //NOTE: running the macro while SW closing causes the issue when SW process hangs and not released
+        //suppressing this functionality until resolved
+        //private int OnSwAppClose()
+        //{
+        //    InvokeTrigger(Triggers_e.ApplicationClose);
+        //    return 0;
+        //}
 
         private void InvokeTrigger(Triggers_e trigger)
         {
@@ -201,7 +221,7 @@ namespace CodeStack.Sw.MyToolbar.Services
         public void Dispose()
         {
             m_DocHandler.HandlerCreated -= OnDocumentHandlerCreated;
-            (m_App as SldWorks).DestroyNotify -= OnSwAppClose;
+            //(m_App as SldWorks).DestroyNotify -= OnSwAppClose;
         }
     }
 }

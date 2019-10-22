@@ -26,7 +26,24 @@ namespace CodeStack.Sw.MyToolbar.UI.Controls
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             var enumVal = value as Enum;
-            return enumVal?.ToString();
+
+            if (enumVal != null)
+            {
+                var enumType = enumVal.GetType();
+
+                //TODO: this is a simple fix - need to implement more robust solution
+
+                var val = enumVal.ToString();
+                var vals = val.Split(',')
+                    .Select(v => (Enum)Enum.Parse(enumType, v.Trim()))
+                    .Select(e => EnumComboBoxItem.GetTitle(e));
+                
+                return string.Join(", ", vals.ToArray());
+            }
+            else
+            {
+                return "";
+            }
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
@@ -94,6 +111,21 @@ namespace CodeStack.Sw.MyToolbar.UI.Controls
 
         public class EnumComboBoxItem : NotifyPropertyChanged
         {
+            internal static string GetTitle(Enum value)
+            {
+                string title = "";
+
+                if (value != null)
+                {
+                    if (!value.TryGetAttribute<DisplayNameAttribute>(a => title = a.DisplayName))
+                    {
+                        title = value.ToString();
+                    }
+                }
+
+                return title;
+            }
+
             private readonly EnumComboBox m_Parent;
             private readonly Enum m_Value;
             private readonly Enum[] m_AffectedFlags;
@@ -118,10 +150,7 @@ namespace CodeStack.Sw.MyToolbar.UI.Controls
                     Type = EnumItemType_e.Default;
                 }
 
-                if (!value.TryGetAttribute<DisplayNameAttribute>(a => Title = a.DisplayName))
-                {
-                    Title = m_Value.ToString();
-                }
+                Title = GetTitle(m_Value);              
                 
                 if (!value.TryGetAttribute<DescriptionAttribute>(a => Description = a.Description))
                 {
