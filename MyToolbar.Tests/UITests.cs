@@ -13,6 +13,8 @@ using CodeStack.Sw.MyToolbar.UI.ViewModels;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace MyToolbar.Tests
 {
@@ -32,9 +34,10 @@ namespace MyToolbar.Tests
 
             m_Services = new ServicesContainer(
                 appMock.Object,
+                new Mock<IToolbarAddIn>().Object,
                 new Mock<CodeStack.SwEx.Common.Diagnostics.ILogger>().Object);
         }
-
+        
         [TestMethod]
         public void DisplayCommandManagerView()
         {

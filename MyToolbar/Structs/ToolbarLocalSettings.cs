@@ -5,17 +5,21 @@
 //Product URL: https://www.codestack.net/labs/solidworks/my-toolbar/
 //**********************
 
-using Xarial.AppLaunchKit.Services.UserSettings.Attributes;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace CodeStack.Sw.MyToolbar.Structs
 {
-    [UserSettingVersion("2.0")]
-    public class CustomToolbarInfo
+    public class ToolbarLocalSettings
     {
-        public CommandGroupInfo[] Groups { get; set; }
+        public Dictionary<Guid, int> CommandUserIds { get; private set; }
 
-        public CustomToolbarInfo()
+        public ToolbarLocalSettings()
         {
+            CommandUserIds = new Dictionary<Guid, int>();
         }
     }
 }

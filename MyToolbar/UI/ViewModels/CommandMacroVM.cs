@@ -5,6 +5,7 @@
 //Product URL: https://www.codestack.net/labs/solidworks/my-toolbar/
 //**********************
 
+using CodeStack.Sw.MyToolbar.Enums;
 using CodeStack.Sw.MyToolbar.Helpers;
 using CodeStack.Sw.MyToolbar.Structs;
 using CodeStack.Sw.MyToolbar.UI.Base;
@@ -64,6 +65,32 @@ namespace CodeStack.Sw.MyToolbar.UI.ViewModels
                 }
 
                 return m_BrowseMacroPathCommand;
+            }
+        }
+
+        public MacroScope_e Scope
+        {
+            get
+            {
+                return Command.Scope;
+            }
+            set
+            {
+                Command.Scope = value;
+                NotifyChanged();
+            }
+        }
+
+        public Triggers_e Triggers
+        {
+            get
+            {
+                return Command.Triggers;
+            }
+            set
+            {
+                Command.Triggers = value;
+                NotifyChanged();
             }
         }
 

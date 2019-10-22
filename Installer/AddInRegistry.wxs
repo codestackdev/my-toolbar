@@ -5,7 +5,7 @@
 			<RegistryValue Root="HKCU" Key="Software\SolidWorks\AddInsStartup\{63496b16-e9ad-4d3a-8473-99d124a1672b}" Value="1" Type="integer" Action="write" />
 			<RegistryValue Root="HKLM" Key="Software\SolidWorks\Addins\{63496b16-e9ad-4d3a-8473-99d124a1672b}" Value="0" Type="integer" Action="write" />
 			<RegistryValue Root="HKLM" Key="Software\SolidWorks\Addins\{63496b16-e9ad-4d3a-8473-99d124a1672b}" Name="Description" Value="Add-in for managing custom toolbars" Type="string" Action="write" />
-			<RegistryValue Root="HKLM" Key="Software\SolidWorks\Addins\{63496b16-e9ad-4d3a-8473-99d124a1672b}" Name="Title" Value="MyToolbar" Type="string" Action="write" />
+			<RegistryValue Root="HKLM" Key="Software\SolidWorks\Addins\{63496b16-e9ad-4d3a-8473-99d124a1672b}" Name="Title" Value="MyToolbar (Beta)" Type="string" Action="write" />
 		</Component>
 	</Fragment>
 </Wix>

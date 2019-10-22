@@ -12,6 +12,7 @@ using System.Runtime.InteropServices;
 using Xarial.AppLaunchKit.Attributes;
 using Xarial.AppLaunchKit.Services.Attributes;
 
+[assembly: System.Windows.ThemeInfo(System.Windows.ResourceDictionaryLocation.None, System.Windows.ResourceDictionaryLocation.SourceAssembly)]
 [assembly: AssemblyTitle("MyToolbar")]
 [assembly: AssemblyDescription("Add-in to manage custom toolbars in SOLIDWORKS")]
 [assembly: AssemblyConfiguration("")]
@@ -20,11 +21,11 @@ using Xarial.AppLaunchKit.Services.Attributes;
 [assembly: AssemblyCopyright("Copyright(C) 2019 www.codestack.net")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
-[assembly: AssemblyVersion("2.1.0.0")]
+[assembly: AssemblyVersion("2.2.0.0")]
 [assembly: AssemblyDelaySign(false)]
 [assembly: AssemblyKeyFile("")]
 [assembly: AssemblyKeyName("")]
-[assembly: AssemblyFileVersion("2.1.0.0")]
+[assembly: AssemblyFileVersion("2.2.0.0")]
 [assembly: ComVisible(false)]
 [assembly: ApplicationInfo(typeof(AppInfo),
         nameof(AppInfo.WorkingDir), nameof(AppInfo.Title), nameof(AppInfo.Icon))]

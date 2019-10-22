@@ -210,9 +210,14 @@ namespace CodeStack.Sw.MyToolbar.UI.ViewModels
                 {
                     m_MoveCommandUpCommand = new RelayCommand<ICommandVM>(x =>
                     {
-                        ExceptionHelper.ExecuteUserCommand(
-                            () => MoveCommand(x, true),
-                            e => "Failed to move command to this position");
+                        try
+                        {
+                            MoveCommand(x, true);
+                        }
+                        catch(Exception ex)
+                        {
+                            m_MsgService.ShowError(ex, "Failed to move command to this position");
+                        }
                     });
                 }
 
@@ -228,9 +233,14 @@ namespace CodeStack.Sw.MyToolbar.UI.ViewModels
                 {
                     m_MoveCommandDownCommand = new RelayCommand<ICommandVM>(x =>
                     {
-                        ExceptionHelper.ExecuteUserCommand(
-                            () => MoveCommand(x, false),
-                            e => "Failed to move command to this position");
+                        try
+                        {
+                            MoveCommand(x, false);
+                        }
+                        catch (Exception ex)
+                        {
+                            m_MsgService.ShowError(ex, "Failed to move command to this position");
+                        }
                     });
                 }
 
@@ -246,9 +256,14 @@ namespace CodeStack.Sw.MyToolbar.UI.ViewModels
                 {
                     m_InsertCommandAfterCommand = new RelayCommand<ICommandVM>(x =>
                     {
-                        ExceptionHelper.ExecuteUserCommand(
-                            () => InsertNewCommand(x, true),
-                            e => "Failed to move insert new command in this position");
+                        try
+                        {
+                            InsertNewCommand(x, true);
+                        }
+                        catch (Exception ex)
+                        {
+                            m_MsgService.ShowError(ex, "Failed to move insert new command in this position");
+                        }
                     });
                 }
 
@@ -264,9 +279,14 @@ namespace CodeStack.Sw.MyToolbar.UI.ViewModels
                 {
                     m_InsertCommandBeforeCommand = new RelayCommand<ICommandVM>(x =>
                     {
-                        ExceptionHelper.ExecuteUserCommand(
-                            () => InsertNewCommand(x, false),
-                            e => "Failed to move insert new command in this position");
+                        try
+                        {
+                            InsertNewCommand(x, false);
+                        }
+                        catch (Exception ex)
+                        {
+                            m_MsgService.ShowError(ex, "Failed to move insert new command in this position");
+                        }
                     });
                 }
 
@@ -282,9 +302,14 @@ namespace CodeStack.Sw.MyToolbar.UI.ViewModels
                 {
                     m_CommandRemoveCommand = new RelayCommand<ICommandVM>(x =>
                     {
-                        ExceptionHelper.ExecuteUserCommand(
-                            () => RemoveCommand(x),
-                            e => "Failed to remove command");
+                        try
+                        {
+                            RemoveCommand(x);
+                        }
+                        catch (Exception ex)
+                        {
+                            m_MsgService.ShowError(ex, "Failed to remove command");
+                        }
                     });
                 }
 

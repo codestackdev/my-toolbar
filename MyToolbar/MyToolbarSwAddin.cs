@@ -6,6 +6,7 @@
 //**********************
 
 using CodeStack.Sw.MyToolbar.Base;
+using CodeStack.Sw.MyToolbar.Enums;
 using CodeStack.Sw.MyToolbar.Exceptions;
 using CodeStack.Sw.MyToolbar.Helpers;
 using CodeStack.Sw.MyToolbar.Services;
@@ -14,19 +15,33 @@ using CodeStack.Sw.MyToolbar.UI.Forms;
 using CodeStack.Sw.MyToolbar.UI.ViewModels;
 using CodeStack.SwEx.AddIn;
 using CodeStack.SwEx.AddIn.Attributes;
+using CodeStack.SwEx.AddIn.Base;
+using CodeStack.SwEx.AddIn.Core;
 using Newtonsoft.Json.Linq;
+using SolidWorks.Interop.sldworks;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.InteropServices;
 using System.Windows.Threading;
 using Xarial.AppLaunchKit.Base.Services;
 
 namespace CodeStack.Sw.MyToolbar
 {
+    public interface IToolbarAddIn
+    {
+        CommandGroup AddCommandGroup(ICommandGroupSpec cmdBar);
+        IDocumentsHandler<DocumentHandler> CreateDocumentsHandler();
+    }
+
     [Guid("63496b16-e9ad-4d3a-8473-99d124a1672b"), ComVisible(true)]
     [AutoRegister("MyToolbar", "Add-in for managing custom toolbars", true)]
-    public class MyToolbarSwAddin : SwAddInEx
+    public class MyToolbarSwAddin : SwAddInEx, IToolbarAddIn
     {
         private ServicesContainer m_Services;
+        private IMessageService m_Msg;
+        private ICommandsManager m_CmdsMgr;
+        private ITriggersManager m_TriggersMgr;
 
         public override bool OnConnect()
         {
@@ -38,10 +53,12 @@ namespace CodeStack.Sw.MyToolbar
                 }
 
                 AppDomain.CurrentDomain.UnhandledException += OnDomainUnhandledException;
-                m_Services = new ServicesContainer(App, Logger);
+                m_Services = new ServicesContainer(App, this, Logger);
+                m_Msg = m_Services.GetService<IMessageService>();
 
-                ExceptionHelper.ExecuteUserCommand(LoadUserToolbar, e => "Failed to load toolbar specification");
-
+                m_CmdsMgr = m_Services.GetService<ICommandsManager>();
+                m_TriggersMgr = m_Services.GetService<ITriggersManager>();
+                
                 AddCommandGroup<Commands_e>(OnButtonClick);
 
                 return true;
@@ -54,45 +71,23 @@ namespace CodeStack.Sw.MyToolbar
             }
         }
 
+        public override bool OnDisconnect()
+        {
+            m_Services.Dispose();
+            return true;
+        }
+        
         private void OnDomainUnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
             Logger.Log(e.ExceptionObject as Exception);
-            MessageService.ShowMessage("Unknown domain error", MessageType_e.Error);
+            m_Msg.ShowMessage("Unknown domain error", MessageType_e.Error);
         }
 
         private void OnDispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
         {
             e.Handled = true;
             Logger.Log(e.Exception);
-            MessageService.ShowMessage("Unknown dispatcher error", MessageType_e.Error);
-        }
-
-        private void LoadUserToolbar()
-        {
-            bool isReadOnly;
-            var toolbarInfo = ToolbarProvider.GetToolbar(out isReadOnly,
-                ToolbarSpecificationFile);
-
-            if (toolbarInfo?.Groups != null)
-            {
-                foreach (var grp in toolbarInfo.Groups)
-                {
-                    var cmdGrp = new CommandGroupInfoSpec(grp);
-                    cmdGrp.MacroCommandClick += OnMacroCommandClick;
-                    AddCommandGroup(cmdGrp);
-                }
-            }
-        }
-
-        private void OnMacroCommandClick(CommandMacroInfo cmd)
-        {
-            RunMacroCommand(cmd);
-        }
-
-        private void RunMacroCommand(CommandMacroInfo cmd)
-        {
-            ExceptionHelper.ExecuteUserCommand(() => m_Services.GetService<IMacroRunner>().RunMacro(cmd.MacroPath, cmd.EntryPoint),
-                e => "Failed to run macro");
+            m_Msg.ShowMessage("Unknown dispatcher error", MessageType_e.Error);
         }
 
         private void OnButtonClick(Commands_e cmd)
@@ -106,89 +101,20 @@ namespace CodeStack.Sw.MyToolbar
                     if (new CommandManagerForm(vm,
                         new IntPtr(App.IFrameObject().GetHWnd())).ShowDialog() == true)
                     {
-                        ExceptionHelper.ExecuteUserCommand(() =>
+                        try
                         {
-                            UpdatedToolbarConfiguration(vm.Settings, vm.ToolbarInfo, vm.IsEditable);
-                        }, e => "Failed to save toolbar specification");
+                            m_CmdsMgr.UpdatedToolbarConfiguration(vm.Settings, vm.ToolbarInfo, vm.IsEditable);
+                        }
+                        catch(Exception ex)
+                        {
+                            m_Msg.ShowError(ex, "Failed to save toolbar specification");
+                        }
                     }
                     break;
 
                 case Commands_e.About:
                     m_Services.GetService<IAboutApplicationService>().ShowAboutForm();
                     break;
-            }
-        }
-
-        private void UpdatedToolbarConfiguration(ToolbarSettings toolbarSets, CustomToolbarInfo toolbarConf, bool isEditable)
-        {
-            bool isToolbarChanged;
-
-            SaveSettingChanges(toolbarSets, toolbarConf, isEditable, out isToolbarChanged);
-
-            if (isToolbarChanged)
-            {
-                MessageService.ShowMessage("Toolbar specification has changed. Please restart SOLIDWORKS",
-                    MessageType_e.Info);
-            }
-        }
-
-        private void SaveSettingChanges(ToolbarSettings toolbarSets, CustomToolbarInfo toolbarConf,
-            bool isEditable, out bool isToolbarChanged)
-        {
-            isToolbarChanged = false;
-
-            var settsProvider = m_Services.GetService<ISettingsProvider>();
-            var oldToolbarSetts = settsProvider.GetSettings();
-
-            if (!DeepCompare(toolbarSets, oldToolbarSetts))
-            {
-                settsProvider.SaveSettings(toolbarSets);
-            }
-
-            var toolbarConfProvider = ToolbarProvider;
-
-            bool isReadOnly;
-
-            var oldToolbarConf = toolbarConfProvider
-                .GetToolbar(out isReadOnly, oldToolbarSetts.SpecificationFile);
-
-            isToolbarChanged = !DeepCompare(toolbarConf, oldToolbarConf);
-
-            if (isToolbarChanged)
-            {
-                if (isEditable)
-                {
-                    toolbarConfProvider.SaveToolbar(toolbarConf, toolbarSets.SpecificationFile);
-                }
-            }
-        }
-
-        private bool DeepCompare(object obj1, object obj2)
-        {
-            return JToken.DeepEquals(JToken.FromObject(obj1), JToken.FromObject(obj2));
-        }
-
-        private IToolbarConfigurationProvider ToolbarProvider
-        {
-            get
-            {
-                return m_Services.GetService<IToolbarConfigurationProvider>();
-            }
-        }
-
-        private string ToolbarSpecificationFile
-        {
-            get
-            {
-                return m_Services.GetService<ISettingsProvider>().GetSettings().SpecificationFile;
-            }
-        }
-
-        private IMessageService MessageService
-        {
-            get
-            {
-                return m_Services.GetService<IMessageService>();
             }
         }
     }

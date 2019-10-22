@@ -5,6 +5,7 @@
     <ProductVersion>8.0.50727</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{7ACEDAA9-2DE8-4485-837A-E7D58812A6DC}</ProjectGuid>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ApplicationIcon>
@@ -96,13 +97,11 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="CodeStack.SwEx.AddIn, Version=0.7.0.0, Culture=neutral, PublicKeyToken=a46023996d4724e7, processorArchitecture=MSIL">
-      <HintPath>..\packages\CodeStack.SwEx.AddIn.0.7.0\lib\net40\CodeStack.SwEx.AddIn.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="CodeStack.SwEx.AddIn, Version=0.8.1.0, Culture=neutral, PublicKeyToken=a46023996d4724e7, processorArchitecture=MSIL">
+      <HintPath>..\packages\CodeStack.SwEx.AddIn.0.8.1\lib\net40\CodeStack.SwEx.AddIn.dll</HintPath>
     </Reference>
-    <Reference Include="CodeStack.SwEx.Common, Version=0.9.6.0, Culture=neutral, PublicKeyToken=a46023996d4724e7, processorArchitecture=MSIL">
-      <HintPath>..\packages\CodeStack.SwEx.Common.0.9.6\lib\net40\CodeStack.SwEx.Common.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="CodeStack.SwEx.Common, Version=0.9.9.0, Culture=neutral, PublicKeyToken=a46023996d4724e7, processorArchitecture=MSIL">
+      <HintPath>..\packages\CodeStack.SwEx.Common.0.9.9\lib\net40\CodeStack.SwEx.Common.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
@@ -110,21 +109,20 @@
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
-    <Reference Include="SolidWorks.Interop.sldworks, Version=26.2.0.63, Culture=neutral, PublicKeyToken=7c4797c3e4eeac03, processorArchitecture=MSIL">
-      <HintPath>..\packages\CodeStack.SwEx.Common.0.9.6\lib\net40\SolidWorks.Interop.sldworks.dll</HintPath>
+    <Reference Include="SolidWorks.Interop.sldworks, Version=27.1.0.72, Culture=neutral, PublicKeyToken=7c4797c3e4eeac03, processorArchitecture=MSIL">
+      <HintPath>..\packages\CodeStack.SwEx.Common.0.9.9\lib\net40\SolidWorks.Interop.sldworks.dll</HintPath>
       <EmbedInteropTypes>False</EmbedInteropTypes>
     </Reference>
-    <Reference Include="SolidWorks.Interop.swconst, Version=26.2.0.63, Culture=neutral, PublicKeyToken=19f43e188e4269d8, processorArchitecture=MSIL">
-      <HintPath>..\packages\CodeStack.SwEx.Common.0.9.6\lib\net40\SolidWorks.Interop.swconst.dll</HintPath>
+    <Reference Include="SolidWorks.Interop.swconst, Version=27.1.0.72, Culture=neutral, PublicKeyToken=19f43e188e4269d8, processorArchitecture=MSIL">
+      <HintPath>..\packages\CodeStack.SwEx.Common.0.9.9\lib\net40\SolidWorks.Interop.swconst.dll</HintPath>
       <EmbedInteropTypes>False</EmbedInteropTypes>
     </Reference>
-    <Reference Include="SolidWorks.Interop.swpublished, Version=26.2.0.63, Culture=neutral, PublicKeyToken=89a97bdc5284e6d8, processorArchitecture=MSIL">
-      <HintPath>..\packages\CodeStack.SwEx.Common.0.9.6\lib\net40\SolidWorks.Interop.swpublished.dll</HintPath>
+    <Reference Include="SolidWorks.Interop.swpublished, Version=27.1.0.72, Culture=neutral, PublicKeyToken=89a97bdc5284e6d8, processorArchitecture=MSIL">
+      <HintPath>..\packages\CodeStack.SwEx.Common.0.9.9\lib\net40\SolidWorks.Interop.swpublished.dll</HintPath>
       <EmbedInteropTypes>False</EmbedInteropTypes>
     </Reference>
     <Reference Include="SolidWorksTools, Version=2.0.0.0, Culture=neutral, PublicKeyToken=bd18593873b4686d, processorArchitecture=MSIL">
-      <HintPath>..\packages\CodeStack.SwEx.Common.0.9.6\lib\net40\SolidWorksTools.dll</HintPath>
-      <Private>True</Private>
+      <HintPath>..\packages\CodeStack.SwEx.Common.0.9.9\lib\net40\SolidWorksTools.dll</HintPath>
     </Reference>
     <Reference Include="System">
       <Name>System</Name>
@@ -172,17 +170,24 @@
     <Compile Include="Base\CommandItemInfoSpec.cs" />
     <Compile Include="Base\MacroButtonIcon.cs" />
     <Compile Include="Commands.cs" />
+    <Compile Include="Enums\MacroScope_e.cs" />
+    <Compile Include="Enums\Triggers_e.cs" />
     <Compile Include="Exceptions\MacroRunFailedException.cs" />
     <Compile Include="Exceptions\UserException.cs" />
     <Compile Include="Helpers\DataContextProxy.cs" />
-    <Compile Include="Helpers\ExceptionHelper.cs" />
+    <Compile Include="Helpers\EnumHelper.cs" />
     <Compile Include="Helpers\FileBrowseHelper.cs" />
+    <Compile Include="Helpers\MacroScopeHelper.cs" />
+    <Compile Include="Services\CommandsManager.cs" />
+    <Compile Include="Services\LocalSettingsProvider.cs" />
+    <Compile Include="Services\TriggersManager.cs" />
     <Compile Include="Structs\CommandGroupInfo.cs" />
     <Compile Include="Structs\CommandItemInfo.cs" />
     <Compile Include="Structs\CommandMacroInfo.cs" />
     <Compile Include="Structs\CustomToolbarInfo.cs" />
     <Compile Include="Structs\Locations.cs" />
     <Compile Include="Structs\MacroEntryPoint.cs" />
+    <Compile Include="Structs\ToolbarLocalSettings.cs" />
     <Compile Include="Structs\ToolbarSettings.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
@@ -212,6 +217,7 @@
     <Compile Include="UI\Base\CommandDataTemplateSelector.cs" />
     <Compile Include="UI\Base\NotifyPropertyChanged.cs" />
     <Compile Include="UI\Base\RelayCommand.cs" />
+    <Compile Include="UI\Controls\EnumComboBox.cs" />
     <Compile Include="UI\Converters\CommandContextMenuTitleConverter.cs" />
     <Compile Include="UI\Converters\MacroPathToEntryPointsConverter.cs" />
     <Compile Include="UI\Converters\PathToIconConverter.cs" />
@@ -274,6 +280,10 @@
     <None Include="Resources\macro_icon_default.png" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Themes\Generic.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="UI\Forms\CommandManagerForm.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -315,6 +325,7 @@
   <ItemGroup>
     <Resource Include="Resources\icon-remove.png" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PreBuildEvent>

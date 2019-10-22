@@ -42,6 +42,21 @@ namespace CodeStack.Sw.MyToolbar
 
                     return null;
                 });
+
+            Add(new Version("1.0"), new Version("2.0"),
+                t =>
+                {
+                    foreach (var group in t["Groups"])
+                    {
+                        foreach (var cmd in group["Commands"])
+                        {
+                            cmd["Scope"] = 1 + 2 + 4 + 8; //all
+                            cmd["Triggers"] = 1; //button
+                        }
+                    }
+                    
+                    return t;
+                });
         }
     }
 }

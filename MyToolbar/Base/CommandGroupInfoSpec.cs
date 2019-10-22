@@ -5,8 +5,10 @@
 //Product URL: https://www.codestack.net/labs/solidworks/my-toolbar/
 //**********************
 
+using CodeStack.Sw.MyToolbar.Enums;
 using CodeStack.Sw.MyToolbar.Structs;
 using CodeStack.SwEx.AddIn.Core;
+using SolidWorks.Interop.sldworks;
 using System;
 using System.Linq;
 
@@ -16,7 +18,7 @@ namespace CodeStack.Sw.MyToolbar.Base
     {
         public event Action<CommandMacroInfo> MacroCommandClick;
 
-        internal CommandGroupInfoSpec(CommandGroupInfo info)
+        internal CommandGroupInfoSpec(CommandGroupInfo info, ISldWorks app)
         {
             Id = info.Id;
             Title = info.Title;
@@ -25,10 +27,10 @@ namespace CodeStack.Sw.MyToolbar.Base
 
             if (info.Commands != null)
             {
-                Commands = info.Commands.Select(
+                Commands = info.Commands.Where(c => c.Triggers.HasFlag(Triggers_e.Button)).Select(
                     c =>
                     {
-                        var spec = new CommandItemInfoSpec(c);
+                        var spec = new CommandItemInfoSpec(c, app);
                         spec.MacroCommandClick += OnMacroCommandClick;
                         return spec;
                     }).ToArray();
